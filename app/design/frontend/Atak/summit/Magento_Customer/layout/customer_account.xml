@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+	    <move element="customer_account_navigation" destination="page.top" />
+	    <!--<move element="customer-account-navigation-account-link" destination="customer_account_navigation" after="customer-account-navigation-autoship-link" />-->
+	
+	    <referenceBlock name="customer-account-navigation-address-link" remove="true" />
+	    <!--<referenceBlock name="customer-account-navigation-account-edit-link" remove="true" />-->
+	
+	    <referenceBlock name="customer-account-navigation-account-link">
+		    <arguments>
+			    <argument name="label" xsi:type="string" translate="true">Welcome</argument>
+		    </arguments>
+	    </referenceBlock>
+	    
+	    <referenceBlock name="customer-account-navigation-account-edit-link">
+		    <arguments>
+			    <argument name="label" xsi:type="string" translate="true">Your Details</argument>
+		    </arguments>
+	    </referenceBlock>
+	    
+	    <referenceContainer name="page.wrapper">
+		    <block class="Magento\Framework\View\Element\Template" name="product.satisfaction" template="Magento_Customer::account/customer-support.phtml" />
+	    </referenceContainer>
+	    
+    </body>
+</page>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Atak_Praise::praise_items" title="Praise" translate="title"
+			 module="Atak_Praise" parent="Magento_Backend::content_elements" sortOrder="100"
+			 dependsOnModule="Atak_Praise" action="atakpraise/item"
+			 resource="Atak_Praise::praise" />
+	</menu>
+</config>

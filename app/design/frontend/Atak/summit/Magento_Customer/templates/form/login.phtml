@@ -1,0 +1,88 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Form\Login $block */
+?>
+<?php
+/**
+ * Customer login form template
+ *
+ * @see \Magento\Customer\Block\Form\Login
+ * @var $block \Magento\Customer\Block\Form\Login
+ */
+?>
+<div class="block block-customer-login">
+    <div class="block-title">
+        <span id="block-customer-login-heading" role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo __('Sign in') ?></span>
+    </div>
+    <div class="block-content" aria-labelledby="block-customer-login-heading">
+	
+	    <div class="login-options" id="login-options">
+		    <div class="field">
+			    <label class="custom-control">
+				    <input type="radio" name="login-type" value="/customer/account/create/">
+				    <span><i class="icon-ok"></i></span>
+				    <span class="custom-label">NEW CUSTOMER</span>
+			    </label>
+		    </div>
+		    <div class="field">
+			    <label class="custom-control">
+				    <input type="radio" checked name="login-type" value="/customer/account/login/">
+				    <span><i class="icon-ok"></i></span>
+				    <span class="custom-label">RETURNING CUSTOMERS</span>
+			    </label>
+		    </div>
+	    </div>
+	    
+        <form class="form form-login"
+              action="<?php /* @escapeNotVerified */ echo $block->getPostActionUrl() ?>"
+              method="post"
+              id="login-form"
+              data-mage-init='{"validation":{}}'>
+            <?php echo $block->getBlockHtml('formkey'); ?>
+            <fieldset class="fieldset login" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+                
+                <div class="field email required">
+                    <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email Address') ?></span></label>
+                    <div class="control">
+                        <input name="login[username]" value="<?php echo $block->escapeHtml($block->getUsername()) ?>" <?php if ($block->isAutocompleteDisabled()) :?> autocomplete="off"<?php endif; ?> id="email" type="email" class="input-text" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" data-validate="{required:true, 'validate-email':true}">
+                    </div>
+                </div>
+                <div class="field password required">
+                    <label for="pass" class="label"><span><?php /* @escapeNotVerified */ echo __('Password') ?></span></label>
+                    <div class="control">
+                        <input name="login[password]" type="password" <?php if ($block->isAutocompleteDisabled()) :?> autocomplete="off"<?php endif; ?> class="input-text" id="pass" title="<?php /* @escapeNotVerified */ echo __('Password') ?>" data-validate="{required:true}">
+                    </div>
+                </div>
+                
+                <div class="actions-toolbar">
+                    <div class="primary"><button type="submit" class="action login primary" name="send" id="send2"><span><?php /* @escapeNotVerified */ echo __('Sign In') ?></span></button></div>
+	
+	                <?php echo $block->getChildHtml('form_additional_info'); ?>
+	                
+                    <div class="secondary"><a class="action remind" href="<?php /* @escapeNotVerified */ echo $block->getForgotPasswordUrl() ?>"><span><?php /* @escapeNotVerified */ echo __('Forgot Password?') ?></span></a></div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+	
+	require([
+			'jquery'
+		],
+		function($) {
+			$('#login-options input[type="radio"][name="login-type"]').change(function() {
+				$('.block-customer-login').css('opacity', 0.2);
+				document.location.href = $(this).val();
+			});
+		}
+	);
+
+</script>

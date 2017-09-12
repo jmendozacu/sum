@@ -1,0 +1,5 @@
+<?php $_order = $block->getOrder() ?>
+
+<?php if ($_order->getTracksCollection()->count()) : ?>
+	<?php echo $block->getChildHtml('tracking-info-link') ?>
+<?php endif; ?>

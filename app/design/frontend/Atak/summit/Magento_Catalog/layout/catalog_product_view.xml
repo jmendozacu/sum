@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="assets/owl.carousel/owl.carousel.min.css" />
+	</head>
+	<body>
+     
+	    <move element="page.main.title" destination="product.info.main" before="product.info.price"/>
+	    <move element="product.info.overview" destination="product.info.main" before="product.info.price"/>
+	    <move element="product.info.review" destination="product.info.main" before="product.info.price"/>
+	    <move element="product.info.details" destination="page.wrapper" after="main.content"/>
+	    <!--<move element="catalog.product.related" destination="page.wrapper" after="product.satisfaction"/>-->
+	    
+	    <referenceContainer name="product.info.stock.sku" display="false" />
+	    
+	    <referenceBlock name="view.addto.compare" remove="true" />
+	    <referenceBlock name="product.attributes" remove="true" />
+	
+	    <referenceContainer name="page.wrapper">
+		    <block class="Magento\Framework\View\Element\Template" name="product.satisfaction" template="Magento_Catalog::product/view/satisfaction.phtml" after="reviews.tab"/>
+		    <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" template="Magento_Catalog::product/list/related.phtml" after="product.satisfaction">
+			    <arguments>
+				    <argument name="type" xsi:type="string">related</argument>
+			    </arguments>
+		    </block>
+		    <block class="Magento\Framework\View\Element\Template" name="product.questions" template="Magento_Catalog::product/view/questions.phtml" after="catalog.product.related"/>
+	    </referenceContainer>
+	    
+	    <referenceContainer name="product.info.media">
+		    <block class="Magento\Catalog\Block\Product\View" name="product-testimonial" as="testimonial" after="-" template="product/view/testimonial.phtml" />
+	    </referenceContainer>
+	
+	    <referenceContainer name="product.info.main">
+		    <block class="Magento\Catalog\Block\Product\View" name="product-testimonial2" as="testimonial2" after="-" template="product/view/testimonial.phtml" />
+		    <block class="Magento\Catalog\Block\Product\View" name="product-video" as="video" after="-" template="product/view/video.phtml" />
+	    </referenceContainer>
+	
+	    <referenceBlock name="product.info.details">
+		    <block class="Magento\Catalog\Block\Product\View" name="ingredients.tab" as="ingredients" template="product/view/ingredients.phtml" group="detailed_info" >
+			    <arguments>
+				    <argument translate="true" name="title" xsi:type="string">Ingredients</argument>
+			    </arguments>
+		    </block>
+		    <block class="Magento\Catalog\Block\Product\View" name="howto.tab" as="howto" template="product/view/howto.phtml" group="detailed_info" >
+			    <arguments>
+				    <argument translate="true" name="title" xsi:type="string">How to</argument>
+			    </arguments>
+		    </block>
+	    </referenceBlock>
+	    
+    </body>
+</page>

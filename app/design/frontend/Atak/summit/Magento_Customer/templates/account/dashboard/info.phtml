@@ -1,0 +1,69 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Account\Dashboard\Info $block */
+?>
+<div class="block block-dashboard-info">
+    <div class="block-content">
+        <div class="box box-information">
+            <strong class="box-title">
+                <span><?php /* @escapeNotVerified */ echo __('Name') ?></span>
+            </strong>
+            <div class="box-content">
+                <p>
+                    <?php echo $block->escapeHtml($block->getName()) ?>
+                </p>
+            </div>
+            <div class="box-actions">
+                <a class="action edit" href="javascript:;<?php /* @escapeNotVerified */ //echo $block->getUrl('customer/account/edit') ?>" id="change-name-link">
+                    <span><?php /* @escapeNotVerified */ echo __('Edit') ?></span>
+                </a>
+            </div>
+        </div>
+	
+	    <div class="box box-information">
+		    <strong class="box-title">
+			    <span><?php /* @escapeNotVerified */ echo __('Email / Password') ?></span>
+		    </strong>
+		    <div class="box-content">
+			    <p>
+				    <?php echo $block->escapeHtml($block->getCustomer()->getEmail()) ?><br>
+				    *********
+			    </p>
+		    </div>
+		    <div class="box-actions">
+			    <a href="javascript:;<?php /* @escapeNotVerified */ //echo $block->getChangePasswordUrl() ?>" class="action change-password" id="change-email-link">
+				    <span><?php /* @escapeNotVerified */ echo __('Edit') ?></span>
+			    </a>
+		    </div>
+	    </div>
+	    
+        <?php if (false && $block->isNewsletterEnabled()): ?>
+            <div class="box box-newsletter">
+                <strong class="box-title">
+                    <span><?php /* @escapeNotVerified */ echo __('Newsletters') ?></span>
+                </strong>
+                <div class="box-content">
+                    <p>
+                        <?php if ($block->getIsSubscribed()): ?>
+                            <?php /* @escapeNotVerified */ echo __('You subscribe to "General Subscription".') ?>
+                        <?php else: ?>
+                            <?php /* @escapeNotVerified */ echo __('You don\'t subscribe to our newsletter.') ?>
+                        <?php endif; ?>
+                    </p>
+                    <?php /* Extensions placeholder */ ?>
+                    <?php echo $block->getChildHtml('customer.account.dashboard.info.extra')?>
+                </div>
+                <div class="box-actions">
+                    <a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getUrl('newsletter/manage') ?>"><span><?php /* @escapeNotVerified */ echo __('Edit') ?></span></a>
+                </div>
+            </div>
+        <?php endif; ?>
+	    
+    </div>
+</div>

@@ -1,0 +1,440 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+
+<div class="widget block block-static-block">
+	
+	
+    <?php echo $block->getText(); ?>
+	
+	
+	<div class="as-seen-on">
+		<span>As Seen On:</span>
+		<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/aso1.png" alt="" />
+		<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/aso2.png" alt="" />
+		<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/aso3.png" alt="" />
+		<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/aso4.png" alt="" />
+		<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/aso5.png" alt="" />
+	</div>
+	
+	
+	<div class="how-it-works">
+		<div class="container">
+			<div class="title">HOW IT WORKS</div>
+			<div class="subtitle">Three Simple Steps.<br>One Minute Per Day!</div>
+		</div>
+		<div class="container steps-container">
+			<div class="row">
+				<div class="col">
+					<div class="step">
+						<div class="number">1</div>
+						<div class="step-title">Cleanse</div>
+						<div class="content">
+							<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/cleanse.png" alt="" />
+							<div class="duration">15 SECONDS</div>
+							<p>Rinse your face with warm water, pat dry then apply SUMMIT Cleanser by gently massaging on your sin with an upward circular movement as shown in the figure.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="step">
+						<div class="number">2</div>
+						<div class="step-title">HYDRATE</div>
+						<div class="content">
+							<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/hydrate.png" alt="" />
+							<div class="duration">20 SECONDS</div>
+							<p>In the palm of your hand, supercharge your daily dose of hydration by taking few drops of HYDRATE. Apply as shown in the figure by moving in a circular fashion.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="step">
+						<div class="number">3</div>
+						<div class="step-title">REBUILD</div>
+						<div class="content">
+							<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/rebuild.png" alt="" />
+							<div class="duration">25 SECONDS</div>
+							<p>Take three drops of SUMMIT REBUILD Serum in your palm. Apply tiny dots of serum all over your face and then blend lightly and quickly all over.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="got-beard">
+				<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/got-beard.png" alt="" />
+				<p><strong>GOT A BEARD? WE GOT YOU.</strong></p>
+				<p>Take three drops of SUMMIT Beard Oil in your palm. Apply evenly throughout your beard and massage into your skin. Don’t forget that second part-a beard is only as healthy as the skin it sprouts out of!</p>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="video-block home-video" data-video-id="1yWWqtEDUzQ"
+		 style="background-image: url('<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/home-video.jpg')">
+		<div class="content">
+			<div class="title">How It Works</div>
+			<div class="subtitle">The One Minute Face Care Regime</div>
+		</div>
+	</div>
+	
+	
+	<div class="container-fluid container-fluid-ingredients">
+		
+		<div class="home-ingredients">
+		
+			<div class="container">
+				<h2 class="title">HIGHEST GRADE INGREDIENTS</h2>
+				<p>We use the highest grade ingredients sourced locally from the vortex of energy, Jackson Hole, and the surrounding Teton Mountains. Know More about our rigorous Clinical Testing process that ensures the best quality  in all our product.</p>
+			</div>
+			
+			<div id="flower-tabs" class="flower-tabs">
+				<ul class="tabs-nav">
+					<li class="current"><a href="#tabs-flower-1">Cleanse</a></li>
+					<li><a href="#tabs-flower-2">Hydrate</a></li>
+					<li><a href="#tabs-flower-3">Rebuild Serum</a></li>
+				</ul>
+				<div id="tabs-flower-1" class="tab-content current">
+					<?php include "flowers-carousel.php"; ?>
+				</div>
+				<div id="tabs-flower-2" class="tab-content">
+					<?php include "flowers-carousel.php"; ?>
+				</div>
+				<div id="tabs-flower-3" class="tab-content">
+					<?php include "flowers-carousel.php"; ?>
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+				require([
+						'jquery',
+						//'jquery/ui',
+						'owlcarousel'
+					],
+					function($) {
+					
+						$(".carousel-flowers").addClass("owl-carousel").owlCarousel({
+							loop: true,
+							margin: 0,
+							responsiveClass: true,
+							navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
+							responsive: {
+								0:{
+									items:1,
+									nav:true
+								},
+								768:{
+									items:2,
+									nav:true
+								},
+								992:{
+									items:3,
+									nav:true
+								},
+								1200:{
+									items:4,
+									nav:true
+								}
+							}
+						});
+						
+						//$("#flower-tabs").tabs();
+						$('#flower-tabs .tabs-nav > li > a').click(function(e){
+							e.preventDefault();
+							
+							var tab_id = $(this).attr('href');
+							
+							$('#flower-tabs .tabs-nav > li').removeClass('current');
+							$('#flower-tabs .tab-content').removeClass('current');
+							
+							$(this).parent().addClass('current');
+							$(tab_id).addClass('current');
+							
+							return false;
+						})
+					}
+				);
+			</script>
+		</div>
+	</div>
+	
+	
+	<div class="container-fluid home-promise">
+		<h2 class="title">OUR PROMISE</h2>
+		
+		<div class="row">
+			<div class="col">
+				<a class="promise-item" href="#">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/promise-1.jpg" alt="" />
+					<div class="content icon-1">
+						<div class="title">ORGANIC & WILDCRAFTED</div>
+						<div class="description">We don’t use any alcohols or chemicals
+							or any synthetic fragrances.</div>
+					</div>
+				</a>
+			</div>
+			<div class="col">
+				<a class="promise-item" href="#">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/promise-2.jpg" alt="" />
+					<div class="content icon-2">
+						<div class="title">ORGANIC & WILDCRAFTED</div>
+						<div class="description">We don’t use any alcohols or chemicals
+							or any synthetic fragrances.</div>
+					</div>
+				</a>
+			</div>
+			<div class="col">
+				<a class="promise-item" href="#">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/promise-3.jpg" alt="" />
+					<div class="content icon-3">
+						<div class="title">ORGANIC & WILDCRAFTED</div>
+						<div class="description">We don’t use any alcohols or chemicals
+							or any synthetic fragrances.</div>
+					</div>
+				</a>
+			</div>
+			<div class="col">
+				<a class="promise-item" href="#">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/promise-4.jpg" alt="" />
+					<div class="content icon-4">
+						<div class="title">ORGANIC & WILDCRAFTED</div>
+						<div class="description">We don’t use any alcohols or chemicals
+							or any synthetic fragrances.</div>
+					</div>
+				</a>
+			</div>
+			<div class="col">
+				<a class="promise-item" href="#">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/promise-5.jpg" alt="" />
+					<div class="content icon-5">
+						<div class="title">ORGANIC & WILDCRAFTED</div>
+						<div class="description">We don’t use any alcohols or chemicals
+							or any synthetic fragrances.</div>
+					</div>
+				</a>
+			</div>
+			<div class="col">
+				<a class="promise-item" href="#">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/promise-6.jpg" alt="" />
+					<div class="content icon-6">
+						<div class="title">ORGANIC & WILDCRAFTED</div>
+						<div class="description">We don’t use any alcohols or chemicals
+							or any synthetic fragrances.</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="container-fluid home-articles">
+		<div class="row">
+			<div class="col">
+				<div class="video-block" data-video-id="1yWWqtEDUzQ"
+					 style="background-image: url('<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/article_1.jpg')">
+				</div>
+			</div>
+			<div class="col">
+				<div class="article-content">
+					<h3>GOODNESS OF MOTHER NATURE</h3>
+					<p>Our products don’t leave a gross film that leaves you feeling sticky throughout the day. They are refreshingly light-weight and fast absorbing.</p>
+					<p>Free of Parabens and GMOs. Rich natural organic and pure wildcrafted products. We won’t put anything in that we won’t put on our own families.</p>
+					<p>Watch this video to know more about how we select the finest ingredients. </p>
+					<div class="text-right"><a href="#" class="action primary">Explore</a></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="article-content">
+					<h3>GET A PEEK INTO OUR LAB/ PROCESS</h3>
+					<p>We want to deliver highly potent and  most effective products we can. Learn more about how your product was made.</p>
+					<p>Each of our products are formulated for highest efficacy and we own our formulations. See how your favourite SUMMIT product comes to life in this.</p>
+					<div class="text-right"><a href="#" class="action primary">KNOW MORE</a></div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="video-block" data-video-id="1yWWqtEDUzQ"
+					 style="background-image: url('<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/article_2.jpg')">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<?php print $this->getChildHtml('homepage.praise'); ?>
+	
+	<div class="container-fluid home-warning">*Specific results are not guaranteed. Actual results may vary.</div>
+	
+	<?php print $this->getChildHtml('homepage.testimonials'); ?>
+	<?php //include "testimonials.php"; ?>
+	
+	
+	<div class="container-fluid container-home-friend">
+		<div class="home-friend">
+			<div class="content">
+				<h2 class="title">Refer a Friend</h2>
+				<div class="subtitle">GET $25 OFF</div>
+				<a href="#" class="action secondary">CLICK HERE</a>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="container-fluid home-manuals">
+		<div class="row">
+			<div class="col">
+				<div class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/manual_01.jpg" alt="" />
+					<div class="subtitle">MEN’S GROOMING MANUAL</div>
+					<div class="title">5 Reasons You Need a Men’s Face Scrub</div>
+					<a href="#" class="more">SHOP NOW</a>
+				</div>
+			</div>
+			<div class="col">
+				<div class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/manual_02.jpg" alt="" />
+					<div class="subtitle">MEN’S GROOMING MANUAL</div>
+					<div class="title">Cold Weather Skincare Tips for Men</div>
+					<a href="#" class="more">Read More</a>
+				</div>
+			</div>
+			<div class="col">
+				<div class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/manual_03.jpg" alt="" />
+					<div class="subtitle">MEN’S GROOMING MANUAL</div>
+					<div class="title">The Right Way to Shave Your Head</div>
+					<a href="#" class="more">SHOP NOW</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="home-story">
+		<div class="container">
+			<h2 class="title">The Summit Story</h2>
+			<p>SUMMIT was founded by husband and wife cofounders Jared Pobre and Stacy Kiebler in 2017. Born in the Mountain West of Teton Mountain Range, which is home for the highest grade alpine plant extracts that thrive in the harshest of climates, SUMMIT sources highly potent ingredients from there. Some are even sourced from the Yellowstone supervolcano region.</p>
+			<p>What makes our products even more special is that SUMMIT is housed in Jackson Hole, a natural vortex of energy created by the surrounding Teton Mountains. Through SUMMIT, we want to share a little bit of Teton and its goodness with everyone who uses our products.</p>
+			<p>At SUMMIT we are driven by the need to provide nothing but the best natural, wildcrafted organic skincare products for men. Each product is formulated with great care and painstaking efforts – from picking the finest ingredients to infusing them in rich oils and nutrients – all with a single aim to give you the best organic skincare product that is highly potent and effective, yet simple to use.</p>
+			<p>Take a look at our “SUMMIT CODE” page where you will find more information about our product technology, process, guides and grooming manuals that we have put together for you.</p>
+		</div>
+	</div>
+	
+	
+	<div class="container-fluid home-special">
+		<div class="container">What makes our products even more special is that SUMMIT is housed in Jackson Hole, a natural vortex of energy created by the surrounding Teton Mountains. Through SUMMIT, we want to share a little bit of Teton and its goodness with everyone who uses our products.
+		</div>
+		
+		<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/pieces.jpg" alt="" />
+	</div>
+	
+	<div class="container-fluid home-tips">
+		<div class="row">
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/tips_01.jpg" alt="" />
+					<div class="title">SHOP OUR AWARD WINNERS</div>
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/tips_02.jpg" alt="" />
+					<div class="title">GET RISK FREE SAMPLES</div>
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/tips_03.jpg" alt="" />
+					<div class="title">MEN’S GROOMING TIPS</div>
+				</a>
+			</div>
+		</div>
+		
+		<a href="<?php echo $this->getBaseUrl(); ?>" class="action secondary">Home</a>
+		<a href="<?php echo $this->getBaseUrl(); ?>shop.html" class="action secondary alt">Shop</a>
+	</div>
+	
+	
+	<div class="container-fluid home-instagram">
+		<h2 class="title">JOIN OUR INSTAGRAM COMMUNITY <span>#SUMMITCO</span></h2>
+		
+		<div class="row">
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_01.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_02.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_03.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_04.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_05.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_06.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_07.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_08.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_09.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_10.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_11.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_12.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_13.jpg" alt="" />
+				</a>
+			</div>
+			<div class="col">
+				<a href="#" class="item">
+					<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/instagram_14.jpg" alt="" />
+				</a>
+			</div>
+		</div>
+	</div>
+	
+</div>

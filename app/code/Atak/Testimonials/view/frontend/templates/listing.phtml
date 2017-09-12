@@ -1,0 +1,118 @@
+<?php
+/** @var \Atak\Testimonials\Block\Listing $block */
+
+$list = $block->getItems();
+
+?>
+<div class="container-fluid">
+    <div class="home-testimonials">
+        <h2 class="title"><?php print __('WHAT OUR USERS SAY'); ?></h2>
+
+        <div class="row" id="testim-slider">
+            <?php if ($list) { ?>
+                <?php
+                foreach ($list as $item) {
+                    /** @var Atak\Testimonials\Model\Item $item */
+                ?>
+                    <div class="col">
+                        <div class="item">
+                            <img src="<?= $block->getImageUrl($item); ?>" alt="<?= $block->escapeHtml($item->getName()); ?>" />
+                            <p><?php print nl2br($block->escapeHtml($item->getText())); ?></p>
+                            <div class="name"><?php print $block->escapeHtml($item->getName()); ?></div>
+                            <div class="position"><?php print $block->escapeHtml($item->getSubtitle()); ?></div>
+                        </div>
+                    </div>
+                <?php } ?>
+            <?php } ?>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    require([
+            'jquery',
+            'owlcarousel'
+        ],
+        function($) {
+
+            var owl = $('#testim-slider'),
+                owlOptions = {
+                    loop: true,
+                    margin: 0,
+                    navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
+                    responsiveClass: true,
+                    responsive: {
+                        0: {
+                            items: 1,
+                            nav: true
+                        }
+                    }
+                };
+
+            if ( $(window).width() < 768 ) {
+                owl.addClass('owl-carousel').owlCarousel(owlOptions);
+            }
+
+            $(window).resize(function() {
+                if ( $(window).width() < 768 ) {
+                    if ( ! owl.hasClass('owl-carousel') ) {
+                        owl.addClass('owl-carousel').owlCarousel(owlOptions);
+                    }
+                } else {
+                    if ( owl.hasClass('owl-carousel') ) {
+                        owl.removeClass('owl-carousel').trigger('destroy.owl.carousel');
+                        owl.find('.owl-stage-outer').children(':eq(0)').unwrap();
+                    }
+                }
+            });
+
+        }
+    );
+
+</script>
+
+<script type="text/javascript">
+
+    require([
+            'jquery',
+            'owlcarousel'
+        ],
+        function($) {
+
+            var owl = $('#testim-slider'),
+                owlOptions = {
+                    loop: true,
+                    margin: 0,
+                    navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
+                    responsiveClass: true,
+                    responsive: {
+                        0: {
+                            items: 1,
+                            nav: true
+                        }
+                    }
+                };
+
+            if ( $(window).width() < 768 ) {
+                owl.addClass('owl-carousel').owlCarousel(owlOptions);
+            }
+
+            $(window).resize(function() {
+                if ( $(window).width() < 768 ) {
+                    if ( ! owl.hasClass('owl-carousel') ) {
+                        owl.addClass('owl-carousel').owlCarousel(owlOptions);
+                    }
+                } else {
+                    if ( owl.hasClass('owl-carousel') ) {
+                        owl.removeClass('owl-carousel').trigger('destroy.owl.carousel');
+                        owl.find('.owl-stage-outer').children(':eq(0)').unwrap();
+                    }
+                }
+            });
+
+        }
+    );
+
+</script>

@@ -1,0 +1,37 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+
+<div class="checkout-success">
+    <?php if ($block->getOrderId()):?>
+	    <?php
+	    $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+	    $order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($block->getOrderId());
+	    $shippingAddress = $order->getShippingAddress();
+	    $firstname = $shippingAddress->getFirstname();
+	    ?>
+        <?php if ($block->getCanViewOrder()) :?>
+            <div class="title"><?php echo __('Dear %2, your order %1 has been received!', sprintf('<a href="%s" class="order-number">#%s</a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId())), $firstname) ?></div>
+        <?php  else :?>
+            <div class="title"><?php echo __('Dear %2, your order <span>#%1</span> has been received!', $block->escapeHtml($block->getOrderId()), $firstname) ?></div>
+        <?php endif;?>
+            <p><?php /* @escapeNotVerified */ echo __('Once your package ships we will send an email with a link to track your order.') ?></p>
+    <?php endif;?>
+
+    <?php echo $block->getAdditionalInfoHtml() ?>
+	
+	<p><img src="<?php echo $block->getViewFileUrl('images/handshake.png'); ?>" alt=""></p>
+
+    <?php /* <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action primary continue" href="<?php echo $block->getUrl() ?>"><span><?php echo __('Continue Shopping') ?></span></a>
+        </div>
+    </div> */ ?>
+</div>

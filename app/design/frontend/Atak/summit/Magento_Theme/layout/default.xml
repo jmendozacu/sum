@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="css/summit.css" order="20" />​
+		<css src="assets/fontello/css/fontello.css" />​
+	</head>
+	<body>
+		<!-- Remove parent theme blocks -->
+		<referenceBlock name="header.panel.wrapper" remove="true"/>
+		<referenceBlock name="top.search" remove="true" />
+		<referenceBlock name="footer_links" remove="true" />
+		<referenceBlock name="copyright" remove="true" />
+		<referenceBlock name="report.bugs" remove="true" />
+		<referenceBlock name="breadcrumbs" remove="true" />
+		
+		<referenceBlock name="logo">
+			<arguments>
+				<argument name="logo_file" xsi:type="string">images/logo.png</argument>
+				<argument name="logo_img_width" xsi:type="number">115</argument>
+				<argument name="logo_img_height" xsi:type="number">98</argument>
+			</arguments>
+		</referenceBlock>
+		
+	</body>
+</page>

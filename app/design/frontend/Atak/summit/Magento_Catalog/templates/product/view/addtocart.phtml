@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+
+<div class="box-tocart">
+	
+	<ul class="purchase-methods">
+		<li>
+			<input type="radio" id="purchase-method-1" name="purchase-method" checked />
+			<label for="purchase-method-1">One-time purchase</label>
+		</li>
+		<li>
+			<input type="radio" id="purchase-method-2" name="purchase-method" />
+			<label for="purchase-method-2">AUTO SHIPMENT - <span>10% off, cancel anytime, 45 days recommended</span>
+				<span class="tooltip wrapper">
+			        <a class="link tooltip toggle" href="#"><span class="icon-info-circled"></span></a>
+			        <span class="tooltip content">
+			            <?php /* @escapeNotVerified */ echo __('Check &quot;Remember Me&quot; to access your shopping cart on this computer even if you are not signed in.')?>
+			        </span>
+			    </span>
+			</label>
+			<select>
+				<option>30 days</option>
+			</select>
+		</li>
+	</ul>
+ 
+	<div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()): ?>
+        <?php /* <div class="field qty">
+            <label class="label" for="qty"><span><?php echo __('Qty') ?></span></label>
+            <div class="control">
+            </div>
+        </div> */ ?>
+	        <input type="hidden"
+	               name="qty"
+	               id="qty"
+	               maxlength="12"
+	               value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
+	               title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
+	               data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+	        />
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
+                    class="action primary tocart"
+                    id="product-addtocart-button">
+                <?php /* @escapeNotVerified */ echo $buttonTitle ?>
+            </button>
+            <?php echo $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/product/view/validation": {
+                "radioCheckboxClosest": ".nested"
+            }
+        }
+    }
+</script>
+<?php if (!$block->isRedirectToCartEnabled()) : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "catalogAddToCart": {
+                "bindSubmit": false
+            }
+        }
+    }
+</script>
+<?php endif; ?>

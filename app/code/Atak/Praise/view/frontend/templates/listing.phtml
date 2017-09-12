@@ -1,0 +1,79 @@
+<?php
+/** @var \Atak\Praise\Block\Listing $block */
+
+$list = $block->getItems();
+
+?>
+
+<div class="container-fluid home-praise">
+    <div class="row">
+        <div class="col home-author-images">
+            <div id="home-author-images">
+                <?php foreach ($list as $item) { ?>
+                <div class="item">
+                    <img src="<?php echo $block->escapeHtml($block->getImageUrl($item)); ?>" alt="<?php print $block->escapeHtml($item->getName()); ?>" />
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="col">
+            <div class="home-authors-col">
+                <div class="article-content">
+                    <h2 class="title"><?= __('Praise'); ?></h2>
+                    <div class="home-authors">
+                        <?php foreach ($list as $item) { ?>
+                        <div class="item">
+                            <p><?= nl2br($block->escapeHtml($item->getText())); ?></p>
+                            <div class="name"><?= $block->escapeHtml($item->getName()); ?></div>
+                            <div class="position"><?= $block->escapeHtml($item->getSubtitle()); ?></div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require([
+            'jquery',
+            'owlcarousel'
+        ],
+        function($){
+
+            var $test_images = $("#home-author-images");
+            var $test_items = $(".home-authors");
+
+            $test_images.addClass("owl-carousel").owlCarousel({
+                loop: true,
+                margin: 0,
+                responsiveClass: true,
+                mouseDrag: false,
+                touchDrag: false,
+                nav: false,
+                responsive: {
+                    0:{
+                        items:1,
+                        nav:true
+                    }
+                }
+            });
+            $test_items.addClass("owl-carousel").owlCarousel({
+                loop: true,
+                margin: 0,
+                responsiveClass: true,
+                navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
+                responsive: {
+                    0:{
+                        items:1,
+                        nav:true
+                    }
+                }
+            });
+            $test_items.on('changed.owl.carousel', function(event) {
+                $test_images.trigger('to.owl.carousel', [event.item.index, 300, true]);
+            });
+        }
+    );
+</script>

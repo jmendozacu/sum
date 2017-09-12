@@ -1,0 +1,16 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_product = $block->getProduct() ?>
+
+<span class="title">SHARE:</span> <a href="#"><span class="icon-facebook"></span></a> <a href="#"><span class="icon-twitter"></span></a>
+
+<?php if ($block->canEmailToFriend()): ?>
+    <a href="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><span class="icon-email"></span></a>
+<?php endif; ?>

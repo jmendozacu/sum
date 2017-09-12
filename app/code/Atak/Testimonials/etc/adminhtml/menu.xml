@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<!--<add id="Atak_Testimonials::testimonials" title="Testimonials" translate="title" module="Atak_Testimonials" parent="Magento_Backend::content_elements" sortOrder="50" dependsOnModule="Atak_Testimonials" resource="Atak_Testimonials::Testimonials"/>-->
+		<add id="Atak_Testimonials::testimonials_items" title="Testimonials" translate="title"
+			 module="Atak_Testimonials" parent="Magento_Backend::content_elements" sortOrder="100"
+			 dependsOnModule="Atak_Testimonials" action="ataktestimonials/item"
+			 resource="Atak_Testimonials::testimonials" />
+	</menu>
+</config>

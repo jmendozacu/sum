@@ -1,0 +1,49 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Account\Dashboard\Address $block */
+?>
+<div class="block block-dashboard-addresses">
+	<div class="block-title">
+		<strong><?php /* @escapeNotVerified */ echo __('Shipping Information') ?></strong>
+		<a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getAddressBookUrl() ?>"><i class="icon-plus"></i> <span><?php /* @escapeNotVerified */ echo __('Add') ?></span></a>
+	</div>
+	<div class="block-content">
+		<div class="box box-shipping-address">
+			<div class="box-content">
+				<address>
+					<?php echo $block->getPrimaryShippingAddressHtml() ?>
+				</address>
+			</div>
+			<div class="box-actions">
+				<a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getPrimaryShippingAddressEditUrl() ?>" data-ui-id="default-shipping-edit-link"><span><?php /* @escapeNotVerified */ echo __('Edit') ?></span></a><br>
+				<a class="action remove" href="#">Remove</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="block block-dashboard-addresses">
+	<div class="block-title">
+		<strong><?php /* @escapeNotVerified */ echo __('Billing Profiles') ?></strong>
+		<a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getAddressBookUrl() ?>"><i class="icon-plus"></i> <span><?php /* @escapeNotVerified */ echo __('Add') ?></span></a>
+	</div>
+	<div class="block-content">
+		<div class="box box-billing-address">
+			<div class="box-content">
+				<address>
+					<?php echo $block->getPrimaryBillingAddressHtml() ?>
+				</address>
+			</div>
+			<div class="box-actions">
+				<a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getPrimaryBillingAddressEditUrl() ?>" data-ui-id="default-billing-edit-link"><span><?php /* @escapeNotVerified */ echo __('Edit') ?></span></a><br>
+				<a class="action remove" href="#">Remove</a>
+			</div>
+		</div>
+	</div>
+</div>

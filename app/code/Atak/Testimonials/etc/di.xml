@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <!-- Category -->
+    <virtualType name="AtakTestimonialsItemGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AtakTestimonialsItemGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Atak\Testimonials\Model\Resource\Item\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AtakTestimonialsItemGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Atak\Testimonials\Model\Resource\Item\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">atak_testimonials_item</argument>
+            <argument name="eventPrefix" xsi:type="string">atak_testimonials_item_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">testimonials_item_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Atak\Testimonials\Model\Resource\Item</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="atak_testimonials_item_listing_data_source" xsi:type="string">Atak\Testimonials\Model\Resource\Item\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
+

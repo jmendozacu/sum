@@ -1,0 +1,45 @@
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div id="opc-sidebar"
+     data-bind="afterRender:setModalElement, mageInit: {
+    'Magento_Ui/js/modal/modal':{
+        'type': 'custom',
+        'modalClass': 'opc-sidebar opc-summary-wrapper',
+        'wrapperClass': 'checkout-container',
+        'parentModalClass': '_has-modal-custom',
+        'responsive': true,
+        'responsiveClass': 'custom-slide',
+        'overlayClass': 'modal-custom-overlay',
+        'buttons': []
+    }}">
+
+    <!-- ko foreach: getRegion('summary') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+
+    <div class="opc-block-shipping-information">
+        <!-- ko foreach: getRegion('shipping-information') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    </div>
+	
+	<div class="checkout-love-it">
+		Return your products within 30 days of
+		receipt for a full refund.
+	</div>
+	
+	<div class="checkout-assistance">
+		<div class="subtitle">Need Assistance?</div>
+		<p><a href="">Checkout FAQs</a><br>
+			<a href="">Shipping Policy</a><br>
+			<a href="">Returns Policy</a><br>
+			<a href="">Privacy Policy</a><br>
+			<a href="">Terms & Conditions</a></p>
+	</div>
+    
+</div>

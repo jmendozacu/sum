@@ -1,0 +1,44 @@
+<div class="customer-welcome">
+	
+	<div class="page-title-wrapper">
+		<h1 class="page-title">
+			<span class="base" data-ui-id="page-title-wrapper"><span class="name">Hi <?php echo $block->escapeHtml($block->getCustomer()->getFirstname()) ?></span>, WELCOME TO DASHBOARD</span>
+		</h1>
+	</div>
+	
+	<p class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque magna libero, ultrices eget malesuada in, finibus eget enim.
+		Quisque eu lectus posuere, tristique metus nec, aliquet mauris. Vivamus aliquet mauris in pellentesque luctus.</p>
+	
+	<div class="row">
+		<div class="col">
+			<div class="title">Rewards Balance</div>
+			<div class="content">
+				<span class="points">2500 Points</span>
+			</div>
+			<a href="<?php echo $this->getBaseUrl(); ?>shop.html" class="action primary">SHOP NOW</a>
+		</div>
+		<div class="col">
+			<div class="title">Your Orders</div>
+			<div class="content">
+				<span class="track"><a href="">Track your autoship orders here ></a></span>
+			</div>
+			<a href="<?php echo $this->getBaseUrl(); ?>/sales/order/history/" class="action primary">TRACK ALL ORDERS</a>
+		</div>
+		<div class="col">
+			<div class="title">Refer a Friend</div>
+			<div class="content">
+				<span class="refer">give $25, <strong>get $25</strong></span>
+			</div>
+			<a href="" class="action primary">REFER A FRIEND</a>
+		</div>
+	</div>
+	
+	<div class="regime">
+		<p>A Picture is worth a thousand words. Get your personalised regime FOR FREE by answering with these images.</p>
+		
+		<div class="images">
+			<a href="" class="action secondary">GET YOUR REGIME FOR FREE</a>
+		</div>
+	</div>
+	
+</div>

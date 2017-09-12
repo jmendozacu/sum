@@ -1,0 +1,5 @@
+<ul>
+    <?php foreach ($block->getEvents() as $event) { /** @var \Atak\Events\Model\Item $event */?>
+        <li><a href="<?= $block->getUrl('events'); ?>"><?= $block->escapeHtml($event->getTitle()); ?></a></li>
+    <?php } ?>
+</ul>

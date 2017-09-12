@@ -1,0 +1,25 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+
+<div class="widget block block-static-block">
+    <?php echo $block->getText(); ?>
+	
+	<div class="home-banner" style="background-image: url('<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/home/home-main.jpg')">
+		<div class="content">
+			<div class="title">wildcrafted organic skincare for men</div>
+			<a href="<?php echo $this->getBaseUrl(); ?>shop.html" class="action alt first">Shop Now</a>
+			<a href="<?php echo $this->getBaseUrl(); ?>risk-free" class="action alt">Try Risk Free</a>
+		</div>
+	</div>
+	
+	<div class="home-quiz">
+		<div class="container">
+			<a href="<?php echo $this->getBaseUrl(); ?>quiz" class="action alt">TAKE THE QUIZ</a>
+			<p>What's Your Skin Score? Get your FREE personalized results</p>
+		</div>
+	</div>
+</div>
