@@ -1,0 +1,11 @@
+a.promise-item img.icon{
+    width:auto;
+    display:inline;
+    margin:5px 0 20px 0;
+}
+a.promise-item:hover img.icon{
+    display:none;
+}
+div.home-promise a.promise-item div.content:before{
+    content:none;
+}

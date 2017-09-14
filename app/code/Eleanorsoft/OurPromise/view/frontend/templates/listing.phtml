@@ -1,0 +1,22 @@
+<?php $items = $block->getItems(); ?>
+<div class="container-fluid home-promise">
+    <h2 class="title"><?= __('OUR PROMISE'); ?></h2>
+    <div class="row">
+    <?php if ($items) { ?>
+        <?php
+        foreach ($items as $item) {
+        ?>
+        <div class="col">
+            <a class="promise-item" href="<?= $block->escapeHtml($block->getPromiseUrl($item)); ?>">
+                <img src="<?= $block->getBackgroundImageUrl($item); ?>" alt="<?= $block->escapeHtml($item->getTitle()); ?>" />
+                <div class="content">
+                    <img class="icon" src="<?= $block->getIconUrl($item); ?>" alt="<?= $block->escapeHtml($item->getTitle()); ?>" />
+                    <div class="title"><?= $block->escapeHtml($item->getTitle()); ?></div>
+                    <div class="description"><?= nl2br($block->escapeHtml($item->getShortDescription())); ?></div>
+                </div>
+            </a>
+        </div>
+        <?php } ?>
+    <?php } ?>
+    </div>
+</div>

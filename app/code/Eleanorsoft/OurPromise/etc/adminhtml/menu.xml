@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<!--<add id="Eleanorsoft_OurPromise::ourpromise" title="Promises" translate="title" module="Eleanorsoft_OurPromise" parent="Magento_Backend::content_elements" sortOrder="50" dependsOnModule="Eleanorsoft_OurPromise" resource="Eleanorsoft_OurPromise::ourpromise"/>-->
+		<add id="Eleanorsoft_OurPromise::ourpromise_items" title="Promises" translate="title"
+			 module="Eleanorsoft_OurPromise" parent="Magento_Backend::content_elements" sortOrder="100"
+			 dependsOnModule="Eleanorsoft_OurPromise" action="eleanorsoftourpromise/item"
+			 resource="Eleanorsoft_OurPromise::ourpromise" />
+	</menu>
+</config>
