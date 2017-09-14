@@ -25,14 +25,14 @@
 	    <div class="login-options" id="login-options">
 		    <div class="field">
 			    <label class="custom-control">
-				    <input type="radio" name="login-type" value="/customer/account/create/">
+				    <input type="radio" name="login-type" value="<?= $block->getUrl('customer/account/create/'); ?>">
 				    <span><i class="icon-ok"></i></span>
 				    <span class="custom-label">NEW CUSTOMER</span>
 			    </label>
 		    </div>
 		    <div class="field">
 			    <label class="custom-control">
-				    <input type="radio" checked name="login-type" value="/customer/account/login/">
+				    <input type="radio" checked name="login-type" value="<?= $block->getUrl('customer/account/login/'); ?>">
 				    <span><i class="icon-ok"></i></span>
 				    <span class="custom-label">RETURNING CUSTOMERS</span>
 			    </label>
