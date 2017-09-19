@@ -36,7 +36,7 @@
 	    </referenceContainer>
 	
 	    <referenceBlock name="product.info.details">
-		    <block class="Magento\Catalog\Block\Product\View" name="ingredients.tab" as="ingredients" template="product/view/ingredients.phtml" group="detailed_info" >
+		    <block class="Eleanorsoft\Ingredients\Block\Ingredients" name="ingredients.tab" as="ingredients" template="Eleanorsoft_Ingredients::ingredients.phtml" group="detailed_info" >
 			    <arguments>
 				    <argument translate="true" name="title" xsi:type="string">Ingredients</argument>
 			    </arguments>

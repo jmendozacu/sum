@@ -1,0 +1,14 @@
+<?php $_ingredients = $block->getProduct()->getIngredientsProducts(); ?>
+<?php if ($_ingredients): ?>
+<ul class="items ingredient-items">
+	<?php foreach ($_ingredients as $_ingredient): $product = $block->loadIngredientProduct($_ingredient); ?>
+	<li class="item ingredient-item">
+		<img src="<?= $block->getImage($product, 'product_ingredients')->getImageUrl(); ?>" alt="<?= $product->getName(); ?>" class="ingredient-image" />
+		<div class="ingredient-content">
+			<div class="ingredient-title"><?= $product->getName(); ?></div>
+			<?= $product->getShortDescription(); ?>
+		</div>
+	</li>
+	<?php endforeach; ?>
+</ul>
+<?php endif; ?>

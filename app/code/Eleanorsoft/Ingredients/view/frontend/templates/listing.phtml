@@ -1,0 +1,91 @@
+<?php $list = $block->getIngredients(); ?>
+
+<?php if ($list): ?>
+<div class="container-fluid container-fluid-ingredients">
+
+    <div class="home-ingredients">
+
+        <div class="container">
+            <?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('ingredients')->toHtml(); ?>
+        </div>
+
+        <div id="flower-tabs" class="flower-tabs">
+            <ul class="tabs-nav">
+                <?php $index = 1; foreach ($list as $category => $_): ?>
+                <li <?= ($index - 1 == 0) ? 'class="current"' : ''; ?>>
+                    <a href="#tabs-flower-<?= $index++; ?>"><?= $category; ?></a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php $index = 1; foreach ($list as $category => $products): ?>
+            <div id="tabs-flower-<?= $index++; ?>" class="tab-content <?= ($index - 1 == 1) ? 'current' : ''; ?>">
+                <div class="flowers-container">
+                    <div class="carousel-flowers">
+                        <?php foreach ($products as $product): ?>
+                        <div class="item">
+                            <a class="item-photo" href="javascript:;">
+                                <img src="<?= $block->getIngredientImageUrl($product); ?>" alt="<?= $product->getName(); ?>" />
+                                <span class="item-description"><?= $product->getShortDescription(); ?></span>
+                            </a>
+                            <a class="item-link" href="javascript:;"><?= $product->getName(); ?></a>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <script type="text/javascript">
+            require([
+                    'jquery',
+                    //'jquery/ui',
+                    'owlcarousel'
+                ],
+                function($) {
+
+                    $(".carousel-flowers").addClass("owl-carousel").owlCarousel({
+                        loop: true,
+                        margin: 0,
+                        responsiveClass: true,
+                        navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
+                        responsive: {
+                            0:{
+                                items:1,
+                                nav:true
+                            },
+                            768:{
+                                items:2,
+                                nav:true
+                            },
+                            992:{
+                                items:3,
+                                nav:true
+                            },
+                            1200:{
+                                items:4,
+                                nav:true
+                            }
+                        }
+                    });
+
+                    //$("#flower-tabs").tabs();
+                    $('#flower-tabs .tabs-nav > li > a').click(function(e){
+                        e.preventDefault();
+
+                        var tab_id = $(this).attr('href');
+
+                        $('#flower-tabs .tabs-nav > li').removeClass('current');
+                        $('#flower-tabs .tab-content').removeClass('current');
+
+                        $(this).parent().addClass('current');
+                        $(tab_id).addClass('current');
+
+                        return false;
+                    })
+                }
+            );
+        </script>
+    </div>
+</div>
+<?php endif; ?>
