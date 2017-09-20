@@ -14,8 +14,9 @@
  */
 ?>
 <?php
-    $_items = $block->getReviewsCollection()->getItems();
-    $format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+	$quote	= $block->getProduct()->getMemberQuote();
+	$_items = $block->getReviewsCollection()->getItems();
+    $format	= $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
 ?>
 <?php if (count($_items)):?>
 <div class="container block review-list" id="customer-reviews">
@@ -29,10 +30,12 @@
 			</div>
 		</div>
 	</div>
-	
+
+	<?php if ($quote) : ?>
     <div class="block-title">WHAT MEMBERS ARE SAYING</div>
-	<blockquote class="block-subtitle">I think I found shave perfection. Hands down the smoothest shave I’ve ever had.</blockquote>
-	
+	<blockquote class="block-subtitle"><?= nl2br($block->escapeHtml($quote)); ?></blockquote>
+	<?php endif; ?>
+
     <div class="block-content">
         <?php /* <div class="toolbar review-toolbar">
             <?php echo $block->getChildHtml('toolbar') ?>
