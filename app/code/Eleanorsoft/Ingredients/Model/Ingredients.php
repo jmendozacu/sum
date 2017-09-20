@@ -47,9 +47,10 @@ class Ingredients extends \Magento\Framework\Model\AbstractModel
         foreach ($_products as $product)
         {
             foreach ($_attributeSetValues as $attributeSetValue) {
-                if (in_array(
-                    $attributeSetValue, $product->getAttributeText(self::INGREDIENTS_ATTR_SET_CODE)
-                )) {
+                $attributeText = $product->getAttributeText(self::INGREDIENTS_ATTR_SET_CODE);
+                $attributeText = is_string($attributeText) ? [$attributeText] : $attributeText;
+
+                if (in_array($attributeSetValue, $attributeText)) {
                     $groupedIngredients[$attributeSetValue][] = $product;
                 }
             }
