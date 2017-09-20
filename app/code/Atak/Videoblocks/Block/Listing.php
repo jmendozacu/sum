@@ -44,4 +44,17 @@ class Listing extends \Magento\Framework\View\Element\Template
     {
         return $this->_urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]) . $item->getImage();
     }
+
+    /**
+     * Generate youtube video code from the item youtube url
+     *
+     * @param \Atak\Videoblocks\Model\Item $item
+     * @return string
+     */
+    public function getYouTubeCode(\Atak\Videoblocks\Model\Item $item)
+    {
+        $code = explode('/', $item->getVideoUrl());
+
+        return end($code);
+    }
 }

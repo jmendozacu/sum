@@ -5,75 +5,44 @@ $list = $block->getItems();
 
 ?>
 
-<div class="container-fluid home-praise">
+<div class="container-fluid home-articles">
+    <?php foreach ($list as $item) : ?>
     <div class="row">
-        <div class="col home-author-images">
-            <div id="home-author-images">
-                <?php foreach ($list as $item) { ?>
-                <div class="item">
-                    <img src="<?php echo $block->escapeHtml($block->getImageUrl($item)); ?>" alt="<?php print $block->escapeHtml($item->getName()); ?>" />
+        <?php if ($item->getVideoPosition() == 'left') : ?>
+            <div class="col">
+                <div class="video-block" data-video-id="<?= $block->escapeHtml($block->getYouTubeCode($item)); ?>"
+                     style="background-image: url('<?= $block->escapeHtml($block->getImageUrl($item)); ?>')">
                 </div>
-                <?php } ?>
             </div>
-        </div>
-        <div class="col">
-            <div class="home-authors-col">
+            <div class="col">
                 <div class="article-content">
-                    <h2 class="title"><?= __('Praise'); ?></h2>
-                    <div class="home-authors">
-                        <?php foreach ($list as $item) { ?>
-                        <div class="item">
-                            <p><?= nl2br($block->escapeHtml($item->getText())); ?></p>
-                            <div class="name"><?= $block->escapeHtml($item->getName()); ?></div>
-                            <div class="position"><?= $block->escapeHtml($item->getSubtitle()); ?></div>
-                        </div>
-                        <?php } ?>
+                    <h3><?= $block->escapeHtml($item->getName()); ?></h3>
+                    <?= nl2br($block->escapeHtml($item->getText())); ?>
+                    <div class="text-right">
+                        <a href="<?= $block->escapeHtml($item->getButtonLink()); ?>" class="action primary">
+                            <?= $block->escapeHtml($item->getButtonText()); ?>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php else : ?>
+            <div class="col">
+                <div class="article-content">
+                    <h3><?= $block->escapeHtml($item->getName()); ?></h3>
+                    <?= nl2br($block->escapeHtml($item->getText())); ?>
+                    <div class="text-right">
+                        <a href="<?= $block->escapeHtml($item->getButtonLink()); ?>" class="action primary">
+                            <?= $block->escapeHtml($item->getButtonText()); ?>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="video-block" data-video-id="<?= $block->escapeHtml($block->getYouTubeCode($item)); ?>"
+                     style="background-image: url('<?= $block->escapeHtml($block->getImageUrl($item)); ?>')">
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
+    <?php endforeach; ?>
 </div>
-
-<script type="text/javascript">
-    require([
-            'jquery',
-            'owlcarousel'
-        ],
-        function($){
-
-            var $test_images = $("#home-author-images");
-            var $test_items = $(".home-authors");
-
-            $test_images.addClass("owl-carousel").owlCarousel({
-                loop: true,
-                margin: 0,
-                responsiveClass: true,
-                mouseDrag: false,
-                touchDrag: false,
-                nav: false,
-                responsive: {
-                    0:{
-                        items:1,
-                        nav:true
-                    }
-                }
-            });
-            $test_items.addClass("owl-carousel").owlCarousel({
-                loop: true,
-                margin: 0,
-                responsiveClass: true,
-                navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
-                responsive: {
-                    0:{
-                        items:1,
-                        nav:true
-                    }
-                }
-            });
-            $test_items.on('changed.owl.carousel', function(event) {
-                $test_images.trigger('to.owl.carousel', [event.item.index, 300, true]);
-            });
-        }
-    );
-</script>
