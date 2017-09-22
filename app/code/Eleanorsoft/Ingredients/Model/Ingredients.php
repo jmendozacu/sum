@@ -70,6 +70,7 @@ class Ingredients extends \Magento\Framework\Model\AbstractModel
 
     private function getAttributeSetValues()
     {
+		$labels = [];
         $options = $this->_eavConfig
             ->getAttribute('catalog_product', self::INGREDIENTS_ATTR_SET_CODE)
             ->getSource()
