@@ -1,0 +1,51 @@
+<!--/**
+* Copyright © 2016 Magento. All rights reserved.
+* See COPYING.txt for license details.
+*/-->
+<!--<style>textarea[name="product[how_to]"]{display:none;}</style>-->
+<if args="value">
+    <img attr="src: value" class="small-image-preview v-middle" width="48" />
+</if>
+
+<input class="admin__control-text" type="hidden"
+       data-bind="
+        value: value,
+        hasFocus: focused,
+        attr: {
+            name: inputName,
+            placeholder: placeholder,
+            'aria-describedby': noticeId,
+            id: uid
+    }"/>
+
+<table>
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Description</th>
+        <th>Order</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: howToCollection">
+    <tr>
+        <td>
+            <img data-bind="attr: { src: imageUrl }">
+            <input data-index="how_to_images" name="product[how_to_images][]" type="file"
+                   data-bind="event: { change: function($data) { $parent.uploadImage($element, $data) } }">
+            <input data-bind="value: imageUrl, event:{ change: $parent.updateHowTo.bind($parent) }">
+        </td>
+        <td>
+            <input data-bind="value: description, event:{ change: $parent.updateHowTo.bind($parent) }">
+        </td>
+        <td>
+            <input data-bind="value: order, event:{ change: $parent.updateHowTo.bind($parent) }">
+        </td>
+        <td>
+            <a href="#" data-bind="click: $parent.removeHowTo.bind($parent)">Remove</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<button data-bind="click: addHowTo">Add How To</button>

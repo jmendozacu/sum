@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+  <fieldset name="howto_fieldset">
+    <argument name="data" xsi:type="array">
+      <item name="config" xsi:type="array">
+        <item name="label" xsi:type="string" translate="true">How To</item>
+      </item>
+    </argument>
+    <field name="entity_id">
+      <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+          <item name="visible" xsi:type="boolean">false</item>
+          <item name="dataType" xsi:type="string">text</item>
+          <item name="formElement" xsi:type="string">input</item>
+          <item name="source" xsi:type="string">product</item>
+        </item>
+      </argument>
+    </field>
+    <field name="color">
+      <argument name="data" xsi:type="array">
+        <item name="config" xsi:type="array">
+          <item name="component" xsi:type="string">Eleanorsoft_HowTo/js/form/element/howto-grid</item>
+          <item name="template" xsi:type="string">ui/form/field</item>
+          <item name="elementTmpl" xsi:type="string">Eleanorsoft_HowTo/form/element/howto-grid</item>
+          <item name="visible" xsi:type="boolean">true</item>
+          <item name="dataType" xsi:type="string">text</item>
+          <item name="formElement" xsi:type="string">input</item>
+          <item name="source" xsi:type="string">product</item>
+        </item>
+      </argument>
+    </field>
+  </fieldset>
+</form>
