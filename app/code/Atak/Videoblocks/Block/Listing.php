@@ -54,7 +54,13 @@ class Listing extends \Magento\Framework\View\Element\Template
     public function getYouTubeCode(\Atak\Videoblocks\Model\Item $item)
     {
         $code = explode('/', $item->getVideoUrl());
+        $code = end($code);
 
-        return end($code);
+        if (strpos($code, '?v=') !== false) {
+            $code = explode('?v=', $code);
+            $code = end($code);
+        }
+
+        return $code;
     }
 }
