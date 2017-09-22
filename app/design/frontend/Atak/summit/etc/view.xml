@@ -177,6 +177,10 @@
                 <width>240</width>
                 <height>300</height>
             </image>
+			<image id="product_ingredients" type="small_image">
+                <width>99</width>
+                <height>99</height>
+            </image>
         </images>
     </media>
     <vars module="Magento_Catalog">
