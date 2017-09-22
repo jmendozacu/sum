@@ -2,7 +2,7 @@
 * Copyright © 2016 Magento. All rights reserved.
 * See COPYING.txt for license details.
 */-->
-<!--<style>textarea[name="product[how_to]"]{display:none;}</style>-->
+<style>textarea[name="product[how_to]"]{display:none;}</style>
 <if args="value">
     <img attr="src: value" class="small-image-preview v-middle" width="48" />
 </if>
@@ -17,35 +17,68 @@
             'aria-describedby': noticeId,
             id: uid
     }"/>
-
-<table>
-    <thead>
-    <tr>
-        <th>Image</th>
-        <th>Description</th>
-        <th>Order</th>
-        <th>&nbsp;</th>
-    </tr>
-    </thead>
-    <tbody data-bind="foreach: howToCollection">
-    <tr>
-        <td>
-            <img data-bind="attr: { src: imageUrl }">
-            <input data-index="how_to_images" name="product[how_to_images][]" type="file"
-                   data-bind="event: { change: function($data) { $parent.uploadImage($element, $data) } }">
-            <input data-bind="value: imageUrl, event:{ change: $parent.updateHowTo.bind($parent) }">
-        </td>
-        <td>
-            <input data-bind="value: description, event:{ change: $parent.updateHowTo.bind($parent) }">
-        </td>
-        <td>
-            <input data-bind="value: order, event:{ change: $parent.updateHowTo.bind($parent) }">
-        </td>
-        <td>
-            <a href="#" data-bind="click: $parent.removeHowTo.bind($parent)">Remove</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<button data-bind="click: addHowTo">Add How To</button>
+<div class="admin__control-table-wrapper" style="max-width:none;width:89vw;">
+    <table class="admin__dynamic-rows data-grid">
+        <thead>
+        <tr>
+            <th class="data-grid-th">Image</th>
+            <th class="data-grid-th">Description</th>
+            <th class="data-grid-th">Order</th>
+            <th class="data-grid-th">Actions</th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach: howToCollection">
+        <tr class="data-row" data-bind="css: {'_odd-row': $index() % 2}">
+            <td>
+                <fieldset class="admin__field">
+                    <div class="admin__field-control admin__control-fields _no-header">
+                        <div class="admin__field">
+                            <div class="admin__field-control">
+                                <div class="control-table-text">
+                                    <img class="admin__control-thumbnail" data-bind="attr: { src: imageUrl }">
+                                    <br><br>
+                                    <input data-index="how_to_images" name="product[how_to_images][]" type="file"
+                                           data-bind="event: { change: function($data) { $parent.uploadImage($element, $data) } }">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </td>
+            <td>
+                <fieldset class="admin__field">
+                    <div class="admin__field-control admin__control-fields _no-header">
+                        <div class="admin__field">
+                            <div class="admin__field-control">
+                                <div class="control-table-text">
+                                        <textarea rows="5" cols="100" class="admin__control-text"
+                                                  data-bind="value: description, event:{ change: $parent.updateHowTo.bind($parent) }">
+                                        </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </td>
+            <td>
+                <fieldset class="admin__field">
+                    <div class="admin__field-control admin__control-fields _no-header">
+                        <div class="admin__field">
+                            <div class="admin__field-control">
+                                <div class="control-table-text">
+                                    <input type="number" min="1" class="admin__control-text"
+                                           data-bind="value: order, event:{ change: $parent.updateHowTo.bind($parent) }">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </td>
+            <td>
+                <a href="#" data-bind="click: $parent.removeHowTo.bind($parent)">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="action-secondary" style="float:right;margin-top:15px;" data-bind="click: addHowTo">Add How To</button>
+</div>
