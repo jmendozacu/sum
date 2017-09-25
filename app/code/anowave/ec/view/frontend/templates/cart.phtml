@@ -1,0 +1,37 @@
+<script>
+
+	var data = <?php echo $block->getCartPush() ?>;
+
+	/**
+	 * AdWords Dynamic Remarketing
+	 */
+	if (data.hasOwnProperty('products'))
+	{
+		var ecomm = 
+		{
+				i: [], /* ecomm_prodid[] array */
+				v: [], /* ecomm_pvalue[] array */
+				p: []  /* ecomm_pname[]  array */
+		}
+		
+		/* Set ecomm_pagetype */
+		
+		for (i = 0, l = data.products.length; i < l; i++)
+		{
+			ecomm.i.push(data.products[i].id);
+			ecomm.v.push(data.products[i].price);
+			ecomm.p.push(data.products[i].name);
+		}
+
+		if (window.google_tag_params)
+		{
+			window.google_tag_params.ecomm_prodid 		= ecomm.i;
+			window.google_tag_params.ecomm_pvalue		= ecomm.v;
+			window.google_tag_params.ecomm_pname		= ecomm.p;
+			window.google_tag_params.ecomm_pagetype 	= 'cart';
+			window.google_tag_params.ecomm_totalvalue 	= data.total;
+			window.google_tag_params.returnCustomer 	= <?php echo $block->getHelper()->getIsReturnCustomer() ?>;
+		}
+	}
+
+</script>
