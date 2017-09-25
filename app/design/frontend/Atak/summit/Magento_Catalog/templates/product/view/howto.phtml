@@ -1,7 +1,7 @@
 <?php
 $howToCollection = $this->getProduct()->getHowTo();
 
-if ($howToCollection):
+if ($howToCollection && $howToCollection != '[]'):
 	$i = 1;
 	$_helper = $this->helper('Eleanorsoft\HowTo\Helper\Data');
 	$howToCollection = $_helper->prepareHowToGrid($howToCollection);
@@ -14,4 +14,6 @@ if ($howToCollection):
 		</li>
 	<?php endforeach; ?>
 </ul>
+<?php else: ?>
+	<style>div#tab-label-howto{display:none;}</style>
 <?php endif; ?>

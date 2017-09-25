@@ -26,12 +26,13 @@ class HowToObserver implements \Magento\Framework\Event\ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         try {
-            $index           = 0;
-            $dirName         = 'how-to';
-            $dirUrl          = 'catalog/product/'.$dirName.'/';
-            $product         = $this->_locator->getProduct();
-            $productId       = $product->getId();
-            $targetPath      = $this->_mediaDirectoryWrite->getAbsolutePath(
+            $index      = 0;
+            $newImages  = [];
+            $dirName    = 'how-to';
+            $dirUrl     = 'catalog/product/'.$dirName.'/';
+            $product    = $this->_locator->getProduct();
+            $productId  = $product->getId();
+            $targetPath = $this->_mediaDirectoryWrite->getAbsolutePath(
                 $dirUrl.$productId.'/'
             );
             $newHowToCollection = [];
@@ -41,8 +42,10 @@ class HowToObserver implements \Magento\Framework\Event\ObserverInterface
             ).$dirUrl;
 
             foreach ($howToCollection as $item) {
+                $index++;
+
                 if (strpos($item->imageUrl, 'base64') !== false) {
-                    $index++;
+                    $newImages[]        = $index;
                     $imageDataArray     = explode('base64,', $item->imageUrl);
                     $imageBase64String  = str_replace(' ', '+', end($imageDataArray));
                     $imageType          = explode('data:image/', $imageDataArray[0]);
@@ -57,15 +60,31 @@ class HowToObserver implements \Magento\Framework\Event\ObserverInterface
                     }
 
                     file_put_contents($imagePath, $image);
+                } else {
+                    $oldImageIndex = explode('/', $item->imageUrl);
+                    $oldImageIndex = end($oldImageIndex)[0];
+
+                    $newImages[] = $oldImageIndex;
                 }
 
                 $newHowToCollection[] = $item;
+            }
+
+            $oldImages       = array_diff(scandir($targetPath), array('..', '.'));
+            $oldImageIndexes = array_map(function ($item) { return $item[0]; }, $oldImages);
+            $imagesToRemove  = array_diff($oldImageIndexes, $newImages);
+
+            foreach ($oldImages as $oldImage) {
+                if (in_array($oldImage[0], $imagesToRemove)) {
+                    unlink($targetPath.$oldImage);
+                }
             }
 
             $product->setHowTo(json_encode($newHowToCollection));
             $product->save();
         } catch (\Exception $ex) {
             var_dump($ex->getMessage());
+            die();
         }
     }
 }
