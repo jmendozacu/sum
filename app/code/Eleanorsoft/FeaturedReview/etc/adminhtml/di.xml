@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+  <type name="Magento\Review\Helper\Data">
+    <plugin name="eleanorsoft_featuredreview_plugin" type="Eleanorsoft\FeaturedReview\Plugin\Data" sortOrder="100" disabled="false" />
+  </type>
+  <preference for="Magento\Review\Model\ResourceModel\Rating" type="Eleanorsoft\FeaturedReview\Model\ResourceModel\Rating" />
+</config>
