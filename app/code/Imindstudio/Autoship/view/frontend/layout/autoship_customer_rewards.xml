@@ -8,7 +8,7 @@
 			</action>
 		</referenceBlock>
 		<referenceContainer name="content">
-			<block class="Magento\Framework\View\Element\Template" name="autoship" template="Imindstudio_Autoship::rewards.phtml">
+			<block class="Imindstudio\Autoship\Block\Rewards" name="autoship" template="Imindstudio_Autoship::rewards.phtml" cacheable="false">
 			</block>
 		</referenceContainer>
 	</body>

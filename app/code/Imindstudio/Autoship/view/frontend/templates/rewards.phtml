@@ -1,8 +1,9 @@
+<?php $balancePoints = $block->escapeHtml($block->getBalancePoints()); ?>
 <div class="customer-rewards">
 	<div id="rewards-accordion" class="accordion rewards-accordion">
 		
 		<div data-role="collapsible" class="accordion-title">
-			<span class="title">REWARD BALANCE: <strong>2500 POINTS</strong></span>
+			<span class="title">REWARD BALANCE: <strong><?= $balancePoints; ?> POINTS</strong></span>
 			<a href="javascript:;" class="trigger" data-role="trigger"><span>Details</span> <i class="icon-minus"></i><i class="icon-plus"></i></a>
 		</div>
 		<div data-role="content" class="accordion-content">
@@ -10,12 +11,12 @@
 				<tbody>
 				<tr>
 					<th>Account Created</th>
-					<td>500</td>
+					<td><?= $block->isLoggedIn() ? $block->escapeHtml($block->getSignUpPoints()) : '0' ?></td>
 					<td class="info"></td>
 				</tr>
 				<tr>
 					<th>Refer a Friend</th>
-					<td>0</td>
+					<td><?= $block->escapeHtml($block->getReferredCustomerPoints()); ?></td>
 					<td class="info"><a href="">Refer a Friend</a> now and earn reward points</td>
 				</tr>
 				<tr>
@@ -25,19 +26,19 @@
 				</tr>
 				<tr>
 					<th>Purchases</th>
-					<td>2500</td>
+					<td><?= $block->escapeHtml($block->getCustomerOrderPoints()); ?></td>
 					<td class="info"><a href="/shop.html">Shop Now</a></td>
 				</tr>
 				<tr>
 					<th>Points Redeemed</th>
-					<td>-500</td>
+					<td><?= $block->escapeHtml($block->getRedeemedPoints()); ?></td>
 					<td class="info"></td>
 				</tr>
 				</tbody>
 				<tfoot>
 				<tr>
 					<th>Balance</th>
-					<td colspan="2">2500 points</td>
+					<td colspan="2"><?= $balancePoints; ?> points</td>
 				</tr>
 				</tfoot>
 			</table>
@@ -51,7 +52,7 @@
 			<table class="data table reward-earn-table">
 				<tbody>
 				<tr>
-					<th><span class="checkmark checked"><i class="icon-ok"></i></span> Create an Account</th>
+					<th><span class="checkmark <?= $balancePoints != '0' ? 'checked' : ''; ?>"><i class="icon-ok"></i></span> Create an Account</th>
 					<td class="info"><strong>+ 500</strong></td>
 				</tr>
 				<tr>
@@ -59,7 +60,7 @@
 					<td class="info"><strong>+ 2500</strong> for every <a href="">new referral</a> that successfully completes a first time purchase.</td>
 				</tr>
 				<tr>
-					<th><span class="checkmark checked"><i class="icon-ok"></i></span> Make a Purchases</th>
+					<th><span class="checkmark <?= $block->escapeHtml($block->getCompletedOrdersCount()) != '0' ? 'checked' : ''; ?>"><i class="icon-ok"></i></span> Make a Purchases</th>
 					<td class="info"><strong>+ 1</strong> point for every $1 spent. <a href="/shop.html">Shop Now</a></td>
 				</tr>
 				<tr>
@@ -70,6 +71,7 @@
 			</table>
 		</div>
 		
+		<?php /*
 		<div data-role="collapsible" class="accordion-title">
 			<span class="title">USE POINTS</span>
 			<a href="javascript:;" class="trigger" data-role="trigger"><span>Details</span> <i class="icon-minus"></i><i class="icon-plus"></i></a>
@@ -96,6 +98,7 @@
 				</li>
 			</ul>
 		</div>
+		*/ ?>
 		
 	</div>
 </div>

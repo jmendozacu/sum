@@ -1,3 +1,9 @@
+<?php
+	$om = \Magento\Framework\App\ObjectManager::getInstance();
+	$rewardPoints = $om->create('Mirasvit\Rewards\Helper\Balance')->getBalancePoints(
+		$om->create('Magento\Customer\Model\Session')->getCustomer()
+	);
+?>
 <div class="customer-welcome">
 	
 	<div class="page-title-wrapper">
@@ -13,7 +19,7 @@
 		<div class="col">
 			<div class="title">Rewards Balance</div>
 			<div class="content">
-				<span class="points">2500 Points</span>
+				<span class="points"><?= $this->escapeHtml($rewardPoints); ?> Points</span>
 			</div>
 			<a href="<?php echo $this->getBaseUrl(); ?>shop.html" class="action primary">SHOP NOW</a>
 		</div>
