@@ -7,6 +7,7 @@ class Rewards extends \Magento\Framework\View\Element\Template
     private $_signUpPoints;
     private $_redeemedPoints;
     private $_customerOrderPoints;
+    private $_customerReviewPoints;
     private $_referredCustomerPoints;
 
     protected $_order;
@@ -26,6 +27,7 @@ class Rewards extends \Magento\Framework\View\Element\Template
         $this->_signUpPoints = 0;
         $this->_redeemedPoints = 0;
         $this->_customerOrderPoints = 0;
+        $this->_customerReviewPoints = 0;
         $this->_referredCustomerPoints = 0;
 
         $this->_order = $order;
@@ -49,6 +51,11 @@ class Rewards extends \Magento\Framework\View\Element\Template
     public function getCustomerOrderPoints()
     {
         return $this->_customerOrderPoints;
+    }
+
+    public function getCustomerReviewPoints()
+    {
+        return $this->_customerReviewPoints;
     }
 
     public function getReferredCustomerPoints()
@@ -81,6 +88,9 @@ class Rewards extends \Magento\Framework\View\Element\Template
             if ($amount > 0) {
                 switch(explode('-', $transaction->getCode())[0])
                 {
+                    case 'review':
+                        $this->_customerReviewPoints += $amount;
+                        break;
                     case 'customer_order':
                         $this->_customerOrderPoints += $amount;
                         break;

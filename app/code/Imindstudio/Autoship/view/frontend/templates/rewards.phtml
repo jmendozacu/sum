@@ -21,7 +21,7 @@
 				</tr>
 				<tr>
 					<th>Reviews</th>
-					<td>0</td>
+					<td><?= $block->escapeHtml($block->getCustomerReviewPoints()); ?></td>
 					<td class="info"><a href="">Review</a> your recent purchases here</td>
 				</tr>
 				<tr>
@@ -64,8 +64,8 @@
 					<td class="info"><strong>+ 1</strong> point for every $1 spent. <a href="/shop.html">Shop Now</a></td>
 				</tr>
 				<tr>
-					<th><span class="checkmark"><i class="icon-ok"></i></span> Reviews</th>
-					<td class="info"><strong>+ 50</strong> for every product <a href="">review</a>.</td>
+					<th><span class="checkmark <?= $block->escapeHtml($block->getCustomerReviewPoints()) != '0' ? 'checked' : ''; ?>"><i class="icon-ok"></i></span> Reviews</th>
+					<td class="info"><strong>+ 50</strong> for every product <a href="<?= $block->getUrl('sales/order/history'); ?>">review</a>.</td>
 				</tr>
 				</tbody>
 			</table>
