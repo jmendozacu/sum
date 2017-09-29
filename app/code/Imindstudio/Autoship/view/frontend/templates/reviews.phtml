@@ -1,54 +1,77 @@
+<?php
+
+$_order = $block->getOrder();
+$_items = $_order->getItemsCollection();
+$orderCreatedAt = $_order->getCreatedAt();
+
+?>
 <div class="customer-reviews">
-	
+
 	<div class="pending-reviews">
-		<div class="item">
-			<div class="product-info">
-				<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/product-1.png" alt="" class="product-image" />
-				<div class="product-name">Repair Serum for Men (30ml)</div>
-				<p class="purchased">Purchased on: 06/27/2017</p>
-				<p class="points">250 Reward Points</p>
-			</div>
-			<div class="pending-form">
-				<form action="" method="post">
-					<div class="fieldset">
-						<div class="field">
-							<div class="control">
-								<textarea class="input-text" placeholder="Write Something..." rows="8"></textarea>
+
+		<?= $block->getBlockHtml('formkey'); ?>
+		<input type="hidden" name="customer-name" value="<?= ($_order->getCustomerName()); ?>">
+
+		<?php foreach ($_items as $_item): ?>
+			<?php
+			$productId = $_item->getProductId();
+			$product = $block->getProductById($productId);
+			$productReview = $block->getCustomerProductReviewByProductId($productId);
+			?>
+			<div class="item" data-review-container>
+				<input type="hidden" value="<?= $block->getAction($productId); ?>" data-action>
+				<div class="product-info">
+					<img src="<?= $block->getProductImageUrlByProduct($product); ?>" alt="" class="product-image" />
+					<div class="product-name"><?= $_item->getName(); ?></div>
+					<p class="purchased">Purchased on: <?= $block->formatDate($orderCreatedAt); ?></p>
+					<p class="points">250 Reward Points</p>
+				</div>
+				<div class="pending-form">
+					<div class="page messages">
+						<div class="messages">
+							<div class="message" data-message-content>
+								<div>You submitted your review for moderation.</div>
 							</div>
 						</div>
 					</div>
-					<button class="action primary" type="submit">
-						<span>SUBMIT REVIEW</span>
-					</button>
-				</form>
-			</div>
-		</div>
-		<div class="item">
-			<div class="product-info">
-				<img src="<?php echo $this->getUrl('pub/media'); ?>/wysiwyg/product-2.png" alt="" class="product-image" />
-				<div class="product-name">Sample - Summit Moisturiser for Men</div>
-				<p class="purchased">Purchased on: 06/27/2017</p>
-				<p class="points">250 Reward Points</p>
-			</div>
-			<div class="pending-form">
-				<form action="" method="post">
+					<fieldset class="field required review-field-ratings">
+						<div class="control">
+							<div id="review-rating-field"  class="field choice review-field-rating">
+								<label class="label" id="Rating_rating_label"><span>Your Rating</span></label>
+								<div class="control review-control-vote">
+									<?php for ($i = 1; $i < 6; $i++): ?>
+										<?php $inputId = 'rating-'.$i.':'.$productId; $value = 15 + $i; ?>
+										<input type="radio" name="ratings[4]:<?= $productId; ?>" id="<?= $inputId; ?>" value="<?= $value ?>" class="radio" <?= $productReview->rating == $value ? 'checked' : ''; ?>  data-rating>
+										<label class="rating-<?= $i; ?>" for="<?= $inputId; ?>" title="<?= $i; ?> star<?= $i > 1 ? 's' : ''; ?>" id="<?= $inputId; ?>-label">
+											<span>$nbsp;</span>
+										</label>
+									<?php endfor; ?>
+								</div>
+							</div>
+							<div for="review-rating-field" generated="true" class="mage-error" id="review-rating-field-error">This is a required field.</div>
+						</div>
+					</fieldset>
 					<div class="fieldset">
 						<div class="field">
 							<div class="control">
-								<textarea class="input-text" placeholder="Write Something..." rows="8"></textarea>
+								<?php if ($productReview->isApproved) : ?>
+								<p><?= $block->escapeHtml($productReview->detail); ?></p>
+								<?php else : ?>
+								<textarea id="review-detail-field" placeholder="Write Something..." rows="8" data-detail><?= $block->escapeHtml($productReview->detail); ?></textarea>
+								<div for="review-detail-field" generated="true" class="mage-error" id="review-detail-field-error">This is a required field.</div>
+								<?php endif;?>
 							</div>
 						</div>
 					</div>
-					<button class="action primary" type="submit">
-						<span>SUBMIT REVIEW</span>
-					</button>
-				</form>
+					<button <?= $productReview->isApproved ? 'disabled' : ''; ?> class="action review primary" type="submit" data-submit>SUBMIT REVIEW</button>
+				</div>
 			</div>
-		</div>
+		<?php endforeach; ?>
+
 	</div>
-	
+
 	<div class="pending-reviews-toolbar">
 		<a href="/sales/order/history/" class="action primary">BACK TO ORDERS</a>
 	</div>
-	
+
 </div>

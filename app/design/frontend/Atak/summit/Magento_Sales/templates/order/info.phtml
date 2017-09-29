@@ -60,13 +60,15 @@
 			    </div>
 		    <?php endif; ?>
 	    </div>
+		<?php if ($_order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE) : ?>
 	    <div class="col col-review">
 		    <div class="order-review">
 			    <div class="title">FULFILMENT STATUS: FULFILLED</div>
 			    <p>Review this order and earn reward points</p>
 			    
-			    <a href="<?php echo $block->getUrl() ?>autoship/customer/index/" class="action secondary">WRITE A REVIEW</a>
+			    <a href="<?php echo $block->getUrl() ?>autoship/customer/index/order_id/<?= $_order->getId(); ?>" class="action secondary">WRITE A REVIEW</a>
 		    </div>
 	    </div>
+		<?php endif; ?>
     </div>
 </div>
