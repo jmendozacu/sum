@@ -32,27 +32,27 @@ class Index extends \Magento\Framework\App\Action\Action
 
 	public function execute()
     {
-        if ($this->_customerSession->isLoggedIn()) {
-            $order = $this->_orderRepository->get(
-                $this->_request->getParam('order_id')
-            );
-            $customer = $this->_customerSession->getCustomer();
+        $orderId = $this->_request->getParam('order_id');
 
-            if (
+        if ($this->_customerSession->isLoggedIn() && $orderId) {
+            $order = $this->_orderRepository->get($orderId);
 
-                $order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
-            ) {
+            if ($order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE) {
                 $this->_resultPageFactory->create()
-                    ->getConfig()
-                    ->getTitle()
-                    ->set(__('PENDING REVIEWS'));
+                     ->getConfig()
+                     ->getTitle()
+                     ->set(__('PENDING REVIEWS'));
                 $this->_view->loadLayout();
                 $this->_view->renderLayout();
             } else {
-                $this->_http->setRedirect($this->_url->getUrl('customer/account'), 301);
+                $this->accountRedirect();
             }
         } else {
-            $this->_http->setRedirect($this->_url->getUrl('customer/account/login'), 301);
+            $this->accountRedirect();
         }
 	}
+
+	private function accountRedirect() {
+        $this->_http->setRedirect($this->_url->getUrl('customer/account'), 301);
+    }
 }
