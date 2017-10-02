@@ -4,17 +4,20 @@ namespace Eleanorsoft\HowTo\Observer;
 
 class HowToObserver implements \Magento\Framework\Event\ObserverInterface
 {
+    protected $_logger;
     protected $_request;
     protected $_locator;
     protected $_storeManager;
     protected $_mediaDirectoryWrite;
 
     public function __construct(
+        \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Filesystem $fileSystem,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Catalog\Model\Locator\LocatorInterface $locator,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ){
+        $this->_logger = $logger;
         $this->_locator = $locator;
         $this->_request = $request;
         $this->_storeManager = $storeManager;
@@ -83,8 +86,7 @@ class HowToObserver implements \Magento\Framework\Event\ObserverInterface
             $product->setHowTo(json_encode($newHowToCollection));
             $product->save();
         } catch (\Exception $ex) {
-            var_dump($ex->getMessage());
-            die();
+            $this->_logger->warning($ex->getMessage());
         }
     }
 }
