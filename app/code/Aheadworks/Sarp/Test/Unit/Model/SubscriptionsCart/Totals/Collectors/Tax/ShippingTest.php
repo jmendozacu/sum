@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Totals\Collectors\Tax;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -29,7 +24,7 @@ use Magento\Tax\Model\Config as TaxConfig;
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Totals\Collectors\Tax\Shipping
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ShippingTest extends \PHPUnit_Framework_TestCase
+class ShippingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Shipping
@@ -89,37 +84,13 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->addressItemsRegistryMock = $this->getMock(ItemsRegistry::class, ['retrieve'], [], '', false);
-        $this->cartConverterManagerMock = $this->getMock(
-            CartConverterManager::class,
-            ['toTaxQuoteDetails'],
-            [],
-            '',
-            false
-        );
-        $this->taxQuoteDetailsItemFactoryMock = $this->getMock(
-            QuoteDetailsItemInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->taxClassKeyFactoryMock = $this->getMock(
-            TaxClassKeyInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
+        $this->addressItemsRegistryMock = $this->createMock(ItemsRegistry::class);
+        $this->cartConverterManagerMock = $this->createMock(CartConverterManager::class);
+        $this->taxQuoteDetailsItemFactoryMock = $this->createMock(QuoteDetailsItemInterfaceFactory::class);
+        $this->taxClassKeyFactoryMock = $this->createMock(TaxClassKeyInterfaceFactory::class);
         $this->taxCalculationMock = $this->getMockForAbstractClass(TaxCalculationInterface::class);
-        $this->taxConfigMock = $this->getMock(
-            TaxConfig::class,
-            ['getShippingTaxClass', 'shippingPriceIncludesTax'],
-            [],
-            '',
-            false
-        );
-        $this->configMock = $this->getMock(Config::class, ['isApplyTaxOnShippingAmount'], [], '', false);
+        $this->taxConfigMock = $this->createMock(TaxConfig::class);
+        $this->configMock = $this->createMock(Config::class);
 
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $this->addressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);

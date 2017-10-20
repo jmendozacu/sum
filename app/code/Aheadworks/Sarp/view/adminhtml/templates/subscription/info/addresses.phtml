@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 /** @var $block \Aheadworks\Sarp\Block\Adminhtml\Subscription\Info\Addresses */
 
 // @codingStandardsIgnoreFile
@@ -74,7 +69,7 @@
                 <span class="title"><?php echo $block->escapeHtml(__('Payment Method')) ?></span>
             </div>
             <div class="admin__page-section-item-content">
-                <?php echo $block->escapeHtml(__($block->getPaymentMethodName())) ?>
+                <?php echo $block->escapeHtml(__($block->getPaymentMethodTitle())) ?>
             </div>
         </div>
     </div>

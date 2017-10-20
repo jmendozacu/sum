@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -14,6 +9,7 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\DataObject\Copy;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
@@ -64,6 +60,11 @@ class Persistor
     private $objectCopyService;
 
     /**
+     * @var RemoteAddress
+     */
+    private $remoteAddress;
+
+    /**
      * @param SarpSession $sarpSession
      * @param StoreManagerInterface $storeManager
      * @param SubscriptionsCartInterfaceFactory $subscriptionsCartFactory
@@ -71,6 +72,7 @@ class Persistor
      * @param CustomerSession $customerSession
      * @param CustomerRepositoryInterface $customerRepository
      * @param Copy $objectCopyService
+     * @param RemoteAddress $remoteAddress
      */
     public function __construct(
         SarpSession $sarpSession,
@@ -79,7 +81,8 @@ class Persistor
         SubscriptionsCartRepositoryInterface $subscriptionsCartRepository,
         CustomerSession $customerSession,
         CustomerRepositoryInterface $customerRepository,
-        Copy $objectCopyService
+        Copy $objectCopyService,
+        RemoteAddress $remoteAddress
     ) {
         $this->sarpSession = $sarpSession;
         $this->storeManager = $storeManager;
@@ -88,6 +91,7 @@ class Persistor
         $this->customerSession = $customerSession;
         $this->customerRepository = $customerRepository;
         $this->objectCopyService = $objectCopyService;
+        $this->remoteAddress = $remoteAddress;
     }
 
     /**
@@ -141,6 +145,12 @@ class Persistor
 
             $this->subscriptionsCart = $subscriptionsCart;
         }
+
+        $remoteAddress = $this->remoteAddress->getRemoteAddress();
+        if ($remoteAddress) {
+            $this->subscriptionsCart->setRemoteIp($remoteAddress);
+        }
+
         return $this->subscriptionsCart;
     }
 

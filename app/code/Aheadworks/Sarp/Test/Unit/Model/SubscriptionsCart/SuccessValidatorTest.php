@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Model\Session as SarpSession;
@@ -13,7 +8,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\SuccessValidator
  */
-class SuccessValidatorTest extends \PHPUnit_Framework_TestCase
+class SuccessValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SuccessValidator
@@ -28,7 +23,7 @@ class SuccessValidatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->sarpSessionMock = $this->getMock(SarpSession::class, ['__call'], [], '', false);
+        $this->sarpSessionMock = $this->createMock(SarpSession::class);
         $this->validator = $objectManager->getObject(
             SuccessValidator::class,
             ['sarpSession' => $this->sarpSessionMock]

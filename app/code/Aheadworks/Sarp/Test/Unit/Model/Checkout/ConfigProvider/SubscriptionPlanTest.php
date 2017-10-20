@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\Checkout\ConfigProvider;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionPlanInterface;
@@ -15,7 +10,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\Checkout\ConfigProvider\SubscriptionPlan
  */
-class SubscriptionPlanTest extends \PHPUnit_Framework_TestCase
+class SubscriptionPlanTest extends \PHPUnit\Framework\TestCase
 {
     const START_DATE_TYPE_OPTION_VALUE = 'option_value';
     const START_DATE_TYPE_OPTION_LABEL = 'option_label';
@@ -38,14 +33,8 @@ class SubscriptionPlanTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->startDateTypeSourceMock = $this->getMock(
-            StartDateTypeSource::class,
-            ['getOptions'],
-            [],
-            '',
-            false
-        );
-        $this->endingMock = $this->getMock(Ending::class, ['getEnding'], [], '', false);
+        $this->startDateTypeSourceMock = $this->createMock(StartDateTypeSource::class);
+        $this->endingMock = $this->createMock(Ending::class);
         $this->configProvider = $objectManager->getObject(
             SubscriptionPlanConfigProvider::class,
             [

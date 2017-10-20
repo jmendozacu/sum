@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Totals\Collectors;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -16,7 +11,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Totals\Collectors\Grand
  */
-class GrandTest extends \PHPUnit_Framework_TestCase
+class GrandTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Grand

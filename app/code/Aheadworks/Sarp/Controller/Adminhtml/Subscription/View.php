@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Controller\Adminhtml\Subscription;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -73,7 +68,6 @@ class View extends \Magento\Backend\App\Action
                     $exception,
                     __('Something went wrong while open the profile page.')
                 );
-
             }
         }
         if ($profile->getProfileId()) {

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal\Api;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\Api\MapperInterface;
@@ -22,7 +17,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Api\Nvp
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class NvpTest extends \PHPUnit_Framework_TestCase
+class NvpTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Nvp
@@ -67,25 +62,13 @@ class NvpTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->curlFactoryMock = $this->getMock(CurlFactory::class, ['create'], [], '', false);
-        $this->paypalConfigProxyMock = $this->getMock(ConfigProxy::class, ['getValue', '__call'], [], '', false);
-        $this->responseProcessorMock = $this->getMock(
-            ResponseProcessor::class,
-            ['processRawResponse', 'postProcessResponse'],
-            [],
-            '',
-            false
-        );
-        $this->errorHandlerMock = $this->getMock(ErrorHandler::class, ['handleCallErrors'], [], '', false);
+        $this->curlFactoryMock = $this->createMock(CurlFactory::class);
+        $this->paypalConfigProxyMock = $this->createMock(ConfigProxy::class);
+        $this->responseProcessorMock = $this->createMock(ResponseProcessor::class);
+        $this->errorHandlerMock = $this->createMock(ErrorHandler::class);
         $this->mapperMock = $this->getMockForAbstractClass(MapperInterface::class);
-        $this->filterManagerMock = $this->getMock(
-            FilterManager::class,
-            ['filterToApi', 'filterFromApi'],
-            [],
-            '',
-            false
-        );
-        $this->dataObjectFactoryMock = $this->getMock(DataObjectFactory::class, ['create'], [], '', false);
+        $this->filterManagerMock = $this->createMock(FilterManager::class);
+        $this->dataObjectFactoryMock = $this->createMock(DataObjectFactory::class);
         $this->api = $objectManager->getObject(
             Nvp::class,
             [
@@ -121,13 +104,7 @@ class NvpTest extends \PHPUnit_Framework_TestCase
         $apiSignature = 'dummysignature';
         $buildNotationCode = 'Magento_Cart_Community';
 
-        $curlMock = $this->getMock(
-            Curl::class,
-            ['setConfig', 'write', 'read', 'getErrno', 'close'],
-            [],
-            '',
-            false
-        );
+        $curlMock = $this->createMock(Curl::class);
 
         $this->curlFactoryMock->expects($this->once())
             ->method('create')
@@ -218,8 +195,8 @@ class NvpTest extends \PHPUnit_Framework_TestCase
     {
         $methodName = Nvp::SET_EXPRESS_CHECKOUT;
         /** @var DataObject|\PHPUnit_Framework_MockObject_MockObject $requestMock $requestMock */
-        $requestMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $this->setUpCall($methodName, $requestMock, $responseMock);
         $this->assertEquals($responseMock, $this->api->callSetExpressCheckout($requestMock));
     }
@@ -228,8 +205,8 @@ class NvpTest extends \PHPUnit_Framework_TestCase
     {
         $methodName = Nvp::GET_EXPRESS_CHECKOUT_DETAILS;
         /** @var DataObject|\PHPUnit_Framework_MockObject_MockObject $requestMock $requestMock */
-        $requestMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $this->setUpCall($methodName, $requestMock, $responseMock);
         $this->assertEquals($responseMock, $this->api->callGetExpressCheckoutDetails($requestMock));
     }
@@ -238,8 +215,8 @@ class NvpTest extends \PHPUnit_Framework_TestCase
     {
         $methodName = Nvp::CREATE_RECURRING_PAYMENTS_PROFILE;
         /** @var DataObject|\PHPUnit_Framework_MockObject_MockObject $requestMock $requestMock */
-        $requestMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $this->setUpCall($methodName, $requestMock, $responseMock);
         $this->assertEquals($responseMock, $this->api->callCreateRecurringPaymentsProfile($requestMock));
     }
@@ -248,8 +225,8 @@ class NvpTest extends \PHPUnit_Framework_TestCase
     {
         $methodName = Nvp::UPDATE_RECURRING_PAYMENTS_PROFILE;
         /** @var DataObject|\PHPUnit_Framework_MockObject_MockObject $requestMock $requestMock */
-        $requestMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $this->setUpCall($methodName, $requestMock, $responseMock);
         $this->assertEquals($responseMock, $this->api->callUpdateRecurringPaymentsProfile($requestMock));
     }
@@ -258,8 +235,8 @@ class NvpTest extends \PHPUnit_Framework_TestCase
     {
         $methodName = Nvp::GET_RECURRING_PAYMENTS_PROFILE_DETAILS;
         /** @var DataObject|\PHPUnit_Framework_MockObject_MockObject $requestMock $requestMock */
-        $requestMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $this->setUpCall($methodName, $requestMock, $responseMock);
         $this->assertEquals($responseMock, $this->api->callGetRecurringPaymentsProfileDetails($requestMock));
     }
@@ -268,8 +245,8 @@ class NvpTest extends \PHPUnit_Framework_TestCase
     {
         $methodName = Nvp::MANAGE_RECURRING_PAYMENTS_PROFILE_STATUS;
         /** @var DataObject|\PHPUnit_Framework_MockObject_MockObject $requestMock $requestMock */
-        $requestMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $this->setUpCall($methodName, $requestMock, $responseMock);
         $this->assertEquals($responseMock, $this->api->callManageRecurringPaymentsProfileStatus($requestMock));
     }

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionPlan\Source;
 
 use Aheadworks\Sarp\Model\SubscriptionPlan\Source\DayOfMonth\Ending;
@@ -40,7 +35,7 @@ class BillingFrequency implements ArrayInterface
     {
         if (!$this->options) {
             $this->options = [];
-            for ($every = 1; $every <= 31; $every++) {
+            for ($every = 1; $every <= 365; $every++) {
                 $this->options[] = [
                     'value' => $every,
                     'label' => $every . ' ' . $this->ending->getEnding($every)

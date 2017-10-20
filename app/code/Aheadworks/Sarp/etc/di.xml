@@ -1,11 +1,4 @@
 <?xml version="1.0"?>
-<!--
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
--->
-
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Aheadworks\Sarp\Api\Data\PaymentMethodInterface" type="Aheadworks\Sarp\Model\PaymentMethod" />
     <preference for="Aheadworks\Sarp\Api\Data\ProfileInterface" type="Aheadworks\Sarp\Model\Profile" />
@@ -66,6 +59,7 @@
                 <item name="Aheadworks\Sarp\Api\Data\ProfileOrderInterface" xsi:type="array">
                     <item name="entityTableName" xsi:type="string">aw_sarp_profile_order</item>
                     <item name="identifierField" xsi:type="string">id</item>
+                    <item name="connectionName" xsi:type="string">sales</item>
                 </item>
                 <item name="Aheadworks\Sarp\Api\Data\SubscriptionPlanInterface" xsi:type="array">
                     <item name="entityTableName" xsi:type="string">aw_sarp_subscription_plan</item>
@@ -123,10 +117,12 @@
                         <item name="addressesCreator" xsi:type="string">Aheadworks\Sarp\Model\Profile\Address\SaveHandler</item>
                         <item name="itemsCreator" xsi:type="string">Aheadworks\Sarp\Model\Profile\Item\SaveHandler</item>
                         <item name="profileOrderCreator" xsi:type="string">Aheadworks\Sarp\Model\Profile\Order\SaveHandler</item>
+                        <item name="coreSubscriptionAssigner" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Core\Profile\CreateHandler</item>
                     </item>
                     <item name="update" xsi:type="array">
                         <item name="addressesUpdater" xsi:type="string">Aheadworks\Sarp\Model\Profile\Address\SaveHandler</item>
                         <item name="profileOrderUpdater" xsi:type="string">Aheadworks\Sarp\Model\Profile\Order\SaveHandler</item>
+                        <item name="coreSubscriptionUpdater" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Core\Profile\UpdateHandler</item>
                     </item>
                 </item>
             </argument>
@@ -173,6 +169,7 @@
                     <item name="code" xsi:type="string">paypal</item>
                     <item name="label" xsi:type="string">PayPal Express</item>
                     <item name="payment_method" xsi:type="string">paypal_express</item>
+                    <item name="is_gateway" xsi:type="boolean">true</item>
                     <item name="class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Engine</item>
                     <item name="plan_validator_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\PlanValidator</item>
                     <item name="checkout_config_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\ExpressCheckout\Config</item>
@@ -190,6 +187,7 @@
                     <item name="code" xsi:type="string">authorizenet</item>
                     <item name="label" xsi:type="string">Authorize.net</item>
                     <item name="payment_method" xsi:type="string">authorizenet_directpost</item>
+                    <item name="is_gateway" xsi:type="boolean">true</item>
                     <item name="class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet\Engine</item>
                     <item name="plan_validator_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet\PlanValidator</item>
                     <item name="checkout_config_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet\CheckoutConfig</item>
@@ -207,6 +205,7 @@
                     <item name="code" xsi:type="string">stripe</item>
                     <item name="label" xsi:type="string">Stripe</item>
                     <item name="payment_method" xsi:type="string">aw_sarp_stripe</item>
+                    <item name="is_gateway" xsi:type="boolean">true</item>
                     <item name="class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Stripe\Engine</item>
                     <item name="plan_validator_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Stripe\PlanValidator</item>
                     <item name="checkout_config_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Stripe\CheckoutConfig</item>
@@ -218,6 +217,34 @@
                         <item name="billing_period" xsi:type="array">
                             <item name="billing_frequency" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Stripe\Source\BillingPeriod\Map\BillingFrequency</item>
                         </item>
+                    </item>
+                </item>
+                <item name="adyen" xsi:type="array">
+                    <item name="code" xsi:type="string">adyen</item>
+                    <item name="label" xsi:type="string">Adyen</item>
+                    <item name="payment_method" xsi:type="string">adyen_cc</item>
+                    <item name="is_gateway" xsi:type="boolean">false</item>
+                    <item name="class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Engine</item>
+                    <item name="plan_validator_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\PlanValidator</item>
+                    <item name="checkout_config_class_name" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\CheckoutConfig</item>
+                    <item name="data_sources" xsi:type="array">
+                        <item name="billing_period" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionPlan\Source\BillingPeriod</item>
+                        <item name="start_date_type" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Source\StartDateType</item>
+                    </item>
+                    <item name="data_source_maps" xsi:type="array">
+                        <item name="billing_period" xsi:type="array">
+                            <item name="billing_frequency" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Source\BillingPeriod\Map\BillingFrequency</item>
+                        </item>
+                    </item>
+                    <item name="payment_methods" xsi:type="array">
+                        <item name="adyen_cc" xsi:type="array">
+                            <item name="model" xsi:type="string">AdyenPaymentCcFacade</item>
+                            <item name="payment_action" xsi:type="string">Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\CC\PaymentAction</item>
+                        </item>
+                    </item>
+                    <item name="required_modules" xsi:type="array">
+                        <!-- todo: module version -->
+                        <item name="0" xsi:type="string">Adyen_Payment</item>
                     </item>
                 </item>
             </argument>
@@ -264,6 +291,12 @@
                         <item name="3" xsi:type="string">month</item>
                         <item name="4" xsi:type="string">year</item>
                     </item>
+                    <item name="start_date_types" xsi:type="array">
+                        <item name="0" xsi:type="string">defined_by_customer</item>
+                        <item name="1" xsi:type="string">moment_of_purchase</item>
+                        <item name="2" xsi:type="string">exact_day_of_month</item>
+                        <item name="3" xsi:type="string">last_day_of_current_month</item>
+                    </item>
                     <item name="can_be_finite" xsi:type="boolean">true</item>
                     <item name="is_initial_fee_supported" xsi:type="boolean">true</item>
                     <item name="is_trial_period_supported" xsi:type="boolean">true</item>
@@ -296,6 +329,12 @@
                     <item name="units_of_time" xsi:type="array">
                         <item name="0" xsi:type="string">day</item>
                         <item name="1" xsi:type="string">month</item>
+                    </item>
+                    <item name="start_date_types" xsi:type="array">
+                        <item name="0" xsi:type="string">defined_by_customer</item>
+                        <item name="1" xsi:type="string">moment_of_purchase</item>
+                        <item name="2" xsi:type="string">exact_day_of_month</item>
+                        <item name="3" xsi:type="string">last_day_of_current_month</item>
                     </item>
                     <item name="can_be_finite" xsi:type="boolean">true</item>
                     <item name="is_initial_fee_supported" xsi:type="boolean">false</item>
@@ -335,11 +374,66 @@
                         <item name="2" xsi:type="string">month</item>
                         <item name="3" xsi:type="string">year</item>
                     </item>
+                    <item name="start_date_types" xsi:type="array">
+                        <item name="0" xsi:type="string">moment_of_purchase</item>
+                    </item>
                     <item name="can_be_finite" xsi:type="boolean">false</item>
                     <item name="is_initial_fee_supported" xsi:type="boolean">false</item>
                     <item name="is_trial_period_supported" xsi:type="boolean">false</item>
                 </item>
+                <item name="adyen" xsi:type="array">
+                    <item name="start_date_types" xsi:type="array">
+                        <item name="0" xsi:type="string">moment_of_purchase</item>
+                    </item>
+                </item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Sarp\Model\SubscriptionEngine\Core\Restrictions\Provider">
+        <arguments>
+            <argument name="restrictions" xsi:type="array">
+                <item name="subscription_statuses" xsi:type="array">
+                    <item name="0" xsi:type="string">active</item>
+                    <item name="1" xsi:type="string">pending</item>
+                    <item name="2" xsi:type="string">cancelled</item>
+                    <item name="3" xsi:type="string">suspended</item>
+                    <item name="4" xsi:type="string">expired</item>
+                </item>
+                <item name="subscription_actions" xsi:type="array">
+                    <item name="1" xsi:type="string">suspend</item>
+                    <item name="2" xsi:type="string">cancel</item>
+                    <item name="3" xsi:type="string">activate</item>
+                </item>
+                <item name="subscription_actions_map" xsi:type="array">
+                    <item name="active" xsi:type="array">
+                        <item name="1" xsi:type="string">suspend</item>
+                        <item name="2" xsi:type="string">cancel</item>
+                    </item>
+                    <item name="suspended" xsi:type="array">
+                        <item name="1" xsi:type="string">activate</item>
+                        <item name="2" xsi:type="string">cancel</item>
+                    </item>
+                    <item name="pending" xsi:type="array" />
+                    <item name="expired" xsi:type="array" />
+                    <item name="cancelled" xsi:type="array" />
+                </item>
+                <item name="units_of_time" xsi:type="array">
+                    <item name="0" xsi:type="string">day</item>
+                    <item name="1" xsi:type="string">week</item>
+                    <item name="2" xsi:type="string">semi_month</item>
+                    <item name="3" xsi:type="string">month</item>
+                    <item name="4" xsi:type="string">year</item>
+                </item>
+                <item name="can_be_finite" xsi:type="boolean">true</item>
+                <item name="is_initial_fee_supported" xsi:type="boolean">true</item>
+                <item name="is_trial_period_supported" xsi:type="boolean">true</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\CheckoutConfig">
+        <arguments>
+            <argument name="dataStorage" xsi:type="object">adyenPaymentConfigDataStorage</argument>
         </arguments>
     </type>
 
@@ -421,6 +515,7 @@
             <argument name="collections" xsi:type="array">
                 <item name="aw_sarp_subscriptionplan_listing_data_source" xsi:type="string">Aheadworks\Sarp\Model\ResourceModel\SubscriptionPlan\Grid\Collection</item>
                 <item name="aw_sarp_subscriptions_listing_data_source" xsi:type="string">Aheadworks\Sarp\Model\ResourceModel\Profile\Grid\Collection</item>
+                <item name="aw_sarp_log_listing_data_source" xsi:type="string">Aheadworks\Sarp\Model\ResourceModel\Logger\LogEntry\Grid\Collection</item>
             </argument>
         </arguments>
     </type>
@@ -440,6 +535,14 @@
             <argument name="resourceModel" xsi:type="string">Aheadworks\Sarp\Model\ResourceModel\Profile</argument>
         </arguments>
     </type>
+    <type name="Aheadworks\Sarp\Model\ResourceModel\Logger\LogEntry\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_sarp_log</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_sarp_log_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">log_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\Sarp\Model\ResourceModel\Logger\LogEntry</argument>
+        </arguments>
+    </type>
     <virtualType name="AwSarpGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
         <arguments>
             <argument name="appliers" xsi:type="array">
@@ -457,6 +560,12 @@
     <virtualType name="AwSarpSubscriptionsDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
         <arguments>
             <argument name="collection" xsi:type="object" shared="false">Aheadworks\Sarp\Model\ResourceModel\Profile\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AwSarpGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AwSarpLogGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Aheadworks\Sarp\Model\ResourceModel\Logger\LogEntry\Collection</argument>
             <argument name="filterPool" xsi:type="object" shared="false">AwSarpGirdFilterPool</argument>
         </arguments>
     </virtualType>
@@ -517,4 +626,50 @@
     <type name="Aheadworks\Sarp\Api\SubscriptionsCartRepositoryInterface">
         <plugin name="aw-sarp-subscriptions-cart-plugin" type="Aheadworks\Sarp\Model\SubscriptionsCart\SubscriptionsCartPlugin"/>
     </type>
+    <type name="Adyen\Payment\Gateway\Request\CustomerDataBuilder">
+        <plugin name="aw-sarp-adyen-customer-data-builder-plugin" type="Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Plugin\CustomerDataBuilderPlugin"/>
+    </type>
+    <type name="Adyen\Payment\Gateway\Request\CcAuthorizationDataBuilder">
+        <plugin name="aw-sarp-adyen-cc-authorization-data-builder-plugin" type="Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Plugin\CcAuthorizationDataBuilderPlugin"/>
+    </type>
+    <type name="Adyen\Payment\Gateway\Request\RecurringDataBuilder">
+        <plugin name="aw-sarp-adyen-recurring-data-builder-plugin" type="Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Plugin\RecurringDataBuilderPlugin"/>
+    </type>
+    <type name="Adyen\Payment\Gateway\Request\BrowserInfoDataBuilder">
+        <plugin name="aw-sarp-adyen-browser-info-data-builder-plugin" type="Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Plugin\BrowserInfoDataBuilderPlugin"/>
+    </type>
+    <type name="Adyen\Payment\Gateway\Validator\GeneralResponseValidator">
+        <plugin name="aw-sarp-adyen-general-response-validator-plugin" type="Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Plugin\GeneralResponseValidatorPlugin"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Invoice">
+        <plugin name="aw-sarp-adyen-order-invoice-plugin" type="Aheadworks\Sarp\Model\SubscriptionEngine\Adyen\Plugin\Order\InvoicePlugin"/>
+    </type>
+
+    <type name="Aheadworks\Sarp\Model\SubscriptionEngine\Core\Subscription\SecureDataFilter">
+        <arguments>
+            <argument name="privateData" xsi:type="array">
+                <item name="adyen_cc" xsi:type="array">
+                    <item name="0" xsi:type="string">encrypted_data</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Aheadworks\Sarp\Model\Logger\LoggerInterface" type="Aheadworks\Sarp\Model\Logger\Logger" />
+
+    <type name="Aheadworks\Sarp\Block\Checkout\LayoutProcessorProvider">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="addressFormAttributes" xsi:type="string">Aheadworks\Sarp\Block\Checkout\LayoutProcessor</item>
+                <item name="directory" xsi:type="string">Magento\Checkout\Block\Checkout\DirectoryDataProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Sarp\Model\ResourceModel\Profile\Order">
+        <arguments>
+            <argument name="connectionName" xsi:type="string">sales</argument>
+        </arguments>
+    </type>
+
 </config>

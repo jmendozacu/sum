@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Totals;
 
 use Aheadworks\Sarp\Model\SubscriptionsCart\Totals\CollectorInterface;
@@ -14,7 +9,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Totals\CollectorsList
  */
-class CollectorsListTest extends \PHPUnit_Framework_TestCase
+class CollectorsListTest extends \PHPUnit\Framework\TestCase
 {
     const COLLECTOR_CODE = 'collector_code';
     const COLLECTOR_SORT_ORDER = 0;

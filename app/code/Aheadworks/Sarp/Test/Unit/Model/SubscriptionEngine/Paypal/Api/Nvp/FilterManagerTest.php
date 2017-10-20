@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal\Api\Nvp;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Api\Nvp\FilterManager;
@@ -13,7 +8,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Api\Nvp\FilterManager
  */
-class FilterManagerTest extends \PHPUnit_Framework_TestCase
+class FilterManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FilterManager
@@ -124,7 +119,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
     {
         $filterClassName = 'FilterNonexistent';
 
-        $filterMock = $this->getMock($filterClassName, [], [], '', false);
+        $filterMock = $this->getMockBuilder($filterClassName)->getMock();
 
         $class = new \ReflectionClass($this->filterManager);
         $method = $class->getMethod('getFilter');

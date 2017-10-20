@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal\Api\Nvp\Filter;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Api\Nvp\Filter\FormatPrice as PriceFilter;
@@ -12,7 +7,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Api\Nvp\Filter\FormatPrice
  */
-class FormatPriceTest extends \PHPUnit_Framework_TestCase
+class FormatPriceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var PriceFilter

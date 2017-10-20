@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet\Api\Mapper;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartAddressInterface;
@@ -97,7 +92,6 @@ class Addresses implements MapperInterface
                         $value = $this->arrayManager->get($fromPath, $data);
                         $result = $this->arrayManager->set($toPath, $result, $value);
                     }
-
                 }
             }
         }

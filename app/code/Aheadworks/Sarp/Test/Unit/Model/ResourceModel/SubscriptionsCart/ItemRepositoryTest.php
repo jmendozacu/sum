@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\ResourceModel\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\SubscriptionsCartRepositoryInterface;
@@ -22,7 +17,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\ResourceModel\SubscriptionsCart\ItemRepository
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ItemRepositoryTest extends \PHPUnit_Framework_TestCase
+class ItemRepositoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ItemRepository
@@ -72,24 +67,12 @@ class ItemRepositoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->entityManagerMock = $this->getMock(EntityManager::class, ['save', 'load'], [], '', false);
-        $this->itemFactoryMock = $this->getMock(
-            SubscriptionsCartItemInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->searchResultsFactoryMock = $this->getMock(SearchResultsFactory::class, ['create'], [], '', false);
-        $this->dataObjectHelperMock = $this->getMock(
-            DataObjectHelper::class,
-            ['mergeDataObjects'],
-            [],
-            '',
-            false
-        );
+        $this->entityManagerMock = $this->createMock(EntityManager::class);
+        $this->itemFactoryMock = $this->createMock(SubscriptionsCartItemInterfaceFactory::class);
+        $this->searchResultsFactoryMock = $this->createMock(SearchResultsFactory::class);
+        $this->dataObjectHelperMock = $this->createMock(DataObjectHelper::class);
         $this->cartRepositoryMock = $this->getMockForAbstractClass(SubscriptionsCartRepositoryInterface::class);
-        $this->itemComparatorMock = $this->getMock(ItemsComparator::class, ['isEquals'], [], '', false);
+        $this->itemComparatorMock = $this->createMock(ItemsComparator::class);
         $this->itemMock = $this->getMockForAbstractClass(SubscriptionsCartItemInterface::class);
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
 

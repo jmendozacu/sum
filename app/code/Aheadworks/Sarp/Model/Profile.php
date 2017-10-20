@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -19,6 +14,11 @@ use Magento\Framework\Model\AbstractModel;
  */
 class Profile extends AbstractModel implements ProfileInterface
 {
+    /**
+     * Entity type
+     */
+    const ENTITY = 'aw_sarp_profile';
+
     /**
      * {@inheritdoc}
      */
@@ -153,6 +153,38 @@ class Profile extends AbstractModel implements ProfileInterface
     public function setEngineCode($engineCode)
     {
         return $this->setData(self::ENGINE_CODE, $engineCode);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPaymentMethodCode()
+    {
+        return $this->getData(self::PAYMENT_METHOD_CODE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPaymentMethodCode($methodCode)
+    {
+        return $this->setData(self::PAYMENT_METHOD_CODE, $methodCode);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPaymentMethodTitle()
+    {
+        return $this->getData(self::PAYMENT_METHOD_TITLE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPaymentMethodTitle($methodTitle)
+    {
+        return $this->setData(self::PAYMENT_METHOD_TITLE, $methodTitle);
     }
 
     /**
@@ -905,6 +937,22 @@ class Profile extends AbstractModel implements ProfileInterface
     public function setBaseInitialFee($baseInitialFee)
     {
         return $this->setData(self::BASE_INITIAL_FEE, $baseInitialFee);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRemoteIp()
+    {
+        return $this->getData(self::REMOTE_IP);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRemoteIp($remoteIp)
+    {
+        return $this->setData(self::REMOTE_IP, $remoteIp);
     }
 
     /**

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -26,7 +21,7 @@ use Magento\Shipping\Model\Rate\Result as RateResult;
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\ShippingEstimation
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ShippingEstimationTest extends \PHPUnit_Framework_TestCase
+class ShippingEstimationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ShippingEstimation
@@ -66,30 +61,12 @@ class ShippingEstimationTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->ratesCollectorMock = $this->getMock(RatesCollector::class, ['collect'], [], '', false);
+        $this->ratesCollectorMock = $this->createMock(RatesCollector::class);
         $this->cartRepositoryMock = $this->getMockForAbstractClass(SubscriptionsCartRepositoryInterface::class);
         $this->customerAddressRepositoryMock = $this->getMockForAbstractClass(AddressRepositoryInterface::class);
-        $this->totalsCollectorMock = $this->getMock(
-            TotalsCollector::class,
-            ['collectAddressTotals'],
-            [],
-            '',
-            false
-        );
-        $this->addressConverterManagerMock = $this->getMock(
-            AddressConverterManager::class,
-            ['fromCustomerAddress'],
-            [],
-            '',
-            false
-        );
-        $this->shippingMethodConverterMock = $this->getMock(
-            ShippingMethodConverter::class,
-            ['fromRateResultMethod'],
-            [],
-            '',
-            false
-        );
+        $this->totalsCollectorMock = $this->createMock(TotalsCollector::class);
+        $this->addressConverterManagerMock = $this->createMock(AddressConverterManager::class);
+        $this->shippingMethodConverterMock = $this->createMock(ShippingMethodConverter::class);
         $this->shippingEstimation = $objectManager->getObject(
             ShippingEstimation::class,
             [
@@ -114,8 +91,8 @@ class ShippingEstimationTest extends \PHPUnit_Framework_TestCase
     private function setUpEstimate($cartId, $shippingAddressMock, $shippingMethodMock)
     {
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
-        $rateResultMock = $this->getMock(RateResult::class, ['getAllRates'], [], '', false);
-        $rateMethodMock = $this->getMock(RateResultMethod::class, [], [], '', false);
+        $rateResultMock = $this->createMock(RateResult::class);
+        $rateMethodMock = $this->createMock(RateResultMethod::class);
 
         $this->cartRepositoryMock->expects($this->once())
             ->method('getActive')

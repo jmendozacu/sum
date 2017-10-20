@@ -1,15 +1,11 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Profile;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
 use Aheadworks\Sarp\Api\Data\ProfileInterfaceFactory;
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
 use Aheadworks\Sarp\Api\SubscriptionPlanRepositoryInterface;
+use Aheadworks\Sarp\Model\PaymentMethodList;
 use Aheadworks\Sarp\Model\Profile\Address\Converter as AddressConverter;
 use Aheadworks\Sarp\Model\Profile\Item\Converter as ItemConverter;
 use Aheadworks\Sarp\Model\SubscriptionsCart\Address;
@@ -54,6 +50,11 @@ class Converter
     private $planRepository;
 
     /**
+     * @var PaymentMethodList
+     */
+    private $paymentMethodList;
+
+    /**
      * @var Copy
      */
     private $objectCopyService;
@@ -65,6 +66,7 @@ class Converter
      * @param ItemConverter $itemConverter
      * @param StartDateResolver $startDateResolver
      * @param SubscriptionPlanRepositoryInterface $planRepository
+     * @param PaymentMethodList $paymentMethodList
      * @param Copy $objectCopyService
      */
     public function __construct(
@@ -74,6 +76,7 @@ class Converter
         ItemConverter $itemConverter,
         StartDateResolver $startDateResolver,
         SubscriptionPlanRepositoryInterface $planRepository,
+        PaymentMethodList $paymentMethodList,
         Copy $objectCopyService
     ) {
         $this->profileFactory = $profileFactory;
@@ -82,6 +85,7 @@ class Converter
         $this->itemConverter = $itemConverter;
         $this->startDateResolver = $startDateResolver;
         $this->planRepository = $planRepository;
+        $this->paymentMethodList = $paymentMethodList;
         $this->objectCopyService = $objectCopyService;
     }
 
@@ -127,6 +131,8 @@ class Converter
                 )
             );
         }
+        $paymentMethod = $this->paymentMethodList->getMethod($plan->getEngineCode(), $cart->getPaymentMethodCode());
+        $profile->setPaymentMethodTitle($paymentMethod->getTitle());
 
         return $profile;
     }

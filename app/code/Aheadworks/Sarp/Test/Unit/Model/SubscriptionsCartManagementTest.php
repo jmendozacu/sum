@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model;
 
 use Aheadworks\Sarp\Api\SubscriptionsCartRepositoryInterface;
@@ -21,7 +16,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCartManagement
  */
-class SubscriptionsCartManagementTest extends \PHPUnit_Framework_TestCase
+class SubscriptionsCartManagementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SubscriptionsCartManagement
@@ -62,22 +57,10 @@ class SubscriptionsCartManagementTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->cartRepositoryMock = $this->getMockForAbstractClass(SubscriptionsCartRepositoryInterface::class);
-        $this->addressFactoryMock = $this->getMock(
-            SubscriptionsCartAddressInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->itemsComparatorMock = $this->getMock(ItemsComparator::class, ['isEquals'], [], '', false);
-        $this->itemsProcessorMock = $this->getMock(
-            ItemsProcessor::class,
-            ['processBeforeAdd'],
-            [],
-            '',
-            false
-        );
-        $this->itemsValidatorMock = $this->getMock(ItemsAddToCartValidator::class, ['isValid'], [], '', false);
+        $this->addressFactoryMock = $this->createMock(SubscriptionsCartAddressInterfaceFactory::class);
+        $this->itemsComparatorMock = $this->createMock(ItemsComparator::class);
+        $this->itemsProcessorMock = $this->createMock(ItemsProcessor::class);
+        $this->itemsValidatorMock = $this->createMock(ItemsAddToCartValidator::class);
 
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
 

@@ -1,13 +1,9 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Block\Customer\Subscription;
 
 use Aheadworks\Sarp\Api\ProfileRepositoryInterface;
 use Aheadworks\Sarp\Model\Profile\Source\Action;
+use Aheadworks\Sarp\Model\SubscriptionEngine\EngineMetadataPool;
 use Aheadworks\Sarp\Model\SubscriptionEngine\ProfileActionValidator;
 use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Template\Context;
@@ -34,10 +30,16 @@ class Actions extends \Magento\Framework\View\Element\Template
     private $customerSession;
 
     /**
+     * @var EngineMetadataPool
+     */
+    private $engineMetadataPool;
+
+    /**
      * @param Context $context
      * @param ProfileRepositoryInterface $profileRepository
      * @param ProfileActionValidator $profileActionValidator
      * @param Session $customerSession
+     * @param EngineMetadataPool $engineMetadataPool
      * @param array $data
      */
     public function __construct(
@@ -45,12 +47,14 @@ class Actions extends \Magento\Framework\View\Element\Template
         ProfileRepositoryInterface $profileRepository,
         ProfileActionValidator $profileActionValidator,
         Session $customerSession,
+        EngineMetadataPool $engineMetadataPool,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->profileRepository = $profileRepository;
         $this->profileActionValidator = $profileActionValidator;
         $this->customerSession = $customerSession;
+        $this->engineMetadataPool = $engineMetadataPool;
     }
 
     /**
@@ -61,6 +65,18 @@ class Actions extends \Magento\Framework\View\Element\Template
     private function getProfileId()
     {
         return $this->getRequest()->getParam('profile_id');
+    }
+
+    /**
+     * Check if refresh action is enabled
+     *
+     * @return bool
+     */
+    public function isRefreshActionEnabled()
+    {
+        $profile = $this->profileRepository->get($this->getProfileId());
+        $metadata = $this->engineMetadataPool->getMetadata($profile->getEngineCode());
+        return $metadata->isGateway();
     }
 
     /**

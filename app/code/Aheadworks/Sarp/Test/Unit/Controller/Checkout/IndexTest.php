@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Controller\Checkout;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -24,7 +19,7 @@ use Magento\Framework\View\Result\PageFactory;
  * Test for \Aheadworks\Sarp\Controller\Checkout\Index
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class IndexTest extends \PHPUnit_Framework_TestCase
+class IndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Index
@@ -59,16 +54,10 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultPageFactoryMock = $this->getMock(PageFactory::class, ['create'], [], '', false);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
-        $this->cartPersistorMock = $this->getMock(Persistor::class, ['getSubscriptionCart'], [], '', false);
-        $this->checkoutValidatorMock = $this->getMock(
-            CheckoutValidator::class,
-            ['isValid', 'getMessages'],
-            [],
-            '',
-            false
-        );
+        $this->resultPageFactoryMock = $this->createMock(PageFactory::class);
+        $this->resultRedirectFactoryMock = $this->createMock(RedirectFactory::class);
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
+        $this->checkoutValidatorMock = $this->createMock(CheckoutValidator::class);
         $this->messageManagerMock = $this->getMockForAbstractClass(MessageManager::class);
         $context = $objectManager->getObject(
             Context::class,
@@ -91,9 +80,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
-        $resultPageMock = $this->getMock(Page::class, ['getConfig'], [], '', false);
-        $pageConfigMock = $this->getMock(PageConfig::class, ['getTitle'], [], '', false);
-        $titleMock = $this->getMock(Title::class, ['set'], [], '', false);
+        $resultPageMock = $this->createMock(Page::class);
+        $pageConfigMock = $this->createMock(PageConfig::class);
+        $titleMock = $this->createMock(Title::class);
 
         $this->cartPersistorMock->expects($this->once())
             ->method('getSubscriptionCart')
@@ -123,7 +112,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $message = 'Subscription cart is empty.';
 
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
 
         $this->cartPersistorMock->expects($this->once())
             ->method('getSubscriptionCart')

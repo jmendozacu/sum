@@ -1,15 +1,10 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionsCart\Address;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartAddressInterface;
-use Magento\Directory\Api\CountryInformationAcquirerInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Validator\AbstractValidator;
+use Magento\Directory\Model\CountryFactory;
 
 /**
  * Class Validator
@@ -18,16 +13,16 @@ use Magento\Framework\Validator\AbstractValidator;
 class Validator extends AbstractValidator
 {
     /**
-     * @var CountryInformationAcquirerInterface
+     * @var CountryFactory
      */
-    private $countryInformation;
+    private $countryFactory;
 
     /**
-     * @param CountryInformationAcquirerInterface $countryInformation
+     * @param CountryFactory $countryFactory
      */
-    public function __construct(CountryInformationAcquirerInterface $countryInformation)
+    public function __construct(CountryFactory $countryFactory)
     {
-        $this->countryInformation = $countryInformation;
+        $this->countryFactory = $countryFactory;
     }
 
     /**
@@ -47,10 +42,14 @@ class Validator extends AbstractValidator
 
         $countryId = $address->getCountryId();
         if ($countryId) {
+            $countryCodeErrMessage = 'Invalid country code.';
             try {
-                $this->countryInformation->getCountryInfo($countryId);
-            } catch (NoSuchEntityException $e) {
-                $this->_addMessages(['Invalid country code.']);
+                $country = $this->countryFactory->create()->loadByCode($countryId);
+                if (!$country->getCountryId()) {
+                    $this->_addMessages([$countryCodeErrMessage]);
+                }
+            } catch (LocalizedException $e) {
+                $this->_addMessages([$countryCodeErrMessage]);
             }
         }
 

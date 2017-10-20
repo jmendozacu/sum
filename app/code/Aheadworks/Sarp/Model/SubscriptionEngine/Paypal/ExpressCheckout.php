@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine\Paypal;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartAddressInterface;
@@ -163,7 +158,7 @@ class ExpressCheckout
         /** @var DataObject $request */
         $request = $this->dataObjectFactory->create();
         $request->setToken($token);
-        $this->importAddresses($cart, $this->api->callGetExpressCheckoutDetails($request));
+        $this->importBillingAddress($cart, $this->api->callGetExpressCheckoutDetails($request));
         $this->cartRepository->save($cart, false);
     }
 
@@ -189,27 +184,20 @@ class ExpressCheckout
     }
 
     /**
-     * Import addresses to cart from response
+     * Import billing address from response
      *
      * @param SubscriptionsCartInterface $cart
      * @param DataObject $response
      * @return SubscriptionsCartInterface
      */
-    private function importAddresses($cart, $response)
+    private function importBillingAddress($cart, $response)
     {
         foreach ($cart->getAddresses() as $address) {
-            $addressType = $address->getAddressType();
-            $addressData = $addressType == Address::TYPE_SHIPPING
-                ? $response->getShippingAddress()
-                : $response->getBillingAddress();
-
-            if (!$cart->getIsVirtual() && $addressType == Address::TYPE_SHIPPING
-                || $addressType == Address::TYPE_BILLING
-            ) {
+            if ($address->getAddressType() == Address::TYPE_BILLING) {
                 $address->setCustomerAddressId(null);
                 $this->dataObjectHelper->populateWithArray(
                     $address,
-                    $addressData,
+                    $response->getBillingAddress(),
                     SubscriptionsCartAddressInterface::class
                 );
             }

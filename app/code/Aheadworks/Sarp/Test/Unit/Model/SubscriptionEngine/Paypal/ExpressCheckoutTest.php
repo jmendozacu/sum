@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartAddressInterface;
@@ -27,7 +22,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\ExpressCheckout
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ExpressCheckoutTest extends \PHPUnit_Framework_TestCase
+class ExpressCheckoutTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ExpressCheckout
@@ -87,43 +82,16 @@ class ExpressCheckoutTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->apiMock = $this->getMock(
-            ApiNvp::class,
-            [
-                'callSetExpressCheckout',
-                'callGetExpressCheckoutDetails'
-            ],
-            [],
-            '',
-            false
-        );
-        $this->cartPersistorMock = $this->getMock(CartPersistor::class, ['getSubscriptionCart'], [], '', false);
+        $this->apiMock = $this->createMock(ApiNvp::class);
+        $this->cartPersistorMock = $this->createMock(CartPersistor::class);
         $this->cartRepositoryMock = $this->getMockForAbstractClass(SubscriptionsCartRepositoryInterface::class);
-        $this->cartValidatorMock = $this->getMock(CartValidator::class, ['isValid', 'getMessages'], [], '', false);
-        $this->configProxyMock = $this->getMock(
-            ConfigProxy::class,
-            ['getMerchantCountry', 'getValue'],
-            [],
-            '',
-            false
-        );
-        $this->engineDataResolverMock = $this->getMock(
-            DataResolver::class,
-            ['getProfileDescriptionUsingCart'],
-            [],
-            '',
-            false
-        );
-        $this->urlMock = $this->getMock(Url::class, ['getReturnUrl', 'getCancelUrl'], [], '', false);
-        $this->dataObjectFactoryMock = $this->getMock(DataObjectFactory::class, ['create'], [], '', false);
-        $this->dataObjectHelperMock = $this->getMock(DataObjectHelper::class, ['populateWithArray'], [], '', false);
-        $this->dataObjectProcessorMock = $this->getMock(
-            DataObjectProcessor::class,
-            ['buildOutputDataArray'],
-            [],
-            '',
-            false
-        );
+        $this->cartValidatorMock = $this->createMock(CartValidator::class);
+        $this->configProxyMock = $this->createPartialMock(ConfigProxy::class, ['getMerchantCountry', 'getValue']);
+        $this->engineDataResolverMock = $this->createMock(DataResolver::class);
+        $this->urlMock = $this->createMock(Url::class);
+        $this->dataObjectFactoryMock = $this->createMock(DataObjectFactory::class);
+        $this->dataObjectHelperMock = $this->createMock(DataObjectHelper::class);
+        $this->dataObjectProcessorMock = $this->createMock(DataObjectProcessor::class);
         $this->expressCheckout = $objectManager->getObject(
             ExpressCheckout::class,
             [
@@ -154,8 +122,8 @@ class ExpressCheckoutTest extends \PHPUnit_Framework_TestCase
         $billingAddressData = ['address_type' => 'billing'];
 
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
-        $requestMock = $this->getMock(DataObject::class, ['__call'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, ['__call'], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $shippingAddressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
         $billingAddressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
 
@@ -260,12 +228,11 @@ class ExpressCheckoutTest extends \PHPUnit_Framework_TestCase
     public function testUpdateCart()
     {
         $token = 'token_value';
-        $shippingAddressData = ['address_type' => 'shipping'];
         $billingAddressData = ['address_type' => 'billing'];
 
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
-        $requestMock = $this->getMock(DataObject::class, ['__call'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, ['__call'], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
         $shippingAddressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
         $billingAddressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
 
@@ -291,26 +258,19 @@ class ExpressCheckoutTest extends \PHPUnit_Framework_TestCase
         $billingAddressMock->expects($this->once())
             ->method('getAddressType')
             ->willReturn(Address::TYPE_BILLING);
-        $responseMock->expects($this->exactly(2))
+        $responseMock->expects($this->once())
             ->method('__call')
-            ->withConsecutive(['getShippingAddress'], ['getBillingAddress'])
-            ->willReturnOnConsecutiveCalls($shippingAddressData, $billingAddressData);
-        $cartMock->expects($this->exactly(2))
-            ->method('getIsVirtual')
-            ->willReturn(false);
-        $this->dataObjectHelperMock->expects($this->exactly(2))
+            ->with('getBillingAddress')
+            ->willReturn($billingAddressData);
+        $billingAddressMock->expects($this->once())
+            ->method('setCustomerAddressId')
+            ->with(null);
+        $this->dataObjectHelperMock->expects($this->once())
             ->method('populateWithArray')
-            ->withConsecutive(
-                [
-                    $shippingAddressMock,
-                    $shippingAddressData,
-                    SubscriptionsCartAddressInterface::class
-                ],
-                [
-                    $billingAddressMock,
-                    $billingAddressData,
-                    SubscriptionsCartAddressInterface::class
-                ]
+            ->with(
+                $billingAddressMock,
+                $billingAddressData,
+                SubscriptionsCartAddressInterface::class
             );
         $this->cartRepositoryMock->expects($this->once())
             ->method('save')

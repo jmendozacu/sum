@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -246,15 +241,17 @@ interface SubscriptionsCartTotalsInterface extends ExtensibleDataInterface
     /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return SubscriptionsCartTotalsExtensionInterface|null
+     * @return \Aheadworks\Sarp\Api\Data\SubscriptionsCartTotalsExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param SubscriptionsCartTotalsExtensionInterface $extensionAttributes
+     * @param \Aheadworks\Sarp\Api\Data\SubscriptionsCartTotalsExtensionInterface $extensionAttributes
      * @return $this
      */
-    public function setExtensionAttributes(SubscriptionsCartTotalsExtensionInterface $extensionAttributes);
+    public function setExtensionAttributes(
+        \Aheadworks\Sarp\Api\Data\SubscriptionsCartTotalsExtensionInterface $extensionAttributes
+    );
 }

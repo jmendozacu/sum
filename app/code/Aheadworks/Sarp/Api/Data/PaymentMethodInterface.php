@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -55,15 +50,17 @@ interface PaymentMethodInterface extends ExtensibleDataInterface
     /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return PaymentMethodExtensionInterface|null
+     * @return \Aheadworks\Sarp\Api\Data\PaymentMethodExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param PaymentMethodExtensionInterface $extensionAttributes
+     * @param \Aheadworks\Sarp\Api\Data\PaymentMethodExtensionInterface $extensionAttributes
      * @return $this
      */
-    public function setExtensionAttributes(PaymentMethodExtensionInterface $extensionAttributes);
+    public function setExtensionAttributes(
+        \Aheadworks\Sarp\Api\Data\PaymentMethodExtensionInterface $extensionAttributes
+    );
 }

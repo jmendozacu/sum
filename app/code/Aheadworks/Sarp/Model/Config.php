@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -34,6 +29,11 @@ class Config
      * Configuration path to tooltip near subscription button on product page
      */
     const XML_PATH_TOOLTIP_NEAR_SUBSCRIPTION_BUTTON = 'aw_sarp/general/tooltip_near_subscription_button_content';
+
+    /**
+     * Configuration path to keep log for days
+     */
+    const XML_PATH_KEEP_LOG_FOR_DAYS = 'aw_sarp/general/keep_log_for_days';
 
     /**
      * @var ScopeConfigInterface
@@ -97,6 +97,18 @@ class Config
         return $this->scopeConfig->getValue(
             self::XML_PATH_TOOLTIP_NEAR_SUBSCRIPTION_BUTTON,
             ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve config value for keeping log records
+     *
+     * @return int
+     */
+    public function getKeepLogForDaysValue()
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::XML_PATH_KEEP_LOG_FOR_DAYS
         );
     }
 }

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\DataSource;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\MapProvider;
@@ -16,7 +11,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\MapProvider
  */
-class MapProviderTest extends \PHPUnit_Framework_TestCase
+class MapProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MapProvider
@@ -36,8 +31,8 @@ class MapProviderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->mapFactoryMock = $this->getMock(MapFactory::class, ['create'], [], '', false);
-        $this->engineMetadataPoolMock = $this->getMock(EngineMetadataPool::class, [], [], '', false);
+        $this->mapFactoryMock = $this->createMock(MapFactory::class);
+        $this->engineMetadataPoolMock = $this->createMock(EngineMetadataPool::class);
         $this->provider = $objectManager->getObject(
             MapProvider::class,
             [

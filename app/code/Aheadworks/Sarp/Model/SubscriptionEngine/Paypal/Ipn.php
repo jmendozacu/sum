@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine\Paypal;
 
 use Aheadworks\Sarp\Api\ProfileManagementInterface;
@@ -120,18 +115,16 @@ class Ipn implements IpnInterface
             );
             if ($transactionType == self::TXN_TYPE_RECURRING_PAYMENT) {
                 $this->processRecurringPayment($profile);
-            } elseif (
-                in_array(
-                    $transactionType,
-                    [
-                        self::TXN_TYPE_RECURRING_PAYMENT_PROFILE_CREATED,
-                        self::TXN_TYPE_RECURRING_PAYMENT_PROFILE_CANCEL,
-                        self::TXN_TYPE_RECURRING_PAYMENT_EXPIRED,
-                        self::TXN_TYPE_RECURRING_PAYMENT_SKIPPED,
-                        self::TXN_TYPE_RECURRING_PAYMENT_SUSPENDED
-                    ]
-                )
-            ) {
+            } elseif (in_array(
+                $transactionType,
+                [
+                    self::TXN_TYPE_RECURRING_PAYMENT_PROFILE_CREATED,
+                    self::TXN_TYPE_RECURRING_PAYMENT_PROFILE_CANCEL,
+                    self::TXN_TYPE_RECURRING_PAYMENT_EXPIRED,
+                    self::TXN_TYPE_RECURRING_PAYMENT_SKIPPED,
+                    self::TXN_TYPE_RECURRING_PAYMENT_SUSPENDED
+                ]
+            )) {
                 $this->updateProfileStatus($profile);
             }
         } catch (\Exception $e) {

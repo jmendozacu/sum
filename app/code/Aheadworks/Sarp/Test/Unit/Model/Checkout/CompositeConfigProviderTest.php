@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\Checkout;
 
 use Aheadworks\Sarp\Model\Checkout\CompositeConfigProvider;
@@ -13,7 +8,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\Checkout\CompositeConfigProvider
  */
-class CompositeConfigProviderTest extends \PHPUnit_Framework_TestCase
+class CompositeConfigProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CompositeConfigProvider

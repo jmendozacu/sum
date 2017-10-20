@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Observer;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -20,7 +15,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Observer\LoadCustomerCartObserver
  */
-class LoadCustomerCartObserverTest extends \PHPUnit_Framework_TestCase
+class LoadCustomerCartObserverTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var LoadCustomerCartObserver
@@ -70,31 +65,13 @@ class LoadCustomerCartObserverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->cartPersistorMock = $this->getMock(
-            Persistor::class,
-            ['getSubscriptionCart', 'getCartId', 'setCartId'],
-            [],
-            '',
-            false
-        );
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
         $this->cartRepositoryMock = $this->getMockForAbstractClass(SubscriptionsCartRepositoryInterface::class);
-        $this->cartFactoryMock = $this->getMock(
-            SubscriptionsCartInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
+        $this->cartFactoryMock = $this->createMock(SubscriptionsCartInterfaceFactory::class);
         $this->cartManagementMock = $this->getMockForAbstractClass(SubscriptionsCartManagementInterface::class);
-        $this->customerSessionMock = $this->getMock(
-            CustomerSession::class,
-            ['isLoggedIn', 'getCustomerId'],
-            [],
-            '',
-            false
-        );
+        $this->customerSessionMock = $this->createMock(CustomerSession::class);
 
-        $this->observerMock = $this->getMock(Observer::class, [], [], '', false);
+        $this->observerMock = $this->createMock(Observer::class);
         $this->customerCartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $this->currentCartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
 

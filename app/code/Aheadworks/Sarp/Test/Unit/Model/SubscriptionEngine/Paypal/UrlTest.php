@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\ConfigProxy;
@@ -15,7 +10,7 @@ use Magento\Framework\UrlInterface;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Url
  */
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Url
@@ -36,13 +31,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->urlBuilderMock = $this->getMockForAbstractClass(UrlInterface::class);
-        $this->paypalConfigProxyMock = $this->getMock(
-            ConfigProxy::class,
-            ['getPayPalBasicStartUrl'],
-            [],
-            '',
-            false
-        );
+        $this->paypalConfigProxyMock = $this->createPartialMock(ConfigProxy::class, ['getPayPalBasicStartUrl']);
         $this->url = $objectManager->getObject(
             Url::class,
             [

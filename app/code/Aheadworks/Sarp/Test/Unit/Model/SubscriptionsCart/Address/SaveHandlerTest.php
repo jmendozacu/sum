@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Address;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -15,7 +10,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Address\SaveHandler
  */
-class SaveHandlerTest extends \PHPUnit_Framework_TestCase
+class SaveHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SaveHandler
@@ -30,7 +25,7 @@ class SaveHandlerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->entityManagerMock = $this->getMock(EntityManager::class, ['save'], [], '', false);
+        $this->entityManagerMock = $this->createMock(EntityManager::class);
         $this->saveHandler = $objectManager->getObject(
             SaveHandler::class,
             ['entityManager' => $this->entityManagerMock]

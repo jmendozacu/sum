@@ -1,11 +1,4 @@
 <?xml version="1.0"?>
-<!--
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
--->
-
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:DataObject/etc/fieldset.xsd">
     <scope id="global">
@@ -72,6 +65,9 @@
             <field name="shipping_method">
                 <aspect name="from_cart" />
                 <aspect name="to_order" />
+            </field>
+            <field name="payment_method_code">
+                <aspect name="from_cart" />
             </field>
             <field name="shipping_description">
                 <aspect name="from_cart" />
@@ -144,6 +140,10 @@
             </field>
             <field name="base_initial_fee">
                 <aspect name="from_cart" />
+            </field>
+            <field name="remote_ip">
+                <aspect name="from_cart" />
+                <aspect name="to_order" />
             </field>
             <field name="name">
                 <aspect name="from_plan" targetField="subscription_plan_name"/>

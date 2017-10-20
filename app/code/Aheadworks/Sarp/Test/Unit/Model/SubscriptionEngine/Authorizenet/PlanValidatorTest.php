@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Authorizenet;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionPlanInterface;
@@ -18,7 +13,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet\PlanValidator
  */
-class PlanValidatorTest extends \PHPUnit_Framework_TestCase
+class PlanValidatorTest extends \PHPUnit\Framework\TestCase
 {
     const ENGINE_LABEL = 'Authorize.net';
 
@@ -49,19 +44,13 @@ class PlanValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->engineMetadataMock = $this->getMockForAbstractClass(EngineMetadataInterface::class);
-        $engineMetadataPoolMock = $this->getMock(EngineMetadataPool::class, ['getMetadata'], [], '', false);
+        $engineMetadataPoolMock = $this->createMock(EngineMetadataPool::class);
         $engineMetadataPoolMock->expects($this->once())
             ->method('getMetadata')
             ->with(PlanValidator::ENGINE_CODE)
             ->willReturn($this->engineMetadataMock);
         $this->engineRestrictionsMock = $this->getMockForAbstractClass(RestrictionsInterface::class);
-        $engineRestrictionsPoolMock = $this->getMock(
-            RestrictionsPool::class,
-            ['getRestrictions'],
-            [],
-            '',
-            false
-        );
+        $engineRestrictionsPoolMock = $this->createMock(RestrictionsPool::class);
         $engineRestrictionsPoolMock->expects($this->once())
             ->method('getRestrictions')
             ->with(PlanValidator::ENGINE_CODE)

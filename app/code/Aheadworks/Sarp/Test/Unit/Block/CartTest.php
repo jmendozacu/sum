@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Block\Cart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -18,7 +13,7 @@ use Magento\Framework\View\Element\Template\Context;
 /**
  * Test for \Aheadworks\Sarp\Block\Cart
  */
-class CartTest extends \PHPUnit_Framework_TestCase
+class CartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Cart
@@ -49,8 +44,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->urlBuilderMock = $this->getMockForAbstractClass(UrlInterface::class);
-        $this->configProviderMock = $this->getMock(CompositeConfigProvider::class, ['getConfig'], [], '', false);
-        $this->cartPersistorMock = $this->getMock(Persistor::class, ['getSubscriptionCart'], [], '', false);
+        $this->configProviderMock = $this->createMock(CompositeConfigProvider::class);
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
         $context = $objectManager->getObject(
             Context::class,
             ['urlBuilder' => $this->urlBuilderMock]

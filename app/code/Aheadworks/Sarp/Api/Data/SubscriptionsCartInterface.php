@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -64,6 +59,7 @@ interface SubscriptionsCartInterface extends ExtensibleDataInterface
     const BASE_TRIAL_TAX_AMOUNT = 'base_trial_tax_amount';
     const INITIAL_FEE = 'initial_fee';
     const BASE_INITIAL_FEE = 'base_initial_fee';
+    const REMOTE_IP = 'remote_ip';
     /**#@-*/
 
     /**
@@ -775,17 +771,34 @@ interface SubscriptionsCartInterface extends ExtensibleDataInterface
     public function setBaseInitialFee($baseInitialFee);
 
     /**
+     * Get remote IP address
+     *
+     * @return string
+     */
+    public function getRemoteIp();
+
+    /**
+     * Set remote IP address
+     *
+     * @param string $remoteIp
+     * @return $this
+     */
+    public function setRemoteIp($remoteIp);
+
+    /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return SubscriptionsCartExtensionInterface|null
+     * @return \Aheadworks\Sarp\Api\Data\SubscriptionsCartExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param SubscriptionsCartExtensionInterface $extensionAttributes
+     * @param \Aheadworks\Sarp\Api\Data\SubscriptionsCartExtensionInterface $extensionAttributes
      * @return $this
      */
-    public function setExtensionAttributes(SubscriptionsCartExtensionInterface $extensionAttributes);
+    public function setExtensionAttributes(
+        \Aheadworks\Sarp\Api\Data\SubscriptionsCartExtensionInterface $extensionAttributes
+    );
 }

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -15,7 +10,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\ProfileActionValidator
  */
-class ProfileActionValidatorTest extends \PHPUnit_Framework_TestCase
+class ProfileActionValidatorTest extends \PHPUnit\Framework\TestCase
 {
     const ENGINE_CODE = 'engine_code';
 
@@ -45,13 +40,7 @@ class ProfileActionValidatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->restrictionsPoolMock = $this->getMock(
-            RestrictionsPool::class,
-            ['getRestrictions'],
-            [],
-            '',
-            false
-        );
+        $this->restrictionsPoolMock = $this->createMock(RestrictionsPool::class);
         $this->validator = $objectManager->getObject(
             ProfileActionValidator::class,
             ['restrictionsPool' => $this->restrictionsPoolMock]

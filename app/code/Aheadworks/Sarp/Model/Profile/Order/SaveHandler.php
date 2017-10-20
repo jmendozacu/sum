@@ -1,16 +1,11 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Profile\Order;
 
 use Aheadworks\Sarp\Api\Data\ProfileOrderInterface;
-use Aheadworks\Sarp\Api\Data\ProfileOrderInterfaceFactory;
-use Magento\Framework\EntityManager\EntityManager;
 use Magento\Framework\EntityManager\Operation\ExtensionInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\EntityManager\MetadataPool;
 
 /**
  * Class SaveHandler
@@ -19,25 +14,25 @@ use Magento\Framework\Exception\CouldNotSaveException;
 class SaveHandler implements ExtensionInterface
 {
     /**
-     * @var EntityManager
+     * @var ResourceConnection
      */
-    private $entityManager;
+    private $resourceConnection;
 
     /**
-     * @var ProfileOrderInterfaceFactory
+     * @var MetadataPool
      */
-    private $profileOrderFactory;
+    private $metadataPool;
 
     /**
-     * @param EntityManager $entityManager
-     * @param ProfileOrderInterfaceFactory $profileOrderFactory
+     * @param ResourceConnection $resourceConnection
+     * @param MetadataPool $metadataPool
      */
     public function __construct(
-        EntityManager $entityManager,
-        ProfileOrderInterfaceFactory $profileOrderFactory
+        ResourceConnection $resourceConnection,
+        MetadataPool $metadataPool
     ) {
-        $this->entityManager = $entityManager;
-        $this->profileOrderFactory = $profileOrderFactory;
+        $this->resourceConnection = $resourceConnection;
+        $this->metadataPool = $metadataPool;
     }
 
     /**
@@ -46,17 +41,35 @@ class SaveHandler implements ExtensionInterface
     public function execute($entity, $arguments = [])
     {
         if (isset($arguments['order_id']) && $arguments['order_id']) {
-            /** @var ProfileOrderInterface $profileOrder */
-            $profileOrder = $this->profileOrderFactory->create();
-            $profileOrder
-                ->setProfileId($entity->getProfileId())
-                ->setOrderId($arguments['order_id']);
+            $connection = $this->getConnection();
+            $tableName = $this->resourceConnection->getTableName('aw_sarp_profile_order');
             try {
-                $this->entityManager->save($profileOrder);
+                $data = [
+                    'profile_id' => (int)$entity->getProfileId(),
+                    'order_id' => (int)$arguments['order_id'],
+                ];
+                $connection->insert($tableName, $data);
             } catch (\Exception $e) {
                 throw new CouldNotSaveException(__('Could not save recurring profile.'));
             }
         }
         return $entity;
+    }
+
+    /**
+     * Get connection
+     *
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    private function getConnection()
+    {
+        $connection = null;
+        try {
+            $connectionName = $this->metadataPool->getMetadata(ProfileOrderInterface::class)->getEntityConnectionName();
+            $connection = $this->resourceConnection->getConnectionByName($connectionName);
+        } catch (\Exception $e) {
+            $connection = $this->resourceConnection->getConnectionByName(ResourceConnection::DEFAULT_CONNECTION);
+        }
+        return $connection;
     }
 }

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\ResourceModel;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -11,15 +6,14 @@ use Aheadworks\Sarp\Api\Data\ProfileInterfaceFactory;
 use Aheadworks\Sarp\Api\Data\ProfileSearchResultsInterface;
 use Aheadworks\Sarp\Api\Data\ProfileSearchResultsInterfaceFactory;
 use Aheadworks\Sarp\Api\ProfileRepositoryInterface;
-use Aheadworks\Sarp\Model\ResourceModel\Profile as ProfileResource;
 use Aheadworks\Sarp\Model\ResourceModel\Profile\Collection;
 use Aheadworks\Sarp\Model\ResourceModel\Profile\CollectionFactory;
+use Aheadworks\Sarp\Model\ProfileRegistry;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\EntityManager\EntityManager;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class ProfileRepository
@@ -29,29 +23,14 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class ProfileRepository implements ProfileRepositoryInterface
 {
     /**
-     * @var ProfileInterface[]
-     */
-    private $instancesById = [];
-
-    /**
-     * @var ProfileInterface[]
-     */
-    private $instancesByReferenceId = [];
-
-    /**
      * @var EntityManager
      */
     private $entityManager;
 
     /**
-     * @var ProfileInterfaceFactory
+     * @var ProfileRegistry
      */
-    private $profileFactory;
-
-    /**
-     * @var ProfileResource
-     */
-    private $profileResource;
+    private $profileRegistry;
 
     /**
      * @var ProfileSearchResultsInterfaceFactory
@@ -75,8 +54,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
     /**
      * @param EntityManager $entityManager
-     * @param ProfileInterfaceFactory $profileFactory
-     * @param Profile $profileResource
+     * @param ProfileRegistry $profileRegistry
      * @param ProfileSearchResultsInterfaceFactory $searchResultsFactory
      * @param CollectionFactory $collectionFactory
      * @param DataObjectHelper $dataObjectHelper
@@ -84,16 +62,14 @@ class ProfileRepository implements ProfileRepositoryInterface
      */
     public function __construct(
         EntityManager $entityManager,
-        ProfileInterfaceFactory $profileFactory,
-        ProfileResource $profileResource,
+        ProfileRegistry $profileRegistry,
         ProfileSearchResultsInterfaceFactory $searchResultsFactory,
         CollectionFactory $collectionFactory,
         DataObjectHelper $dataObjectHelper,
         JoinProcessorInterface $extensionAttributesJoinProcessor
     ) {
         $this->entityManager = $entityManager;
-        $this->profileFactory = $profileFactory;
-        $this->profileResource = $profileResource;
+        $this->profileRegistry = $profileRegistry;
         $this->searchResultsFactory = $searchResultsFactory;
         $this->collectionFactory = $collectionFactory;
         $this->dataObjectHelper = $dataObjectHelper;
@@ -110,8 +86,7 @@ class ProfileRepository implements ProfileRepositoryInterface
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }
-        unset($this->instancesById[$profile->getProfileId()]);
-        unset($this->instancesByReferenceId[$profile->getReferenceId()]);
+        $this->profileRegistry->push($profile);
         return $this->get($profile->getProfileId());
     }
 
@@ -120,16 +95,7 @@ class ProfileRepository implements ProfileRepositoryInterface
      */
     public function get($profileId)
     {
-        if (!isset($this->instancesById[$profileId])) {
-            /** @var ProfileInterface $profile */
-            $profile = $this->profileFactory->create();
-            $this->entityManager->load($profile, $profileId);
-            if (!$profile->getProfileId()) {
-                throw NoSuchEntityException::singleField('profileId', $profileId);
-            }
-            $this->instancesById[$profileId] = $profile;
-        }
-        return $this->instancesById[$profileId];
+        return $this->profileRegistry->retrieve($profileId);
     }
 
     /**
@@ -137,14 +103,7 @@ class ProfileRepository implements ProfileRepositoryInterface
      */
     public function getByReferenceId($referenceId)
     {
-        if (!isset($this->instancesByReferenceId[$referenceId])) {
-            $profileId = $this->profileResource->getProfileIdByReferenceId($referenceId);
-            if (!$profileId) {
-                throw NoSuchEntityException::singleField('referenceId', $referenceId);
-            }
-            $this->instancesByReferenceId[$referenceId] = $this->get($profileId);
-        }
-        return $this->instancesByReferenceId[$referenceId];
+        return $this->profileRegistry->retrieveByReferenceId($referenceId);
     }
 
     /**

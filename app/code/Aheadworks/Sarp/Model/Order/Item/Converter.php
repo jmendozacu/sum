@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Order\Item;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -100,6 +95,40 @@ class Converter
     }
 
     /**
+     * Convert from payment info as initial fee item
+     *
+     * @param ProfilePaymentInfoInterface $paymentInfo
+     * @param $storeId
+     * @return OrderItemInterface
+     */
+    public function fromPaymentInfoAsInitial(ProfilePaymentInfoInterface $paymentInfo, $storeId)
+    {
+        /** @var OrderItemInterface $orderItem */
+        $orderItem = $this->orderItemFactory->create();
+        $orderItem
+            ->setName(__('Recurring Profile Initial Fee'))
+            ->setDescription('')
+            ->setSku('initial_fee')
+            ->setStoreId($storeId)
+            ->setIsVirtual(true)
+            ->setProductType(ProductType::TYPE_VIRTUAL)
+            ->setWeight(0)
+            ->setQtyOrdered(1)
+            ->setPrice($paymentInfo->getAmount())
+            ->setBasePrice($paymentInfo->getBaseAmount())
+            ->setPriceInclTax($paymentInfo->getAmount())
+            ->setBasePriceInclTax($paymentInfo->getBaseAmount())
+            ->setOriginalPrice($paymentInfo->getAmount())
+            ->setBaseOriginalPrice($paymentInfo->getBaseAmount())
+            ->setRowTotal($paymentInfo->getAmount())
+            ->setBaseRowTotal($paymentInfo->getBaseAmount())
+            ->setRowTotalInclTax($paymentInfo->getAmount())
+            ->setBaseRowTotalInclTax($paymentInfo->getBaseAmount());
+
+        return $orderItem;
+    }
+
+    /**
      * Init order item
      *
      * @param OrderItemInterface $orderItem
@@ -142,13 +171,6 @@ class Converter
         $orderItem->setProductOptions(
             $product->getTypeInstance()->getOrderOptions($product)
         );
-
-        if ($paymentType == PaymentInfo::PAYMENT_TYPE_INITIAL) {
-            $orderItem
-                ->setIsVirtual(true)
-                ->setProductType(ProductType::TYPE_VIRTUAL)
-                ->setWeight(0);
-        }
 
         return $orderItem;
     }

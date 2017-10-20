@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Controller\Paypalexpress;
 
 use Aheadworks\Sarp\Controller\Paypalexpress\Start as StartAction;
@@ -21,7 +16,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Controller\Paypalexpress\Start
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class StartTest extends \PHPUnit_Framework_TestCase
+class StartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var StartAction
@@ -56,11 +51,11 @@ class StartTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->responseMock = $this->getMock(Http::class, ['setRedirect'], [], '', false);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
+        $this->responseMock = $this->createMock(Http::class);
+        $this->resultRedirectFactoryMock = $this->createMock(RedirectFactory::class);
         $this->messageManagerMock = $this->getMockForAbstractClass(MessageManager::class);
-        $this->checkoutMock = $this->getMock(ExpressCheckout::class, ['start'], [], '', false);
-        $this->urlMock = $this->getMock(Url::class, ['getPaypalStartUrl'], [], '', false);
+        $this->checkoutMock = $this->createMock(ExpressCheckout::class);
+        $this->urlMock = $this->createMock(Url::class);
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -102,7 +97,7 @@ class StartTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionMessage = 'Exception message';
 
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
         $exception = new LocalizedException(__($exceptionMessage));
 
         $this->checkoutMock->expects($this->once())
@@ -123,7 +118,7 @@ class StartTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteException()
     {
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
         $exception = new \Exception();
 
         $this->checkoutMock->expects($this->once())

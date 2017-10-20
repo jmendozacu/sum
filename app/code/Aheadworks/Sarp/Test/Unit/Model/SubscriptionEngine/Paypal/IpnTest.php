@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal;
 
 use Aheadworks\Sarp\Api\ProfileManagementInterface;
@@ -25,7 +20,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Ipn
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class IpnTest extends \PHPUnit_Framework_TestCase
+class IpnTest extends \PHPUnit\Framework\TestCase
 {
     const MC_GROSS = 100.00;
     const TAX = 5.00;
@@ -81,20 +76,14 @@ class IpnTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->requestMock = $this->getMock(DataObject::class, ['__call', 'getData'], [], '', false);
+        $this->requestMock = $this->createMock(DataObject::class);
         $this->profileRepositoryMock = $this->getMockForAbstractClass(ProfileRepositoryInterface::class);
         $this->profileManagementMock = $this->getMockForAbstractClass(ProfileManagementInterface::class);
-        $this->profileStatusFilterMock = $this->getMock(ProfileStatusFilter::class, ['filter'], [], '', false);
-        $this->paymentInfoFactoryMock = $this->getMock(
-            ProfilePaymentInfoInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
+        $this->profileStatusFilterMock = $this->createMock(ProfileStatusFilter::class);
+        $this->paymentInfoFactoryMock = $this->createMock(ProfilePaymentInfoInterfaceFactory::class);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(PriceCurrencyInterface::class);
-        $this->debuggerMock = $this->getMock(Debugger::class, ['addDebugData', 'debug'], [], '', false);
-        $dataObjectFactoryMock = $this->getMock(DataObjectFactory::class, ['create'], [], '', false);
+        $this->debuggerMock = $this->createMock(Debugger::class);
+        $dataObjectFactoryMock = $this->createMock(DataObjectFactory::class);
         $dataObjectFactoryMock->expects($this->once())
             ->method('create')
             ->with($this->requestData)
@@ -127,7 +116,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
         $baseCurrencyCode = 'USD';
         $amount = self::MC_GROSS - self::TAX - self::SHIPPING;
 
-        $currencyMock = $this->getMock(Currency::class, ['convert'], [], '', false);
+        $currencyMock = $this->createMock(Currency::class);
 
         $profileMock->expects($this->once())
             ->method('getBaseCurrencyCode')

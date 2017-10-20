@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model;
 
 use Aheadworks\Sarp\Api\Data\ShippingInformationInterface;
@@ -17,9 +12,11 @@ use Aheadworks\Sarp\Api\SubscriptionsCartItemRepositoryInterface;
 use Aheadworks\Sarp\Api\SubscriptionsCartManagementInterface;
 use Aheadworks\Sarp\Api\SubscriptionPlanRepositoryInterface;
 use Aheadworks\Sarp\Api\SubscriptionsCartRepositoryInterface;
+use Aheadworks\Sarp\Model\Logger\LoggerInterface;
 use Aheadworks\Sarp\Model\Profile\Converter as ProfileConverter;
 use Aheadworks\Sarp\Model\Session as SarpSession;
 use Aheadworks\Sarp\Model\SubscriptionEngine\EnginePool;
+use Aheadworks\Sarp\Model\SubscriptionEngine\EngineMetadataPool;
 use Aheadworks\Sarp\Model\SubscriptionsCart\Address;
 use Aheadworks\Sarp\Model\SubscriptionsCart\CheckoutValidator;
 use Aheadworks\Sarp\Model\SubscriptionsCart\ItemsAddToCartValidator;
@@ -82,6 +79,11 @@ class SubscriptionsCartManagement implements SubscriptionsCartManagementInterfac
     private $enginePool;
 
     /**
+     * @var EngineMetadataPool
+     */
+    private $engineMetadataPool;
+
+    /**
      * @var ProfileRepositoryInterface
      */
     private $profileRepository;
@@ -102,6 +104,11 @@ class SubscriptionsCartManagement implements SubscriptionsCartManagementInterfac
     private $dataObjectHelper;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param SubscriptionsCartRepositoryInterface $subscriptionsCartRepository
      * @param SubscriptionsCartItemRepositoryInterface $itemRepository
      * @param SubscriptionsCartAddressInterfaceFactory $addressFactory
@@ -111,10 +118,12 @@ class SubscriptionsCartManagement implements SubscriptionsCartManagementInterfac
      * @param CheckoutValidator $checkoutValidator
      * @param SubscriptionPlanRepositoryInterface $planRepository
      * @param EnginePool $enginePool
+     * @param EngineMetadataPool $engineMetadataPool
      * @param ProfileRepositoryInterface $profileRepository
      * @param ProfileConverter $profileConverter
      * @param Session $sarpSession
      * @param DataObjectHelper $dataObjectHelper
+     * @param LoggerInterface $logger
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -127,10 +136,12 @@ class SubscriptionsCartManagement implements SubscriptionsCartManagementInterfac
         CheckoutValidator $checkoutValidator,
         SubscriptionPlanRepositoryInterface $planRepository,
         EnginePool $enginePool,
+        EngineMetadataPool $engineMetadataPool,
         ProfileRepositoryInterface $profileRepository,
         ProfileConverter $profileConverter,
         SarpSession $sarpSession,
-        DataObjectHelper $dataObjectHelper
+        DataObjectHelper $dataObjectHelper,
+        LoggerInterface $logger
     ) {
         $this->subscriptionsCartRepository = $subscriptionsCartRepository;
         $this->itemRepository = $itemRepository;
@@ -141,10 +152,12 @@ class SubscriptionsCartManagement implements SubscriptionsCartManagementInterfac
         $this->checkoutValidator = $checkoutValidator;
         $this->planRepository = $planRepository;
         $this->enginePool = $enginePool;
+        $this->engineMetadataPool = $engineMetadataPool;
         $this->profileRepository = $profileRepository;
         $this->profileConverter = $profileConverter;
         $this->sarpSession = $sarpSession;
         $this->dataObjectHelper = $dataObjectHelper;
+        $this->logger = $logger;
     }
 
     /**
@@ -377,12 +390,23 @@ class SubscriptionsCartManagement implements SubscriptionsCartManagementInterfac
 
         $plan = $this->planRepository->get($cart->getSubscriptionPlanId());
         $engine = $this->enginePool->getEngine($plan->getEngineCode());
-        $profile = $engine->submitProfile(
-            $this->profileConverter->fromSubscriptionCart($cart),
-            $additionalParams,
-            $paymentInformation
-        );
-        $this->profileRepository->save($profile);
+        $profile = $this->profileConverter->fromSubscriptionCart($cart);
+        try {
+            $profile = $engine->submitProfile($profile, $additionalParams, $paymentInformation);
+            $this->profileRepository->save($profile);
+
+            $engineMetadata = $this->engineMetadataPool->getMetadata($plan->getEngineCode());
+            if ($engineMetadata->isGateway()) {
+                $this->logger->notice($profile, LoggerInterface::ENTRY_TYPE_PROFILE_CREATED_SUCCESSFUL);
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(
+                $profile,
+                LoggerInterface::ENTRY_TYPE_PROFILE_CREATION_FAILED,
+                ['exception' => $e]
+            );
+            throw $e;
+        }
 
         $this->sarpSession
             ->setLastSuccessCartId($cartId)

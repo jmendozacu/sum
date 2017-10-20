@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\CustomerData;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -15,7 +10,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\CustomerData\SubscriptionCart
  */
-class SubscriptionCartTest extends \PHPUnit_Framework_TestCase
+class SubscriptionCartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SubscriptionCart
@@ -30,7 +25,7 @@ class SubscriptionCartTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->cartPersistorMock = $this->getMock(Persistor::class, ['getSubscriptionCart'], [], '', false);
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
         $this->sectionSource = $objectManager->getObject(
             SubscriptionCart::class,
             ['cartPersistor' => $this->cartPersistorMock]

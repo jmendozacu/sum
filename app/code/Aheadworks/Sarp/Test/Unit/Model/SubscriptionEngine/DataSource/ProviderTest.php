@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\DataSource;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\Provider;
@@ -16,7 +11,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\Provider
  */
-class ProviderTest extends \PHPUnit_Framework_TestCase
+class ProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Provider
@@ -36,8 +31,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->sourceFactoryMock = $this->getMock(SourceFactory::class, ['create'], [], '', false);
-        $this->engineMetadataPoolMock = $this->getMock(EngineMetadataPool::class, [], [], '', false);
+        $this->sourceFactoryMock = $this->createMock(SourceFactory::class);
+        $this->engineMetadataPoolMock = $this->createMock(EngineMetadataPool::class);
         $this->provider = $objectManager->getObject(
             Provider::class,
             [

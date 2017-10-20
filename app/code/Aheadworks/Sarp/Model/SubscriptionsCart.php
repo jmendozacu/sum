@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -842,6 +837,22 @@ class SubscriptionsCart extends AbstractModel implements SubscriptionsCartInterf
     public function setBaseInitialFee($baseInitialFee)
     {
         return $this->setData(self::BASE_INITIAL_FEE, $baseInitialFee);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRemoteIp()
+    {
+        return $this->getData(self::REMOTE_IP);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRemoteIp($remoteIp)
+    {
+        return $this->setData(self::REMOTE_IP, $remoteIp);
     }
 
     /**

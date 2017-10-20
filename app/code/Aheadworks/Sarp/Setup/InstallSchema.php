@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Setup;
 
 use Magento\Framework\DB\Ddl\Table;
@@ -18,6 +13,11 @@ use Magento\Framework\Setup\SchemaSetupInterface;
  */
 class InstallSchema implements InstallSchemaInterface
 {
+    /**
+     * Name of connection for sales related tables of extension
+     */
+    const CONNECTION_FOR_SALES_RELATED_TABLES = 'sales';
+
     /**
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -1584,7 +1584,7 @@ class InstallSchema implements InstallSchemaInterface
         /**
          * Create table 'aw_sarp_profile_order'
          */
-        $table = $installer->getConnection()
+        $table = $installer->getConnection(self::CONNECTION_FOR_SALES_RELATED_TABLES)
             ->newTable($installer->getTable('aw_sarp_profile_order'))
             ->addColumn(
                 'id',
@@ -1608,19 +1608,13 @@ class InstallSchema implements InstallSchemaInterface
                 $installer->getIdxName('aw_sarp_profile_order', ['profile_id']),
                 ['profile_id']
             )->addForeignKey(
-                $installer->getFkName('aw_sarp_profile_order', 'profile_id', 'aw_sarp_profile', 'profile_id'),
-                'profile_id',
-                $installer->getTable('aw_sarp_profile'),
-                'profile_id',
-                Table::ACTION_CASCADE
-            )->addForeignKey(
                 $installer->getFkName('aw_sarp_profile_order', 'order_id', 'sales_order', 'entity_id'),
                 'order_id',
                 $installer->getTable('sales_order'),
                 'entity_id',
                 Table::ACTION_CASCADE
             )->setComment('Recurring Profile Order');
-        $installer->getConnection()->createTable($table);
+        $installer->getConnection(self::CONNECTION_FOR_SALES_RELATED_TABLES)->createTable($table);
 
         $installer->startSetup();
         $installer->endSetup();

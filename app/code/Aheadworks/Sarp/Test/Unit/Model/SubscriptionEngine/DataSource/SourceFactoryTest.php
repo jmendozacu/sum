@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\DataSource;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\SourceFactory;
@@ -14,7 +9,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\SourceFactory
  */
-class SourceFactoryTest extends \PHPUnit_Framework_TestCase
+class SourceFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SourceFactory

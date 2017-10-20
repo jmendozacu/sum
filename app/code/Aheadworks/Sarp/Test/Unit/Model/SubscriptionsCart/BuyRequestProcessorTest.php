@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Model\SubscriptionsCart\BuyRequestProcessor;
@@ -18,7 +13,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\BuyRequestProcessor
  */
-class BuyRequestProcessorTest extends \PHPUnit_Framework_TestCase
+class BuyRequestProcessorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var BuyRequestProcessor
@@ -44,8 +39,8 @@ class BuyRequestProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->productRepositoryMock = $this->getMockForAbstractClass(ProductRepositoryInterface::class);
-        $this->productTypeMock = $this->getMock(ProductType::class, ['factory'], [], '', false);
-        $this->objectFactoryMock = $this->getMock(DataObjectFactory::class, ['create'], [], '', false);
+        $this->productTypeMock = $this->createMock(ProductType::class);
+        $this->objectFactoryMock = $this->createMock(DataObjectFactory::class);
         $this->buyRequestProcessor = $objectManager->getObject(
             BuyRequestProcessor::class,
             [
@@ -84,7 +79,7 @@ class BuyRequestProcessorTest extends \PHPUnit_Framework_TestCase
             true,
             ['prepareForCartAdvanced']
         );
-        $buyRequestObjectMock = $this->getMock(DataObject::class, [], [], '', false);
+        $buyRequestObjectMock = $this->createMock(DataObject::class);
 
         $this->productRepositoryMock->expects($this->once())
             ->method('getById')

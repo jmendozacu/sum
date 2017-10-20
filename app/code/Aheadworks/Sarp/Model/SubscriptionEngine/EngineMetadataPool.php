@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine;
 
 use Magento\Framework\ObjectManagerInterface;
@@ -20,6 +15,11 @@ class EngineMetadataPool
     private $objectManager;
 
     /**
+     * @var EngineAvailability
+     */
+    private $engineAvailability;
+
+    /**
      * @var array
      */
     private $metadata = [];
@@ -31,11 +31,16 @@ class EngineMetadataPool
 
     /**
      * @param ObjectManagerInterface $objectManager
+     * @param EngineAvailability $engineAvailability
      * @param array $metadata
      */
-    public function __construct(ObjectManagerInterface $objectManager, $metadata = [])
-    {
+    public function __construct(
+        ObjectManagerInterface $objectManager,
+        EngineAvailability $engineAvailability,
+        $metadata = []
+    ) {
         $this->objectManager = $objectManager;
+        $this->engineAvailability = $engineAvailability;
         $this->metadata = $metadata;
     }
 
@@ -63,10 +68,28 @@ class EngineMetadataPool
     /**
      * Retrieves all engine codes
      *
+     * @param bool $availableOnly
      * @return array
      */
-    public function getEnginesCodes()
+    public function getEnginesCodes($availableOnly = true)
     {
-        return array_keys($this->metadata);
+        $engineCodes = array_keys($this->metadata);
+        return $availableOnly
+            ? array_filter($engineCodes, [$this, 'filterByAvailability'])
+            : $engineCodes;
+    }
+
+    /**
+     * Filter engine codes by availability
+     *
+     * @param string $engineCode
+     * @return bool
+     * @throws \Exception
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     */
+    private function filterByAvailability($engineCode)
+    {
+        $metadata = $this->getMetadata($engineCode);
+        return $this->engineAvailability->isAvailable($metadata);
     }
 }

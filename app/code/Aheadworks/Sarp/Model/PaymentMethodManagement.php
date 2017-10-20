@@ -1,17 +1,9 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model;
 
-use Aheadworks\Sarp\Api\Data\PaymentMethodInterface;
-use Aheadworks\Sarp\Api\Data\PaymentMethodInterfaceFactory;
 use Aheadworks\Sarp\Api\PaymentMethodManagementInterface;
 use Aheadworks\Sarp\Api\SubscriptionPlanRepositoryInterface;
 use Aheadworks\Sarp\Api\SubscriptionsCartRepositoryInterface;
-use Aheadworks\Sarp\Model\SubscriptionEngine\EngineMetadataPool;
 
 /**
  * Class PaymentMethodManagement
@@ -19,16 +11,6 @@ use Aheadworks\Sarp\Model\SubscriptionEngine\EngineMetadataPool;
  */
 class PaymentMethodManagement implements PaymentMethodManagementInterface
 {
-    /**
-     * @var EngineMetadataPool
-     */
-    private $engineMetadataPool;
-
-    /**
-     * @var PaymentMethodInterfaceFactory
-     */
-    private $paymentMethodFactory;
-
     /**
      * @var SubscriptionPlanRepositoryInterface
      */
@@ -40,21 +22,23 @@ class PaymentMethodManagement implements PaymentMethodManagementInterface
     private $cartRepository;
 
     /**
-     * @param EngineMetadataPool $engineMetadataPool
-     * @param PaymentMethodInterfaceFactory $paymentMethodFactory
+     * @var PaymentMethodList
+     */
+    private $paymentMethodList;
+
+    /**
      * @param SubscriptionPlanRepositoryInterface $planRepository
      * @param SubscriptionsCartRepositoryInterface $cartRepository
+     * @param PaymentMethodList $paymentMethodList
      */
     public function __construct(
-        EngineMetadataPool $engineMetadataPool,
-        PaymentMethodInterfaceFactory $paymentMethodFactory,
         SubscriptionPlanRepositoryInterface $planRepository,
-        SubscriptionsCartRepositoryInterface $cartRepository
+        SubscriptionsCartRepositoryInterface $cartRepository,
+        PaymentMethodList $paymentMethodList
     ) {
-        $this->engineMetadataPool = $engineMetadataPool;
-        $this->paymentMethodFactory = $paymentMethodFactory;
         $this->planRepository = $planRepository;
         $this->cartRepository = $cartRepository;
+        $this->paymentMethodList = $paymentMethodList;
     }
 
     /**
@@ -67,13 +51,7 @@ class PaymentMethodManagement implements PaymentMethodManagementInterface
         $planId = $cart->getSubscriptionPlanId();
         if ($planId) {
             $plan = $this->planRepository->get($planId);
-            $engineMetadata = $this->engineMetadataPool->getMetadata($plan->getEngineCode());
-            /** @var PaymentMethodInterface $paymentMethod */
-            $paymentMethod = $this->paymentMethodFactory->create();
-            $paymentMethod
-                ->setCode($engineMetadata->getCode())
-                ->setTitle($engineMetadata->getLabel());
-            $methodList[] = $paymentMethod;
+            $methodList = $this->paymentMethodList->getMethods($plan->getEngineCode(), true);
         }
         return $methodList;
     }

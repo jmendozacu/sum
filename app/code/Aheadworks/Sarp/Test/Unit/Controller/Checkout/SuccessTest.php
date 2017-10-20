@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Controller\Checkout;
 
 use Aheadworks\Sarp\Controller\Checkout\Success;
@@ -20,7 +15,7 @@ use Magento\Framework\View\Result\PageFactory;
  * Test for \Aheadworks\Sarp\Controller\Checkout\Success
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class SuccessTest extends \PHPUnit_Framework_TestCase
+class SuccessTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Success
@@ -50,10 +45,10 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultPageFactoryMock = $this->getMock(PageFactory::class, ['create'], [], '', false);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
-        $this->cartPersistorMock = $this->getMock(Persistor::class, ['clear'], [], '', false);
-        $this->successValidatorMock = $this->getMock(SuccessValidator::class, ['isValid'], [], '', false);
+        $this->resultPageFactoryMock = $this->createPartialMock(PageFactory::class, ['create']);
+        $this->resultRedirectFactoryMock = $this->createPartialMock(RedirectFactory::class, ['create']);
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
+        $this->successValidatorMock = $this->createMock(SuccessValidator::class);
         $context = $objectManager->getObject(
             Context::class,
             ['resultRedirectFactory' => $this->resultRedirectFactoryMock]
@@ -71,7 +66,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $resultPageMock = $this->getMock(Page::class, [], [], '', false);
+        $resultPageMock = $this->createMock(Page::class);
 
         $this->successValidatorMock->expects($this->once())
             ->method('isValid')
@@ -87,7 +82,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteInvalid()
     {
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
 
         $this->successValidatorMock->expects($this->once())
             ->method('isValid')

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Block\Cart;
 
 use Aheadworks\Sarp\Block\Cart\Link;
@@ -14,7 +9,7 @@ use Magento\Framework\View\Element\Template\Context;
 /**
  * Test for \Aheadworks\Sarp\Block\Cart\Link
  */
-class LinkTest extends \PHPUnit_Framework_TestCase
+class LinkTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Link

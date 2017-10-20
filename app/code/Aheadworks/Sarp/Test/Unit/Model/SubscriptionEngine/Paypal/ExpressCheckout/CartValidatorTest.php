@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal\ExpressCheckout;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -15,7 +10,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\ExpressCheckout\CartValidator
  */
-class CartValidatorTest extends \PHPUnit_Framework_TestCase
+class CartValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CartValidator

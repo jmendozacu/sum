@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Block\Checkout;
 
 use Aheadworks\Sarp\Block\Checkout\Success;
@@ -15,7 +10,7 @@ use Magento\Framework\View\Element\Template\Context;
 /**
  * Test for \Aheadworks\Sarp\Block\Checkout\Success
  */
-class SuccessTest extends \PHPUnit_Framework_TestCase
+class SuccessTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Success
@@ -36,7 +31,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->urlBuilderMock = $this->getMockForAbstractClass(UrlInterface::class);
-        $this->customerSessionMock = $this->getMock(CustomerSession::class, ['isLoggedIn'], [], '', false);
+        $this->customerSessionMock = $this->createMock(CustomerSession::class);
         $context = $objectManager->getObject(
             Context::class,
             ['urlBuilder' => $this->urlBuilderMock]

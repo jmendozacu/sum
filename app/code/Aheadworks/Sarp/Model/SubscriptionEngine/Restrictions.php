@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine;
 
 /**
@@ -16,6 +11,7 @@ class Restrictions extends \Magento\Framework\DataObject implements Restrictions
     const SUBSCRIPTION_ACTIONS = 'subscription_actions';
     const SUBSCRIPTION_ACTIONS_MAP = 'subscription_actions_map';
     const UNITS_OF_TIME = 'units_of_time';
+    const START_DATE_TYPES = 'start_date_types';
     const CAN_BE_FINITE = 'can_be_finite';
     const IS_INITIAL_FEE_SUPPORTED = 'is_initial_fee_supported';
     const IS_TRIAL_PERIOD_SUPPORTED = 'is_trial_period_supported';
@@ -50,6 +46,14 @@ class Restrictions extends \Magento\Framework\DataObject implements Restrictions
     public function getUnitsOfTime()
     {
         return $this->getData(self::UNITS_OF_TIME);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStartDateTypes()
+    {
+        return $this->getData(self::START_DATE_TYPES);
     }
 
     /**

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Totals\Collectors;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -20,7 +15,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Totals\Collectors\RegularPrice
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class RegularPriceTest extends \PHPUnit_Framework_TestCase
+class RegularPriceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var RegularPrice
@@ -60,20 +55,8 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->addressItemsRegistryMock = $this->getMock(
-            ItemsRegistry::class,
-            ['retrieveInner', 'retrieveChild'],
-            [],
-            '',
-            false
-        );
-        $this->priceCalculatorMock = $this->getMock(
-            SubscriptionPriceCalculator::class,
-            ['getBaseRegularPrice'],
-            [],
-            '',
-            false
-        );
+        $this->addressItemsRegistryMock = $this->createMock(ItemsRegistry::class);
+        $this->priceCalculatorMock = $this->createMock(SubscriptionPriceCalculator::class);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(PriceCurrencyInterface::class);
 
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);

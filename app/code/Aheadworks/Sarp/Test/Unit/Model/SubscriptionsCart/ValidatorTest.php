@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -15,7 +10,7 @@ use Magento\Framework\Stdlib\DateTime;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Validator
  */
-class ValidatorTest extends \PHPUnit_Framework_TestCase
+class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Validator
@@ -40,7 +35,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->dateCheckerMock = $this->getMock(DateChecker::class, ['getCurrentDate'], [], '', false);
+        $this->dateCheckerMock = $this->createMock(DateChecker::class);
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $this->validator = $objectManager->getObject(
             Validator::class,

@@ -1,16 +1,13 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionsCart;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type as ProductType;
+use Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface;
 use Magento\Framework\DataObject\Factory as DataObjectFactory;
+use Magento\Quote\Model\Quote\Item\Option as QuoteItemOption;
 
 /**
  * Class BuyRequestProcessor
@@ -99,5 +96,49 @@ class BuyRequestProcessor
             $this->cartCandidatesCache[$hash] = $cartCandidates;
         }
         return $this->cartCandidatesCache[$hash];
+    }
+
+    /**
+     * Get quantity options
+     *
+     * @param string $buyRequest
+     * @param int $productId
+     * @return OptionInterface[]|QuoteItemOption[]
+     * @throws \Exception
+     */
+    public function getQtyOptions($buyRequest, $productId)
+    {
+        $qtyOptions = [];
+        $cartCandidates = $this->getCartCandidates($buyRequest, $productId);
+        /** @var Product $product */
+        foreach ($cartCandidates as $product) {
+            if (!$product->getParentProductId()) {
+                $products = [];
+                $optionsByCode = [];
+                foreach ($product->getCustomOptions() as $customOption) {
+                    /** @var $customOption OptionInterface|QuoteItemOption */
+                    $product = $customOption->getProduct();
+                    if (is_object($product)) {
+                        $optionsProductId = $product->getId();
+                        if ($optionsProductId && $optionsProductId != $productId) {
+                            $products[$optionsProductId] = $product;
+                        }
+                    }
+                    $optionsByCode[$customOption->getCode()] = $customOption;
+                }
+                foreach (array_keys($products) as $optionProductId) {
+                    $code = 'product_qty_' . $optionProductId;
+                    if (isset($optionsByCode[$code])) {
+                        /** @var $option OptionInterface|QuoteItemOption */
+                        $option = $optionsByCode[$code];
+                        if (!$option->getProduct()) {
+                            $option->setProduct($products[$optionProductId]);
+                        }
+                        $qtyOptions[] = $optionsByCode[$code];
+                    }
+                }
+            }
+        }
+        return $qtyOptions;
     }
 }

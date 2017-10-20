@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Quote\ShippingMethod;
 
 use Magento\Quote\Model\Quote\Address\RateResult\Method as RateResultMethod;

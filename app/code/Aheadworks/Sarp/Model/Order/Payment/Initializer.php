@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Order\Payment;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -70,12 +65,22 @@ class Initializer
             $payment
         );
 
-        $engineMetadata = $this->engineMetadataPool->getMetadata($profile->getEngineCode());
         $payment
-            ->setMethod($engineMetadata->getPaymentMethod())
+            ->setMethod($this->getPaymentMethodCode($profile))
             ->setIsTransactionClosed(false)
             ->setOrder($order);
 
         return $payment;
+    }
+
+    /**
+     * Retrieve payment method code
+     *
+     * @param ProfileInterface $profile
+     * @return string
+     */
+    private function getPaymentMethodCode(ProfileInterface $profile)
+    {
+        return (empty($profile->getPaymentMethodCode()) ? $profile->getEngineCode() : $profile->getPaymentMethodCode());
     }
 }

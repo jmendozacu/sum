@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Address;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -22,7 +17,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Address\ReadHandler
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ReadHandlerTest extends \PHPUnit_Framework_TestCase
+class ReadHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ReadHandler
@@ -52,22 +47,10 @@ class ReadHandlerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resourceConnectionMock = $this->getMock(
-            ResourceConnection::class,
-            ['getConnectionByName', 'getTableName'],
-            [],
-            '',
-            false
-        );
-        $this->metadataPoolMock = $this->getMock(MetadataPool::class, ['getMetadata'], [], '', false);
-        $this->entityManagerMock = $this->getMock(EntityManager::class, ['load'], [], '', false);
-        $this->addressFactoryMock = $this->getMock(
-            SubscriptionsCartAddressInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
+        $this->resourceConnectionMock = $this->createMock(ResourceConnection::class);
+        $this->metadataPoolMock = $this->createMock(MetadataPool::class);
+        $this->entityManagerMock = $this->createMock(EntityManager::class);
+        $this->addressFactoryMock = $this->createMock(SubscriptionsCartAddressInterfaceFactory::class);
         $this->readHandler = $objectManager->getObject(
             ReadHandler::class,
             [
@@ -90,7 +73,7 @@ class ReadHandlerTest extends \PHPUnit_Framework_TestCase
         $addressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
         $metadataMock = $this->getMockForAbstractClass(EntityMetadataInterface::class);
         $connectionMock = $this->getMockForAbstractClass(AdapterInterface::class);
-        $selectMock = $this->getMock(Select::class, ['from', 'where'], [], '', false);
+        $selectMock = $this->createMock(Select::class);
 
         $cartMock->expects($this->once())
             ->method('getCartId')

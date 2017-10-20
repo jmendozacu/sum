@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionPlan;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionPlanInterface;
@@ -56,13 +51,13 @@ class Validator extends AbstractValidator
             $this->_addMessages(['Subscription engine is required.']);
             return false;
         }
-        $isEngineCodeCorrect = \Zend_Validate::is(
+        $isEngineCodeExist = \Zend_Validate::is(
             $subscriptionPlan->getEngineCode(),
             'InArray',
             ['haystack' => $this->engineMetadataPool->getEnginesCodes()]
         );
-        if (!$isEngineCodeCorrect) {
-            $this->_addMessages(['Subscription engine code is incorrect.']);
+        if (!$isEngineCodeExist) {
+            $this->_addMessages(['Subscription engine code is incorrect or unavailable.']);
             return false;
         }
 

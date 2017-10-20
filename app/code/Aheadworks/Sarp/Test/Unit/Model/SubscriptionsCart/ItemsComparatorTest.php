@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartItemInterface;
@@ -17,7 +12,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\ItemsComparator
  */
-class ItemsComparatorTest extends \PHPUnit_Framework_TestCase
+class ItemsComparatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ItemsComparator
@@ -38,13 +33,7 @@ class ItemsComparatorTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->productRepositoryMock = $this->getMockForAbstractClass(ProductRepositoryInterface::class);
-        $this->buyRequestProcessorMock = $this->getMock(
-            BuyRequestProcessor::class,
-            ['getCartCandidates'],
-            [],
-            '',
-            false
-        );
+        $this->buyRequestProcessorMock = $this->createMock(BuyRequestProcessor::class);
         $this->itemsComparator = $objectManager->getObject(
             ItemsComparator::class,
             [
@@ -112,14 +101,8 @@ class ItemsComparatorTest extends \PHPUnit_Framework_TestCase
      */
     private function createProductMock($productId, $customOptionCode, $customOptionValue)
     {
-        $productMock = $this->getMock(
-            Product::class,
-            ['__call', 'getId', 'getCustomOptions'],
-            [],
-            '',
-            false
-        );
-        $customOptionMock = $this->getMock(Option::class, ['__call', 'getValue'], [], '', false);
+        $productMock = $this->createMock(Product::class);
+        $customOptionMock = $this->createMock(Option::class);
 
         $customOptionMock->expects($this->any())
             ->method('__call')
@@ -131,7 +114,7 @@ class ItemsComparatorTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())
             ->method('getId')
             ->willReturn($productId);
-        $productMock->expects($this->once())
+        $productMock->expects($this->any())
             ->method('getCustomOptions')
             ->willReturn([$customOptionCode => $customOptionMock]);
         $productMock->expects($this->once())

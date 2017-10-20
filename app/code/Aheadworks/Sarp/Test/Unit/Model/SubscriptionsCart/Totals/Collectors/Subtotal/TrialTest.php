@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Totals\Collectors\Subtotal;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -17,7 +12,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Totals\Collectors\Subtotal\Trial
  */
-class TrialTest extends \PHPUnit_Framework_TestCase
+class TrialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Trial
@@ -47,7 +42,7 @@ class TrialTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->addressItemsRegistryMock = $this->getMock(ItemsRegistry::class, ['retrieve'], [], '', false);
+        $this->addressItemsRegistryMock = $this->createMock(ItemsRegistry::class);
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $this->addressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
         $this->totalsMock = $this->getMockForAbstractClass(SubscriptionsCartTotalsInterface::class);

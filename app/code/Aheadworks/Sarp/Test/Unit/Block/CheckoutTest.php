@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Block\Cart;
 
 use Aheadworks\Sarp\Block\Checkout;
@@ -14,11 +9,12 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
+use Aheadworks\Sarp\Block\Checkout\LayoutProcessorProvider;
 
 /**
  * Test for \Aheadworks\Sarp\Block\Checkout
  */
-class CheckoutTest extends \PHPUnit_Framework_TestCase
+class CheckoutTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Checkout
@@ -36,14 +32,14 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     private $configProviderMock;
 
     /**
-     * @var LayoutProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $layoutProcessorMock;
-
-    /**
      * @var StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $storeManagerMock;
+
+    /**
+     * @var LayoutProcessorProvider|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $layoutProviderMock;
 
     /**
      * @var array
@@ -53,9 +49,9 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->formKeyMock = $this->getMock(FormKey::class, ['getFormKey'], [], '', false);
-        $this->configProviderMock = $this->getMock(CompositeConfigProvider::class, ['getConfig'], [], '', false);
-        $this->layoutProcessorMock = $this->getMockForAbstractClass(LayoutProcessorInterface::class);
+        $this->formKeyMock = $this->createMock(FormKey::class);
+        $this->configProviderMock = $this->createMock(CompositeConfigProvider::class);
+        $this->layoutProviderMock = $this->createMock(LayoutProcessorProvider::class);
         $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
         $context = $objectManager->getObject(
             Context::class,
@@ -67,7 +63,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                 'context' => $context,
                 'formKey' => $this->formKeyMock,
                 'configProvider' => $this->configProviderMock,
-                'layoutProcessors' => [$this->layoutProcessorMock],
+                'layoutProvider' => $this->layoutProviderMock,
                 'jsLayout' => $this->jsLayout
             ]
         );
@@ -75,15 +71,22 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
     public function testGetJsLayout()
     {
+        $layoutProcessorMock = $this->getMockForAbstractClass(LayoutProcessorInterface::class);
+
         $isLayoutProcessed = array_merge_recursive(
             $this->jsLayout,
             ['components' => ['checkout' => ['new_component' => []]]]
         );
         $jsLayoutEncoded = json_encode($isLayoutProcessed);
-        $this->layoutProcessorMock->expects($this->once())
+        $layoutProcessorMock->expects($this->once())
             ->method('process')
             ->with($this->jsLayout)
             ->willReturn($isLayoutProcessed);
+
+        $this->layoutProviderMock->expects($this->once())
+            ->method('getLayoutProcessors')
+            ->willReturn([$layoutProcessorMock]);
+
         $this->assertEquals($jsLayoutEncoded, $this->block->getJsLayout());
     }
 
@@ -108,7 +111,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     public function testGetBaseUrl()
     {
         $baseUrl = 'http://localhost';
-        $storeMock = $this->getMock(Store::class, ['getBaseUrl'], [], '', false);
+        $storeMock = $this->createMock(Store::class);
         $this->storeManagerMock->expects($this->once())
             ->method('getStore')
             ->willReturn($storeMock);

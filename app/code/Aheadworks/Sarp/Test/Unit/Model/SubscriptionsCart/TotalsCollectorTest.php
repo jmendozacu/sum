@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -21,7 +16,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\TotalsCollector
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class TotalsCollectorTest extends \PHPUnit_Framework_TestCase
+class TotalsCollectorTest extends \PHPUnit\Framework\TestCase
 {
     const SHIPPING_AMOUNT = 5.00;
     const BASE_SHIPPING_AMOUNT = 10.00;
@@ -106,22 +101,10 @@ class TotalsCollectorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->totalsFactoryMock = $this->getMock(
-            SubscriptionsCartTotalsInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->collectorsListMock = $this->getMock(CollectorsList::class, ['getCollectors'], [], '', false);
-        $this->dataObjectHelperMock = $this->getMock(DataObjectHelper::class, ['populateWithArray'], [], '', false);
-        $this->objectProcessorMock = $this->getMock(
-            DataObjectProcessor::class,
-            ['buildOutputDataArray'],
-            [],
-            '',
-            false
-        );
+        $this->totalsFactoryMock = $this->createMock(SubscriptionsCartTotalsInterfaceFactory::class);
+        $this->collectorsListMock = $this->createMock(CollectorsList::class);
+        $this->dataObjectHelperMock = $this->createMock(DataObjectHelper::class);
+        $this->objectProcessorMock = $this->createMock(DataObjectProcessor::class);
         $this->totalsCollector = $objectManager->getObject(
             TotalsCollector::class,
             [

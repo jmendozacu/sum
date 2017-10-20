@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Totals\Collectors\Tax;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -26,7 +21,7 @@ use Magento\Tax\Model\Config as TaxConfig;
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Totals\Collectors\Tax\Subtotal
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class SubtotalTest extends \PHPUnit_Framework_TestCase
+class SubtotalTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Subtotal
@@ -76,23 +71,11 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->addressItemsRegistryMock = $this->getMock(ItemsRegistry::class, ['retrieveInner'], [], '', false);
-        $this->itemsConverterManagerMock = $this->getMock(
-            ItemsConverterManager::class,
-            ['toTaxQuoteDetailsItems'],
-            [],
-            '',
-            false
-        );
-        $this->cartConverterManagerMock = $this->getMock(
-            CartConverterManager::class,
-            ['toTaxQuoteDetails'],
-            [],
-            '',
-            false
-        );
+        $this->addressItemsRegistryMock = $this->createMock(ItemsRegistry::class);
+        $this->itemsConverterManagerMock = $this->createMock(ItemsConverterManager::class);
+        $this->cartConverterManagerMock = $this->createMock(CartConverterManager::class);
         $this->taxCalculationMock = $this->getMockForAbstractClass(TaxCalculationInterface::class);
-        $this->taxConfigMock = $this->getMock(TaxConfig::class, ['priceIncludesTax'], [], '', false);
+        $this->taxConfigMock = $this->createMock(TaxConfig::class);
 
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $this->addressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
@@ -324,7 +307,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
     {
         $itemMock = $this->getMockForAbstractClass(SubscriptionsCartItemInterface::class);
         foreach ($data as $method => $value) {
-            $itemMock->expects($this->once())
+            $itemMock->expects($this->any())
                 ->method($method)
                 ->willReturn($value);
         }

@@ -1,11 +1,4 @@
 <?xml version="1.0"?>
-<!--
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
--->
-
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <aw_sarp>
@@ -14,6 +7,7 @@
                 <apply_tax_on_shipping_amount>0</apply_tax_on_shipping_amount>
                 <display_you_save_x_percents_on_product_page>1</display_you_save_x_percents_on_product_page>
                 <tooltip_near_subscription_button_content/>
+                <keep_log_for_days>90</keep_log_for_days>
             </general>
         </aw_sarp>
         <payment>

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\ResourceModel\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\SubscriptionsCartRepositoryInterface;
@@ -21,7 +16,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\ResourceModel\SubscriptionsCart\AddressRepository
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
+class AddressRepositoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var AddressRepository
@@ -56,17 +51,11 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->entityManagerMock = $this->getMock(EntityManager::class, ['save', 'load'], [], '', false);
-        $this->addressFactoryMock = $this->getMock(
-            SubscriptionsCartAddressInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->searchResultsFactoryMock = $this->getMock(SearchResultsFactory::class, ['create'], [], '', false);
+        $this->entityManagerMock = $this->createMock(EntityManager::class);
+        $this->addressFactoryMock = $this->createMock(SubscriptionsCartAddressInterfaceFactory::class);
+        $this->searchResultsFactoryMock = $this->createMock(SearchResultsFactory::class);
         $this->cartRepositoryMock = $this->getMockForAbstractClass(SubscriptionsCartRepositoryInterface::class);
-        $this->totalsCollectorMock = $this->getMock(TotalsCollector::class, ['collect'], [], '', false);
+        $this->totalsCollectorMock = $this->createMock(TotalsCollector::class);
         $this->repository = $objectManager->getObject(
             AddressRepository::class,
             [

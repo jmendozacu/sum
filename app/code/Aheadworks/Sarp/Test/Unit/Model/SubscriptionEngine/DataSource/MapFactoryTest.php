@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\DataSource;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\MapFactory;
@@ -14,7 +9,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\DataSource\MapFactory
  */
-class MapFactoryTest extends \PHPUnit_Framework_TestCase
+class MapFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MapFactory

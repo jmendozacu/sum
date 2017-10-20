@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\ResourceModel;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -21,7 +16,7 @@ use Magento\Store\Model\StoreManagerInterface;
  * Test for \Aheadworks\Sarp\Model\ResourceModel\SubscriptionsCartRepository
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class SubscriptionsCartRepositoryTest extends \PHPUnit_Framework_TestCase
+class SubscriptionsCartRepositoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SubscriptionsCartRepository
@@ -61,29 +56,11 @@ class SubscriptionsCartRepositoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->entityManagerMock = $this->getMock(
-            EntityManager::class,
-            ['save', 'load', 'delete'],
-            [],
-            '',
-            false
-        );
+        $this->entityManagerMock = $this->createMock(EntityManager::class);
         $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
-        $this->cartFactoryMock = $this->getMock(
-            SubscriptionsCartInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->cartResourceMock = $this->getMock(
-            SubscriptionsCartResource::class,
-            ['getCartIdByCustomerId'],
-            [],
-            '',
-            false
-        );
-        $this->totalsCollectorMock = $this->getMock(TotalsCollector::class, ['collect'], [], '', false);
+        $this->cartFactoryMock = $this->createMock(SubscriptionsCartInterfaceFactory::class);
+        $this->cartResourceMock = $this->createMock(SubscriptionsCartResource::class);
+        $this->totalsCollectorMock = $this->createMock(TotalsCollector::class);
 
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
 

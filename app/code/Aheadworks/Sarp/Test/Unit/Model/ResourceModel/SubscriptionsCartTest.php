@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\ResourceModel;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -19,7 +14,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\ResourceModel\SubscriptionsCart
  */
-class SubscriptionsCartTest extends \PHPUnit_Framework_TestCase
+class SubscriptionsCartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SubscriptionsCartResource
@@ -39,14 +34,8 @@ class SubscriptionsCartTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->metadataPoolMock = $this->getMock(MetadataPool::class, ['getMetadata'], [], '', false);
-        $this->resourcesMock = $this->getMock(
-            ResourceConnection::class,
-            ['getConnectionByName', 'getTableName'],
-            [],
-            '',
-            false
-        );
+        $this->metadataPoolMock = $this->createMock(MetadataPool::class);
+        $this->resourcesMock = $this->createMock(ResourceConnection::class);
         $context = $objectManager->getObject(Context::class, ['resources' => $this->resourcesMock]);
 
         $this->cartResource = $objectManager->getObject(
@@ -97,7 +86,7 @@ class SubscriptionsCartTest extends \PHPUnit_Framework_TestCase
         $tableName = 'aw_sarp_subscriptions_cart';
 
         $connectionMock = $this->getMockForAbstractClass(AdapterInterface::class);
-        $selectMock = $this->getMock(Select::class, ['from', 'where', 'order'], [], '', false);
+        $selectMock = $this->createMock(Select::class);
 
         $this->setUpGetConnection($connectionMock);
         $connectionMock->expects($this->once())

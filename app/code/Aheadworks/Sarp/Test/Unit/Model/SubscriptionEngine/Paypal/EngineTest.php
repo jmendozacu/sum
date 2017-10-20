@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine\Paypal;
 
 use Aheadworks\Sarp\Api\Data\ProfileAddressInterface;
@@ -22,7 +17,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\Engine
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class EngineTest extends \PHPUnit_Framework_TestCase
+class EngineTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Engine
@@ -57,34 +52,11 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->apiMock = $this->getMock(
-            ApiNvp::class,
-            [
-                'callCreateRecurringPaymentsProfile',
-                'callUpdateRecurringPaymentsProfile',
-                'callGetRecurringPaymentsProfileDetails',
-                'callManageRecurringPaymentsProfileStatus'
-            ],
-            [],
-            '',
-            false
-        );
-        $this->dataObjectFactoryMock = $this->getMock(DataObjectFactory::class, ['create'], [], '', false);
-        $this->engineDataResolverMock = $this->getMock(
-            DataResolver::class,
-            ['getProfileDescription'],
-            [],
-            '',
-            false
-        );
-        $this->objectCopyServiceMock = $this->getMock(Copy::class, ['copyFieldsetToTarget'], [], '', false);
-        $this->dataObjectProcessorMock = $this->getMock(
-            DataObjectProcessor::class,
-            ['buildOutputDataArray'],
-            [],
-            '',
-            false
-        );
+        $this->apiMock = $this->createMock(ApiNvp::class);
+        $this->dataObjectFactoryMock = $this->createMock(DataObjectFactory::class);
+        $this->engineDataResolverMock = $this->createMock(DataResolver::class);
+        $this->objectCopyServiceMock = $this->createMock(Copy::class);
+        $this->dataObjectProcessorMock = $this->createMock(DataObjectProcessor::class);
         $this->engine = $objectManager->getObject(
             Engine::class,
             [
@@ -181,8 +153,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
         /** @var ProfileInterface|\PHPUnit_Framework_MockObject_MockObject $profileMock */
         $profileMock = $this->getMockForAbstractClass(ProfileInterface::class);
-        $requestMock = $this->getMock(DataObject::class, ['__call'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
 
         $this->setUpExportImportData(
             $profileMock,
@@ -207,8 +179,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     {
         /** @var ProfileInterface|\PHPUnit_Framework_MockObject_MockObject $profileMock */
         $profileMock = $this->getMockForAbstractClass(ProfileInterface::class);
-        $requestMock = $this->getMock(DataObject::class, ['__call'], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
 
         $this->setUpExportImportData(
             $profileMock,
@@ -233,9 +205,9 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $referenceId = 'profile_reference_id';
         $responseData = ['responseFieldName' => 'responseValue'];
 
-        $requestMock = $this->getMock(DataObject::class, [], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $apiResponseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
+        $apiResponseMock = $this->createMock(DataObject::class);
 
         $this->dataObjectFactoryMock->expects($this->exactly(2))
             ->method('create')
@@ -267,10 +239,10 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $action = 'activate';
         $expectedStatus = 'active';
 
-        $requestMock1 = $this->getMock(DataObject::class, [], [], '', false);
-        $requestMock2 = $this->getMock(DataObject::class, [], [], '', false);
-        $responseMock = $this->getMock(DataObject::class, ['getData'], [], '', false);
-        $apiResponseMock = $this->getMock(DataObject::class, [], [], '', false);
+        $requestMock1 = $this->createMock(DataObject::class);
+        $requestMock2 = $this->createMock(DataObject::class);
+        $responseMock = $this->createMock(DataObject::class);
+        $apiResponseMock = $this->createMock(DataObject::class);
 
         $this->dataObjectFactoryMock->expects($this->exactly(3))
             ->method('create')

@@ -1,8 +1,3 @@
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 define(
     [
         'uiComponent',
@@ -30,6 +25,12 @@ define(
             {
                 type: 'stripe',
                 component: 'Aheadworks_Sarp/js/ui/checkout/view/payment/method-renderer/stripe'
+            }
+        );
+        rendererList.push(
+            {
+                type: 'adyen_cc',
+                component: 'Aheadworks_Sarp/js/ui/checkout/view/payment/method-renderer/adyen/cc'
             }
         );
 

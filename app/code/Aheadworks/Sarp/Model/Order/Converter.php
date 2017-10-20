@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Order;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -12,6 +7,7 @@ use Aheadworks\Sarp\Model\Order\Address\Converter as AddressConverter;
 use Aheadworks\Sarp\Model\Order\Item\Converter as ItemConverter;
 use Aheadworks\Sarp\Model\Order\ShippingAssignment\Initializer as ShippingAssignmentInitializer;
 use Aheadworks\Sarp\Model\Order\Payment\Initializer as PaymentInitializer;
+use Aheadworks\Sarp\Model\Profile\PaymentInfo;
 use Aheadworks\Sarp\Model\SubscriptionsCart\Address;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderInterfaceFactory;
@@ -146,11 +142,15 @@ class Converter
         $order->setPayment($payment);
 
         $orderItems = [];
-        foreach ($profile->getItems() as $item) {
-            $orderItems = array_merge(
-                $orderItems,
-                $this->itemConverter->fromProfileItem($item, $paymentInfo, $profile)
-            );
+        if ($paymentInfo->getPaymentType() == PaymentInfo::PAYMENT_TYPE_INITIAL) {
+            $orderItems[] = $this->itemConverter->fromPaymentInfoAsInitial($paymentInfo, $profile->getStoreId());
+        } else {
+            foreach ($profile->getItems() as $item) {
+                $orderItems = array_merge(
+                    $orderItems,
+                    $this->itemConverter->fromProfileItem($item, $paymentInfo, $profile)
+                );
+            }
         }
         $order->setItems($orderItems);
 

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -391,15 +386,17 @@ interface ProfileAddressInterface extends ExtensibleDataInterface
     /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return ProfileAddressExtensionInterface|null
+     * @return \Aheadworks\Sarp\Api\Data\ProfileAddressExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param ProfileAddressExtensionInterface $extensionAttributes
+     * @param \Aheadworks\Sarp\Api\Data\ProfileAddressExtensionInterface $extensionAttributes
      * @return $this
      */
-    public function setExtensionAttributes(ProfileAddressExtensionInterface $extensionAttributes);
+    public function setExtensionAttributes(
+        \Aheadworks\Sarp\Api\Data\ProfileAddressExtensionInterface $extensionAttributes
+    );
 }

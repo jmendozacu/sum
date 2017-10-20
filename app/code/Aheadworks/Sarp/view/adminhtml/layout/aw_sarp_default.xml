@@ -1,11 +1,4 @@
 <?xml version="1.0"?>
-<!--
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
--->
-
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="Aheadworks_Sarp::css/style.css"/>
@@ -27,6 +20,14 @@
                         <argument name="label" xsi:type="string">Subscription Plans</argument>
                         <argument name="resource" xsi:type="string">Aheadworks_Sarp::subscription_plans</argument>
                         <argument name="controller" xsi:type="string">subscriptionplan</argument>
+                    </arguments>
+                </block>
+                <block class="Aheadworks\Sarp\Block\Adminhtml\Page\Menu\Item" name="aw_sarp_menu_item.log">
+                    <arguments>
+                        <argument name="path" xsi:type="string">*/log/index</argument>
+                        <argument name="label" xsi:type="string">Log</argument>
+                        <argument name="resource" xsi:type="string">Aheadworks_Sarp::log</argument>
+                        <argument name="controller" xsi:type="string">log</argument>
                     </arguments>
                 </block>
                 <block class="Aheadworks\Sarp\Block\Adminhtml\Page\Menu\Item" name="aw_sarp_menu_item.settings">

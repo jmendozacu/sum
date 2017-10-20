@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -11,6 +6,8 @@ use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Downloadable\Model\Product\Type as DownloadableType;
 use Magento\Framework\Validator\AbstractValidator;
+use Magento\Checkout\Helper\Data as CheckoutHelper;
+use Aheadworks\Sarp\Model\SubscriptionsCart\ConverterManager;
 
 /**
  * Class CheckoutValidator
@@ -29,15 +26,31 @@ class CheckoutValidator extends AbstractValidator
     private $customerSession;
 
     /**
+     * @var CheckoutHelper
+     */
+    private $checkoutHelper;
+
+    /**
+     * @var ConverterManager
+     */
+    private $converterManager;
+
+    /**
      * @param ProductRepositoryInterface $productRepository
      * @param CustomerSession $customerSession
+     * @param CheckoutHelper $checkoutHelper
+     * @param ConverterManager $converterManager
      */
     public function __construct(
         ProductRepositoryInterface $productRepository,
-        CustomerSession $customerSession
+        CustomerSession $customerSession,
+        CheckoutHelper $checkoutHelper,
+        ConverterManager $converterManager
     ) {
         $this->productRepository = $productRepository;
         $this->customerSession = $customerSession;
+        $this->checkoutHelper = $checkoutHelper;
+        $this->converterManager = $converterManager;
     }
 
     /**
@@ -61,6 +74,12 @@ class CheckoutValidator extends AbstractValidator
             && $this->isCartContainsDownloadableProduct($cart)
         ) {
             $this->_addMessages(['Guest checkout is not allowed for downloadable products.']);
+        }
+        $quote = $this->converterManager->toQuote($cart);
+        if (!$this->customerSession->isLoggedIn()
+            && !$this->checkoutHelper->isAllowedGuestCheckout($quote)
+        ) {
+            $this->_addMessages(['Guest checkout is not allowed']);
         }
 
         return empty($this->getMessages());

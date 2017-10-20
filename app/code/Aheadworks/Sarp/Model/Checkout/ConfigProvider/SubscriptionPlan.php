@@ -1,14 +1,10 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Checkout\ConfigProvider;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionPlanInterface;
 use Aheadworks\Sarp\Api\SubscriptionPlanRepositoryInterface;
 use Aheadworks\Sarp\Model\Checkout\ConfigProviderInterface;
+use Aheadworks\Sarp\Model\SubscriptionEngine\EngineMetadataPool;
 use Aheadworks\Sarp\Model\SubscriptionPlan\Source\BillingFrequency as BillingFrequencySource;
 use Aheadworks\Sarp\Model\SubscriptionPlan\Source\BillingPeriod as BillingPeriodSource;
 use Aheadworks\Sarp\Model\SubscriptionPlan\Source\DayOfMonth\Ending;
@@ -78,6 +74,12 @@ class SubscriptionPlan implements ConfigProviderInterface
     private $repeatPaymentsConverter;
 
     /**
+     * @var EngineMetadataPool
+     */
+    private $engineMetadataPool;
+
+    /**
+     * SubscriptionPlan constructor.
      * @param SubscriptionPlanRepositoryInterface $subscriptionPlanRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param DataObjectProcessor $dataObjectProcessor
@@ -88,6 +90,7 @@ class SubscriptionPlan implements ConfigProviderInterface
      * @param StartDateTypeSource $startDateTypeSource
      * @param Ending $ending
      * @param RepeatPaymentsConverter $repeatPaymentsConverter
+     * @param EngineMetadataPool $engineMetadataPool
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -100,7 +103,8 @@ class SubscriptionPlan implements ConfigProviderInterface
         BillingPeriodSource $billingPeriodSource,
         StartDateTypeSource $startDateTypeSource,
         Ending $ending,
-        RepeatPaymentsConverter $repeatPaymentsConverter
+        RepeatPaymentsConverter $repeatPaymentsConverter,
+        EngineMetadataPool $engineMetadataPool
     ) {
         $this->subscriptionPlanRepository = $subscriptionPlanRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -112,6 +116,7 @@ class SubscriptionPlan implements ConfigProviderInterface
         $this->startDateTypeSource = $startDateTypeSource;
         $this->ending = $ending;
         $this->repeatPaymentsConverter = $repeatPaymentsConverter;
+        $this->engineMetadataPool = $engineMetadataPool;
     }
 
     /**
@@ -138,6 +143,11 @@ class SubscriptionPlan implements ConfigProviderInterface
             ->addFilter(
                 SubscriptionPlanInterface::WEBSITE_ID,
                 $this->storeManager->getWebsite()->getId()
+            )
+            ->addFilter(
+                SubscriptionPlanInterface::ENGINE_CODE,
+                $this->engineMetadataPool->getEnginesCodes(true),
+                'in'
             );
         $subscriptionPlans = $this->subscriptionPlanRepository->getList(
             $this->searchCriteriaBuilder->create()

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionPlan;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionPlanInterface;
@@ -18,7 +13,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionPlan\Validator
  */
-class ValidatorTest extends \PHPUnit_Framework_TestCase
+class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
     const ENGINE_CODE = 'engine_code';
     const ENGINE_CODE_NON_EXISTING = 'engine_code_non_existing';
@@ -66,20 +61,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->engineSpecificValidatorFactoryMock = $this->getMock(
-            PlanValidatorFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $this->engineMetadataPoolMock = $this->getMock(
-            EngineMetadataPool::class,
-            ['getMetadata', 'getEnginesCodes'],
-            [],
-            '',
-            false
-        );
+        $this->engineSpecificValidatorFactoryMock = $this->createMock(PlanValidatorFactory::class);
+        $this->engineMetadataPoolMock = $this->createMock(EngineMetadataPool::class);
         $this->validator = $objectManager->getObject(
             Validator::class,
             [
@@ -225,7 +208,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     private function createSubscriptionPlanDescriptionMock($methodModify = null, $valueModify = null)
     {
-        $subscriptionPlanDescriptionMock = $this->getMock(SubscriptionPlanDescriptionInterface::class);
+        $subscriptionPlanDescriptionMock = $this->getMockForAbstractClass(SubscriptionPlanDescriptionInterface::class);
         foreach ($this->subscriptionPlanDescriptionData as $method => $value) {
             if ($method != $methodModify) {
                 $subscriptionPlanDescriptionMock->expects($this->any())
@@ -255,7 +238,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             'incorrect engine code' => [
                 $this->createSubscriptionPlanMock('getEngineCode', self::ENGINE_CODE_NON_EXISTING),
                 false,
-                ['Subscription engine code is incorrect.']
+                ['Subscription engine code is incorrect or unavailable.']
             ],
             'missing website ID' => [
                 $this->createSubscriptionPlanMock('getWebsiteId', null),

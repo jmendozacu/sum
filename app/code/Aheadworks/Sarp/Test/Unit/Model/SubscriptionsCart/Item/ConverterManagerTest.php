@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Item;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartItemInterface;
@@ -18,7 +13,7 @@ use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Item\ConverterManager
  */
-class ConverterManagerTest extends \PHPUnit_Framework_TestCase
+class ConverterManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ConverterManager
@@ -38,20 +33,8 @@ class ConverterManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->toQuoteAddressItemsConverterMock = $this->getMock(
-            QuoteAddressItemsConverter::class,
-            ['convert'],
-            [],
-            '',
-            false
-        );
-        $this->toTaxQuoteDetailsItemsConverterMock = $this->getMock(
-            TaxQuoteDetailsItemsConverter::class,
-            ['convert'],
-            [],
-            '',
-            false
-        );
+        $this->toQuoteAddressItemsConverterMock = $this->createMock(QuoteAddressItemsConverter::class);
+        $this->toTaxQuoteDetailsItemsConverterMock = $this->createMock(TaxQuoteDetailsItemsConverter::class);
         $this->converterManager = $objectManager->getObject(
             ConverterManager::class,
             [
@@ -68,7 +51,7 @@ class ConverterManagerTest extends \PHPUnit_Framework_TestCase
         $itemMock = $this->getMockForAbstractClass(SubscriptionsCartItemInterface::class);
         /** @var SubscriptionsCartAddressInterface|\PHPUnit_Framework_MockObject_MockObject $addressMock */
         $addressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
-        $quoteAddressItemMock = $this->getMock(QuoteAddressItem::class, [], [], '', false);
+        $quoteAddressItemMock = $this->createMock(QuoteAddressItem::class);
         $this->toQuoteAddressItemsConverterMock->expects($this->once())
             ->method('convert')
             ->with([$itemMock], $addressMock, $useTrialPrice)

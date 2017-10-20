@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Controller\Paypalexpress;
 
 use Aheadworks\Sarp\Api\SubscriptionsCartManagementInterface;
@@ -22,7 +17,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Test for \Aheadworks\Sarp\Controller\Paypalexpress\ReturnAction
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ReturnActionTest extends \PHPUnit_Framework_TestCase
+class ReturnActionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ReturnAction
@@ -63,11 +58,11 @@ class ReturnActionTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->requestMock = $this->getMockForAbstractClass(RequestInterface::class);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
+        $this->resultRedirectFactoryMock = $this->createMock(RedirectFactory::class);
         $this->messageManagerMock = $this->getMockForAbstractClass(MessageManager::class);
         $this->cartManagementMock = $this->getMockForAbstractClass(SubscriptionsCartManagementInterface::class);
-        $this->cartPersistorMock = $this->getMock(Persistor::class, ['getCartId'], [], '', false);
-        $this->checkoutMock = $this->getMock(ExpressCheckout::class, ['updateCart'], [], '', false);
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
+        $this->checkoutMock = $this->createMock(ExpressCheckout::class);
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -92,7 +87,7 @@ class ReturnActionTest extends \PHPUnit_Framework_TestCase
         $cartId = 1;
         $token = 'token_value';
 
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
 
         $this->resultRedirectFactoryMock->expects($this->once())
             ->method('create')
@@ -122,7 +117,7 @@ class ReturnActionTest extends \PHPUnit_Framework_TestCase
         $token = 'token_value';
         $exceptionMessage = 'Exception message';
 
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
         $exception = new LocalizedException(__($exceptionMessage));
 
         $this->resultRedirectFactoryMock->expects($this->once())
@@ -149,7 +144,7 @@ class ReturnActionTest extends \PHPUnit_Framework_TestCase
     public function testExecuteException()
     {
         $token = 'token_value';
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
         $exception = new \Exception();
 
         $this->resultRedirectFactoryMock->expects($this->once())

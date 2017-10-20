@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -13,11 +8,14 @@ use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use Magento\Checkout\Helper\Data as CheckoutHelper;
+use Aheadworks\Sarp\Model\SubscriptionsCart\ConverterManager;
+use Magento\Quote\Model\Quote;
 
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\CheckoutValidator
  */
-class CheckoutValidatorTest extends \PHPUnit_Framework_TestCase
+class CheckoutValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CheckoutValidator
@@ -35,6 +33,16 @@ class CheckoutValidatorTest extends \PHPUnit_Framework_TestCase
     private $customerSessionMock;
 
     /**
+     * @var CheckoutHelper|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $checkoutHelperMock;
+
+    /**
+     * @var ConverterManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $converterManagerMock;
+
+    /**
      * @var array
      */
     private $cartData = ['getSubscriptionPlanId' => 1];
@@ -43,12 +51,17 @@ class CheckoutValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->productRepositoryMock = $this->getMockForAbstractClass(ProductRepositoryInterface::class);
-        $this->customerSessionMock = $this->getMock(CustomerSession::class, ['isLoggedIn'], [], '', false);
+        $this->customerSessionMock = $this->createMock(CustomerSession::class);
+        $this->customerSessionMock = $this->createMock(CustomerSession::class);
+        $this->checkoutHelperMock = $this->createMock(CheckoutHelper::class);
+        $this->converterManagerMock = $this->createMock(ConverterManager::class);
         $this->validator = $objectManager->getObject(
             CheckoutValidator::class,
             [
                 'productRepository' => $this->productRepositoryMock,
-                'customerSession' => $this->customerSessionMock
+                'customerSession' => $this->customerSessionMock,
+                'checkoutHelper' => $this->checkoutHelperMock,
+                'converterManager' => $this->converterManagerMock
             ]
         );
     }
@@ -82,6 +95,7 @@ class CheckoutValidatorTest extends \PHPUnit_Framework_TestCase
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $itemMock = $this->getMockForAbstractClass(SubscriptionsCartItemInterface::class);
         $productMock = $this->getMockForAbstractClass(ProductInterface::class);
+        $quoteMock = $this->createMock(Quote::class);
 
         $cartMock->expects($this->exactly(2))
             ->method('getItems')
@@ -89,7 +103,7 @@ class CheckoutValidatorTest extends \PHPUnit_Framework_TestCase
         $cartMock->expects($this->once())
             ->method('getSubscriptionPlanId')
             ->willReturn(1);
-        $this->customerSessionMock->expects($this->once())
+        $this->customerSessionMock->expects($this->exactly(2))
             ->method('isLoggedIn')
             ->willReturn(false);
         $itemMock->expects($this->once())
@@ -102,6 +116,13 @@ class CheckoutValidatorTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())
             ->method('getTypeId')
             ->willReturn($productType);
+        $this->converterManagerMock->expects($this->once())
+            ->method('toQuote')
+            ->willReturn($quoteMock);
+        $this->checkoutHelperMock->expects($this->once())
+            ->method('isAllowedGuestCheckout')
+            ->with($quoteMock)
+            ->willReturn(true);
 
         $this->assertEquals($expectedResult, $this->validator->isValid($cartMock));
         $this->assertEquals($expectedMessages, $this->validator->getMessages());

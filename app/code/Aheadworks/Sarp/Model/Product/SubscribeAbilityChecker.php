@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\Product;
 
 use Aheadworks\Sarp\Model\Product\Attribute\Source\SubscriptionType;
@@ -147,7 +142,6 @@ class SubscribeAbilityChecker
             $this->checkCache[$key] = $checkResult;
         }
         return $this->checkCache[$key];
-
     }
 
     /**

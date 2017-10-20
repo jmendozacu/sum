@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Controller\Paypalexpress;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\Paypal\ExpressCheckout;
@@ -54,7 +49,6 @@ class Start extends Action
                 $this->getResponse()->setRedirect($this->url->getPaypalStartUrl($token));
                 return;
             }
-
         } catch (LocalizedException $e) {
             $this->messageManager->addExceptionMessage($e, $e->getMessage());
         } catch (\Exception $e) {

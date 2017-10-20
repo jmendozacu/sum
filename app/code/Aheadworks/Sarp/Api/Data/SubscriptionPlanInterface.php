@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -281,15 +276,17 @@ interface SubscriptionPlanInterface extends ExtensibleDataInterface
     /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return SubscriptionPlanExtensionInterface|null
+     * @return \Aheadworks\Sarp\Api\Data\SubscriptionPlanExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param SubscriptionPlanExtensionInterface $extensionAttributes
+     * @param \Aheadworks\Sarp\Api\Data\SubscriptionPlanExtensionInterface $extensionAttributes
      * @return $this
      */
-    public function setExtensionAttributes(SubscriptionPlanExtensionInterface $extensionAttributes);
+    public function setExtensionAttributes(
+        \Aheadworks\Sarp\Api\Data\SubscriptionPlanExtensionInterface $extensionAttributes
+    );
 }

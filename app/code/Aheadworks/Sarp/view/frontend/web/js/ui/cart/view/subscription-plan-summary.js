@@ -1,8 +1,3 @@
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 define(
     [
         'jquery',
@@ -14,7 +9,8 @@ define(
         'Magento_Catalog/js/price-utils',
         'moment',
         'mage/calendar',
-        'mageUtils'
+        'mageUtils',
+        'Magento_Customer/js/model/authentication-popup'
     ],
     function(
         $,
@@ -26,7 +22,8 @@ define(
         priceUtils,
         moment,
         calendar,
-        utils
+        utils,
+        authenticationPopup
     ) {
         'use strict';
 
@@ -116,6 +113,13 @@ define(
             onContinueToCheckoutClick: function () {
                 var startDateForm = $('form[data-role=start-date-form]'),
                     canPerformAction = startDateForm.length && startDateForm.valid() || !startDateForm.length;
+
+                if (window.awSarpCheckoutConfig.isCustomerLoggedIn === false
+                    && window.awSarpCheckoutConfig.isGuestCheckoutAllowed === false
+                ) {
+                    authenticationPopup.showModal();
+                    canPerformAction = false;
+                }
 
                 if (canPerformAction) {
                     cart.startDate(this.startDate());

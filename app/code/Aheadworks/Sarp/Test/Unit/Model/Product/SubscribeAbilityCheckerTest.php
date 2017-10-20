@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\Product;
 
 use Aheadworks\Sarp\Model\Product\SubscribeAbilityChecker;
@@ -14,7 +9,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\Product\SubscribeAbilityChecker
  */
-class SubscribeAbilityCheckerTest extends \PHPUnit_Framework_TestCase
+class SubscribeAbilityCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SubscribeAbilityChecker
@@ -64,7 +59,7 @@ class SubscribeAbilityCheckerTest extends \PHPUnit_Framework_TestCase
      */
     private function createProductMock($subscriptionType, $regularPrice)
     {
-        $productMock = $this->getMock(Product::class, ['__call'], [], '', false);
+        $productMock = $this->createMock(Product::class);
         $productMock->expects($this->any())
             ->method('__call')
             ->willReturnMap(

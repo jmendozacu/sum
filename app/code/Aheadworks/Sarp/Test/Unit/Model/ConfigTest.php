@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model;
 
 use Aheadworks\Sarp\Model\Config;
@@ -14,7 +9,7 @@ use Magento\Store\Model\ScopeInterface;
 /**
  * Test for \Aheadworks\Sarp\Model\Config
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Config
@@ -95,5 +90,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function boolDataProvider()
     {
         return [[true], [false]];
+    }
+
+    public function testGetKeepLogForDaysValue()
+    {
+        $value = 89;
+
+        $this->scopeConfigMock->expects($this->any())
+            ->method('getValue')
+            ->with(Config::XML_PATH_KEEP_LOG_FOR_DAYS)
+            ->willReturn($value);
+        $this->assertEquals(
+            $value,
+            $this->config->getKeepLogForDaysValue()
+        );
     }
 }

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Controller\Paypalexpress;
 
 use Aheadworks\Sarp\Controller\Paypalexpress\Cancel as CancelAction;
@@ -16,7 +11,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Controller\Paypalexpress\Cancel
  */
-class CancelTest extends \PHPUnit_Framework_TestCase
+class CancelTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CancelAction
@@ -36,7 +31,7 @@ class CancelTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
+        $this->resultRedirectFactoryMock = $this->createMock(RedirectFactory::class);
         $this->messageManagerMock = $this->getMockForAbstractClass(MessageManager::class);
         $context = $objectManager->getObject(
             Context::class,
@@ -53,7 +48,7 @@ class CancelTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createMock(Redirect::class);
 
         $this->messageManagerMock->expects($this->once())
             ->method('addSuccessMessage')

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -25,7 +20,7 @@ use Magento\Store\Model\StoreManagerInterface;
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Persistor
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class PersistorTest extends \PHPUnit_Framework_TestCase
+class PersistorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Persistor
@@ -70,37 +65,15 @@ class PersistorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->sarpSessionMock = $this->getMock(
-            SarpSession::class,
-            [
-                'getCartId',
-                'setCartId',
-                '__call'
-            ],
-            [],
-            '',
-            false
-        );
+        $this->sarpSessionMock = $this->createMock(SarpSession::class);
         $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
-        $this->subscriptionsCartFactoryMock = $this->getMock(
-            SubscriptionsCartInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
+        $this->subscriptionsCartFactoryMock = $this->createMock(SubscriptionsCartInterfaceFactory::class);
         $this->subscriptionsCartRepositoryMock = $this->getMockForAbstractClass(
             SubscriptionsCartRepositoryInterface::class
         );
-        $this->customerSessionMock = $this->getMock(
-            CustomerSession::class,
-            ['isLoggedIn', 'getCustomerId'],
-            [],
-            '',
-            false
-        );
+        $this->customerSessionMock = $this->createMock(CustomerSession::class);
         $this->customerRepositoryMock = $this->getMockForAbstractClass(CustomerRepositoryInterface::class);
-        $this->objectCopyServiceMock = $this->getMock(Copy::class, ['copyFieldsetToTarget'], [], '', false);
+        $this->objectCopyServiceMock = $this->createMock(Copy::class);
         $this->persistor = $objectManager->getObject(
             Persistor::class,
             [
@@ -160,13 +133,7 @@ class PersistorTest extends \PHPUnit_Framework_TestCase
         $websiteId = 3;
         $currencyCode = 'USD';
 
-        $storeMock = $this->getMock(
-            Store::class,
-            ['getId', 'getWebsiteId', 'getCurrentCurrencyCode'],
-            [],
-            '',
-            false
-        );
+        $storeMock = $this->createMock(Store::class);
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
 
         $this->storeManagerMock->expects($this->exactly(4))
@@ -279,13 +246,7 @@ class PersistorTest extends \PHPUnit_Framework_TestCase
         $customerId = 4;
         $currencyCode = 'USD';
 
-        $storeMock = $this->getMock(
-            Store::class,
-            ['getId', 'getWebsiteId', 'getCurrentCurrencyCode'],
-            [],
-            '',
-            false
-        );
+        $storeMock = $this->createMock(Store::class);
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $customerMock = $this->getMockForAbstractClass(CustomerInterface::class);
 

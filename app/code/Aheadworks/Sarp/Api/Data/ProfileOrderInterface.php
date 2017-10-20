@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -167,15 +162,17 @@ interface ProfileOrderInterface extends ExtensibleDataInterface
     /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return ProfileOrderExtensionInterface|null
+     * @return \Aheadworks\Sarp\Api\Data\ProfileOrderExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param ProfileOrderExtensionInterface $extensionAttributes
+     * @param \Aheadworks\Sarp\Api\Data\ProfileOrderExtensionInterface $extensionAttributes
      * @return $this
      */
-    public function setExtensionAttributes(ProfileOrderExtensionInterface $extensionAttributes);
+    public function setExtensionAttributes(
+        \Aheadworks\Sarp\Api\Data\ProfileOrderExtensionInterface $extensionAttributes
+    );
 }

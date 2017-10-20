@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet\Api\Filter;
 
 use Aheadworks\Sarp\Model\Profile\Source\Status as ProfileStatus;

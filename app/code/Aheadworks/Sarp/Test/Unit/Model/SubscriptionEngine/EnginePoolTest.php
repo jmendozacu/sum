@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionEngine;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\EngineInterface;
@@ -16,7 +11,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionEngine\EnginePool
  */
-class EnginePoolTest extends \PHPUnit_Framework_TestCase
+class EnginePoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var EnginePool
@@ -37,7 +32,7 @@ class EnginePoolTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->objectManagerMock = $this->getMockForAbstractClass(ObjectManagerInterface::class);
-        $this->engineMetadataPoolMock = $this->getMock(EngineMetadataPool::class, ['getMetadata'], [], '', false);
+        $this->engineMetadataPoolMock = $this->createMock(EngineMetadataPool::class);
         $this->enginePool = $objectManager->getObject(
             EnginePool::class,
             [
@@ -104,7 +99,7 @@ class EnginePoolTest extends \PHPUnit_Framework_TestCase
         $engineClassName = 'WrongEngineClassName';
 
         $metadataMock = $this->getMockForAbstractClass(EngineMetadataInterface::class);
-        $engineMock = $this->getMock($engineClassName);
+        $engineMock = $this->getMockBuilder($engineClassName)->getMock();
         $this->engineMetadataPoolMock->expects($this->once())
             ->method('getMetadata')
             ->with($engineCode)

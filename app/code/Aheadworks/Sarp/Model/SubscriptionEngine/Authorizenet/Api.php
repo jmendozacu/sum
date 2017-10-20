@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet;
 
 use Aheadworks\Sarp\Model\SubscriptionEngine\Api\MapperInterface;

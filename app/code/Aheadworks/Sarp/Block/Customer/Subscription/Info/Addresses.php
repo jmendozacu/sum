@@ -1,22 +1,17 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Block\Customer\Subscription\Info;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
 use Aheadworks\Sarp\Api\Data\ProfileAddressInterface;
 use Aheadworks\Sarp\Api\ProfileRepositoryInterface;
 use Aheadworks\Sarp\Block\Customer\Subscription\Info\Address\Form as AddressForm;
-use Aheadworks\Sarp\Model\SubscriptionEngine\EngineMetadataPool;
+use Aheadworks\Sarp\Model\PaymentMethodList;
 use Aheadworks\Sarp\Model\SubscriptionsCart\Address;
 use Aheadworks\Sarp\Model\SubscriptionsCart\Address\Resolver\FullName as FullNameResolver;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Directory\Api\CountryInformationAcquirerInterface;
+use Magento\Directory\Model\CountryFactory;
 
 /**
  * Class Addresses
@@ -41,22 +36,22 @@ class Addresses extends \Magento\Framework\View\Element\Template
     private $fullNameResolver;
 
     /**
-     * @var CountryInformationAcquirerInterface
+     * @var CountryFactory
      */
-    private $countryInformation;
+    private $countryFactory;
 
     /**
-     * @var EngineMetadataPool
+     * @var PaymentMethodList
      */
-    private $engineMetadataPool;
+    private $paymentMethodList;
 
     /**
      * @param Context $context
      * @param ProfileRepositoryInterface $profileRepository
      * @param Session $customerSession
      * @param FullNameResolver $fullNameResolver
-     * @param CountryInformationAcquirerInterface $countryInformation
-     * @param EngineMetadataPool $engineMetadataPool
+     * @param CountryFactory $countryFactory
+     * @param PaymentMethodList $paymentMethodList
      * @param array $data
      */
     public function __construct(
@@ -64,16 +59,16 @@ class Addresses extends \Magento\Framework\View\Element\Template
         ProfileRepositoryInterface $profileRepository,
         Session $customerSession,
         FullNameResolver $fullNameResolver,
-        CountryInformationAcquirerInterface $countryInformation,
-        EngineMetadataPool $engineMetadataPool,
+        CountryFactory $countryFactory,
+        PaymentMethodList $paymentMethodList,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->profileRepository = $profileRepository;
         $this->customerSession = $customerSession;
         $this->fullNameResolver = $fullNameResolver;
-        $this->countryInformation = $countryInformation;
-        $this->engineMetadataPool = $engineMetadataPool;
+        $this->countryFactory = $countryFactory;
+        $this->paymentMethodList = $paymentMethodList;
     }
 
     /**
@@ -165,22 +160,25 @@ class Addresses extends \Magento\Framework\View\Element\Template
      */
     public function getCountryName($countryId)
     {
-        $countryInfo = $this->countryInformation->getCountryInfo($countryId);
-        return $countryInfo->getFullNameLocale();
+        $country = $this->countryFactory->create()->loadByCode($countryId);
+        return $country->getName();
     }
 
     /**
      * Get payment method name
      *
      * @return string
-     * @throws \Exception
      */
     public function getPaymentMethodName()
     {
-        $engineMetadata = $this->engineMetadataPool->getMetadata(
-            $this->getProfile()->getEngineCode()
-        );
-        return $engineMetadata->getLabel();
+        $profile = $this->getProfile();
+        if ($profile->getPaymentMethodTitle()) {
+            return $profile->getPaymentMethodTitle();
+        } else {
+            $method = $this->paymentMethodList
+                ->getMethod($profile->getEngineCode(), $profile->getPaymentMethodCode());
+            return $method ? $method->getTitle() : '';
+        }
     }
 
     /**

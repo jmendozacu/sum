@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartItemInterface;
@@ -17,7 +12,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\ItemsAddToCartValidator
  */
-class ItemsAddToCartValidatorTest extends \PHPUnit_Framework_TestCase
+class ItemsAddToCartValidatorTest extends \PHPUnit\Framework\TestCase
 {
     const PRODUCT_ID = 1;
 
@@ -58,20 +53,8 @@ class ItemsAddToCartValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
         $this->productRepositoryMock = $this->getMockForAbstractClass(ProductRepositoryInterface::class);
-        $this->typeRestrictionsMock = $this->getMock(
-            TypeRestrictions::class,
-            ['getSupportedProductTypes'],
-            [],
-            '',
-            false
-        );
-        $this->subscribeAbilityCheckerMock = $this->getMock(
-            SubscribeAbilityChecker::class,
-            ['isSubscribeAvailable'],
-            [],
-            '',
-            false
-        );
+        $this->typeRestrictionsMock = $this->createMock(TypeRestrictions::class);
+        $this->subscribeAbilityCheckerMock = $this->createMock(SubscribeAbilityChecker::class);
         $this->productMock = $this->getMockForAbstractClass(ProductInterface::class);
         $this->validator = $objectManager->getObject(
             ItemsAddToCartValidator::class,

@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Controller\Cart;
 
 use Aheadworks\Sarp\Controller\Cart\Index;
@@ -16,7 +11,7 @@ use Magento\Framework\View\Result\PageFactory;
 /**
  * Test for \Aheadworks\Sarp\Controller\Cart\Index
  */
-class IndexTest extends \PHPUnit_Framework_TestCase
+class IndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Index
@@ -31,7 +26,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultPageFactoryMock = $this->getMock(PageFactory::class, ['create'], [], '', false);
+        $this->resultPageFactoryMock = $this->createMock(PageFactory::class);
         $this->action = $objectManager->getObject(
             Index::class,
             ['resultPageFactory' => $this->resultPageFactoryMock]
@@ -40,9 +35,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $resultPageMock = $this->getMock(Page::class, ['getConfig'], [], '', false);
-        $pageConfigMock = $this->getMock(PageConfig::class, ['getTitle'], [], '', false);
-        $titleMock = $this->getMock(Title::class, ['set'], [], '', false);
+        $resultPageMock = $this->createMock(Page::class);
+        $pageConfigMock = $this->createMock(PageConfig::class);
+        $titleMock = $this->createMock(Title::class);
 
         $this->resultPageFactoryMock->expects($this->once())
             ->method('create')

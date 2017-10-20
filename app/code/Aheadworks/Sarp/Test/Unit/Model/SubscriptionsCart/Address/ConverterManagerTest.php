@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart\Address;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartAddressInterface;
@@ -17,7 +12,7 @@ use Magento\Quote\Model\Quote\Address as QuoteAddress;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\Address\ConverterManager
  */
-class ConverterManagerTest extends \PHPUnit_Framework_TestCase
+class ConverterManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ConverterManager
@@ -37,20 +32,8 @@ class ConverterManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->toQuoteAddressConverterMock = $this->getMock(
-            QuoteAddressConverter::class,
-            ['convert'],
-            [],
-            '',
-            false
-        );
-        $this->customerAddressConverterMock = $this->getMock(
-            CustomerAddressConverter::class,
-            ['toCustomerAddress', 'fromCustomerAddress'],
-            [],
-            '',
-            false
-        );
+        $this->toQuoteAddressConverterMock = $this->createMock(QuoteAddressConverter::class);
+        $this->customerAddressConverterMock = $this->createMock(CustomerAddressConverter::class);
         $this->converterManager = $objectManager->getObject(
             ConverterManager::class,
             [
@@ -64,7 +47,7 @@ class ConverterManagerTest extends \PHPUnit_Framework_TestCase
     {
         /** @var SubscriptionsCartAddressInterface|\PHPUnit_Framework_MockObject_MockObject $addressMock */
         $addressMock = $this->getMockForAbstractClass(SubscriptionsCartAddressInterface::class);
-        $quoteAddressMock = $this->getMock(QuoteAddress::class, [], [], '', false);
+        $quoteAddressMock = $this->createMock(QuoteAddress::class);
         $this->toQuoteAddressConverterMock->expects($this->once())
             ->method('convert')
             ->with($addressMock)

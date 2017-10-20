@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Block\Product;
 
 use Aheadworks\Sarp\Block\Product\Subscribe;
@@ -20,7 +15,7 @@ use Magento\Framework\View\Element\Template\Context;
  * Test for \Aheadworks\Sarp\Block\Product\Subscribe
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class SubscribeTest extends \PHPUnit_Framework_TestCase
+class SubscribeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Subscribe
@@ -58,20 +53,8 @@ class SubscribeTest extends \PHPUnit_Framework_TestCase
         $this->urlBuilderMock = $this->getMockForAbstractClass(UrlInterface::class);
         $this->requestMock = $this->getMockForAbstractClass(RequestInterface::class);
         $this->productRepositoryMock = $this->getMockForAbstractClass(ProductRepositoryInterface::class);
-        $this->subscribeAbilityCheckerMock = $this->getMock(
-            SubscribeAbilityChecker::class,
-            ['isSubscribeAvailable'],
-            [],
-            '',
-            false
-        );
-        $this->configMock = $this->getMock(
-            Config::class,
-            ['isDisplayYouSaveXPercentsOnProductPage'],
-            [],
-            '',
-            false
-        );
+        $this->subscribeAbilityCheckerMock = $this->createMock(SubscribeAbilityChecker::class);
+        $this->configMock = $this->createMock(Config::class);
         $context = $objectManager->getObject(
             Context::class,
             [

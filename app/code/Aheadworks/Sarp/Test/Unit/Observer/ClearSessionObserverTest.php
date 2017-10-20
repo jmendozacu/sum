@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Observer;
 
 use Aheadworks\Sarp\Model\SubscriptionsCart\Persistor;
@@ -14,7 +9,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 /**
  * Test for \Aheadworks\Sarp\Observer\ClearSessionObserver
  */
-class ClearSessionObserverTest extends \PHPUnit_Framework_TestCase
+class ClearSessionObserverTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ClearSessionObserver
@@ -29,7 +24,7 @@ class ClearSessionObserverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->cartPersistorMock = $this->getMock(Persistor::class, ['clear'], [], '', false);
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
         $this->observer = $objectManager->getObject(
             ClearSessionObserver::class,
             ['cartPersistor' => $this->cartPersistorMock]
@@ -39,7 +34,7 @@ class ClearSessionObserverTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         /** @var Observer|\PHPUnit_Framework_MockObject_MockObject $observerMock */
-        $observerMock = $this->getMock(Observer::class, [], [], '', false);
+        $observerMock = $this->createMock(Observer::class);
 
         $this->cartPersistorMock->expects($this->once())
             ->method('clear');

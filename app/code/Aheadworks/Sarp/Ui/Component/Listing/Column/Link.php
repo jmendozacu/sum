@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Ui\Component\Listing\Column;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
@@ -54,6 +49,8 @@ class Link extends \Magento\Ui\Component\Listing\Columns\Column
                         [$config['requestField'] => $item[$config['indexField']]]
                     );
                     $item[$index . '_text'] = $this->prepareLinkText($item);
+                } else {
+                    $item[$index] = $this->preparePlainText($item);
                 }
             }
         }
@@ -79,6 +76,17 @@ class Link extends \Magento\Ui\Component\Listing\Columns\Column
      * @return string
      */
     protected function prepareLinkText(array $item)
+    {
+        return $item[$this->getName()];
+    }
+
+    /**
+     * Prepare plain text
+     *
+     * @param array $item
+     * @return string
+     */
+    protected function preparePlainText(array $item)
     {
         return $item[$this->getName()];
     }

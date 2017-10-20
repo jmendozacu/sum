@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Model\SubscriptionsCart;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -18,7 +13,7 @@ use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
 /**
  * Test for \Aheadworks\Sarp\Model\SubscriptionsCart\ConverterManager
  */
-class ConverterManagerTest extends \PHPUnit_Framework_TestCase
+class ConverterManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ConverterManager
@@ -38,14 +33,8 @@ class ConverterManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->toQuoteConverterMock = $this->getMock(QuoteConverter::class, ['convert'], [], '', false);
-        $this->toTaxQuoteDetailsConverterMock = $this->getMock(
-            TaxQuoteDetailsConverter::class,
-            ['convert'],
-            [],
-            '',
-            false
-        );
+        $this->toQuoteConverterMock = $this->createMock(QuoteConverter::class);
+        $this->toTaxQuoteDetailsConverterMock = $this->createMock(TaxQuoteDetailsConverter::class);
         $this->converterManager = $objectManager->getObject(
             ConverterManager::class,
             [
@@ -59,7 +48,7 @@ class ConverterManagerTest extends \PHPUnit_Framework_TestCase
     {
         /** @var SubscriptionsCartInterface|\PHPUnit_Framework_MockObject_MockObject $cartMock */
         $cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
-        $quoteMock = $this->getMock(Quote::class, [], [], '', false);
+        $quoteMock = $this->createMock(Quote::class);
         $this->toQuoteConverterMock->expects($this->once())
             ->method('convert')
             ->with($cartMock)

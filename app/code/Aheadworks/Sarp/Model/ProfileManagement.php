@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model;
 
 use Aheadworks\Sarp\Api\Data\ProfileInterface;
@@ -11,6 +6,7 @@ use Aheadworks\Sarp\Api\Data\ProfileAddressInterface;
 use Aheadworks\Sarp\Api\Data\ProfilePaymentInfoInterface;
 use Aheadworks\Sarp\Api\ProfileManagementInterface;
 use Aheadworks\Sarp\Api\ProfileRepositoryInterface;
+use Aheadworks\Sarp\Model\Logger\LoggerInterface;
 use Aheadworks\Sarp\Model\Order\Converter;
 use Aheadworks\Sarp\Model\Order\InventoryManagement;
 use Aheadworks\Sarp\Model\SubscriptionEngine\EnginePool;
@@ -68,6 +64,11 @@ class ProfileManagement implements ProfileManagementInterface
     private $dataObjectHelper;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param OrderRepositoryInterface $orderRepository
      * @param Converter $orderConverter
      * @param InventoryManagement $inventoryManagement
@@ -75,6 +76,7 @@ class ProfileManagement implements ProfileManagementInterface
      * @param EnginePool $enginePool
      * @param ProfileActionValidator $profileActionValidator
      * @param DataObjectHelper $dataObjectHelper
+     * @param LoggerInterface $logger
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
@@ -83,7 +85,8 @@ class ProfileManagement implements ProfileManagementInterface
         ProfileRepositoryInterface $profileRepository,
         EnginePool $enginePool,
         ProfileActionValidator $profileActionValidator,
-        DataObjectHelper $dataObjectHelper
+        DataObjectHelper $dataObjectHelper,
+        LoggerInterface $logger
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderConverter = $orderConverter;
@@ -92,6 +95,7 @@ class ProfileManagement implements ProfileManagementInterface
         $this->enginePool = $enginePool;
         $this->profileActionValidator = $profileActionValidator;
         $this->dataObjectHelper = $dataObjectHelper;
+        $this->logger = $logger;
     }
 
     /**
@@ -102,8 +106,16 @@ class ProfileManagement implements ProfileManagementInterface
         $order = $this->orderConverter->fromProfile($profile, $paymentInfo);
         try {
             $this->inventoryManagement->subtract($profile);
-            $this->place($order);
-            $this->createInvoice($order, $paymentInfo);
+            $order = $this->place($order);
+            $invoice = $this->createInvoice($order, $paymentInfo);
+            $this->logger->notice(
+                $profile,
+                LoggerInterface::ENTRY_TYPE_PAYMENT_PAID,
+                [
+                    'order' => $order,
+                    'invoice' => $invoice
+                ]
+            );
         } catch (\Exception $e) {
             $this->inventoryManagement->revert($profile);
             throw $e;
@@ -130,6 +142,7 @@ class ProfileManagement implements ProfileManagementInterface
         $status = $engine->changeStatus($profile->getReferenceId(), $action);
         $profile->setStatus($status);
         $this->profileRepository->save($profile);
+        $this->logger->notice($profile, LoggerInterface::ENTRY_TYPE_PROFILE_STATUS_CHANGED);
         return true;
     }
 
@@ -140,11 +153,15 @@ class ProfileManagement implements ProfileManagementInterface
     {
         $profile = $this->profileRepository->get($profileId);
         $engine = $this->enginePool->getEngine($profile->getEngineCode());
+        $status = $profile->getStatus();
         $this->dataObjectHelper->populateWithArray(
             $profile,
             $engine->getProfileData($profile->getReferenceId()),
             ProfileInterface::class
         );
+        if ($status != $profile->getStatus()) {
+            $this->logger->notice($profile, LoggerInterface::ENTRY_TYPE_PROFILE_STATUS_CHANGED);
+        }
         return $this->profileRepository->save($profile);
     }
 
@@ -193,7 +210,7 @@ class ProfileManagement implements ProfileManagementInterface
      * Place order
      *
      * @param OrderInterface|Order $order
-     * @return void
+     * @return OrderInterface
      */
     private function place(OrderInterface $order)
     {
@@ -235,7 +252,7 @@ class ProfileManagement implements ProfileManagementInterface
                 break;
         }
 
-        $this->orderRepository->save($order);
+        return $this->orderRepository->save($order);
     }
 
     /**
@@ -243,7 +260,7 @@ class ProfileManagement implements ProfileManagementInterface
      *
      * @param OrderInterface $order
      * @param ProfilePaymentInfoInterface $paymentInfo
-     * @return void
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     private function createInvoice(OrderInterface $order, ProfilePaymentInfoInterface $paymentInfo)
     {
@@ -268,5 +285,6 @@ class ProfileManagement implements ProfileManagementInterface
             ->setShouldCloseParentTransaction(true);
 
         $this->orderRepository->save($order);
+        return $invoice;
     }
 }

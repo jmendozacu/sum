@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Model\SubscriptionEngine;
 
 /**
@@ -39,6 +34,13 @@ interface RestrictionsInterface
      * @return array
      */
     public function getUnitsOfTime();
+
+    /**
+     * Get start date types
+     *
+     * @return array
+     */
+    public function getStartDateTypes();
 
     /**
      * Check if subscription can be finite

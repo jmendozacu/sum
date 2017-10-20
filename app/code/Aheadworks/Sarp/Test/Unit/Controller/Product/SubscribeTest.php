@@ -1,9 +1,4 @@
 <?php
-/**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
-*/
-
 namespace Aheadworks\Sarp\Test\Unit\Controller\Product;
 
 use Aheadworks\Sarp\Api\Data\SubscriptionsCartInterface;
@@ -25,7 +20,7 @@ use Magento\Framework\UrlInterface;
  * Test for \Aheadworks\Sarp\Controller\Product\Subscribe
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class SubscribeTest extends \PHPUnit_Framework_TestCase
+class SubscribeTest extends \PHPUnit\Framework\TestCase
 {
     const PRODUCT_ID = 1;
     const QTY = 2;
@@ -97,27 +92,15 @@ class SubscribeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultFactoryMock = $this->getMock(ResultFactory::class, ['create'], [], '', false);
+        $this->resultFactoryMock = $this->createMock(ResultFactory::class);
         $this->requestMock = $this->getMockForAbstractClass(RequestInterface::class);
         $this->messageManagerMock = $this->getMockForAbstractClass(MessageManager::class);
         $this->urlMock = $this->getMockForAbstractClass(UrlInterface::class);
         $this->cartManagementMock = $this->getMockForAbstractClass(SubscriptionsCartManagementInterface::class);
-        $this->cartPersistorMock = $this->getMock(
-            Persistor::class,
-            ['getSubscriptionCart', 'setCartId'],
-            [],
-            '',
-            false
-        );
-        $this->itemFactoryMock = $this->getMock(
-            SubscriptionsCartItemInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
-        );
+        $this->cartPersistorMock = $this->createMock(Persistor::class);
+        $this->itemFactoryMock = $this->createMock(SubscriptionsCartItemInterfaceFactory::class);
 
-        $this->resultJsonMock = $this->getMock(Json::class, ['setData'], [], '', false);
+        $this->resultJsonMock = $this->createMock(Json::class);
         $this->cartMock = $this->getMockForAbstractClass(SubscriptionsCartInterface::class);
         $this->itemMock = $this->getMockForAbstractClass(SubscriptionsCartItemInterface::class);
 
