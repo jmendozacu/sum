@@ -4296,3 +4296,9 @@ select:focus:not([disabled]) {
   letter-spacing: 0.15em;
   min-width: 230px;
 }
+.opc-wrapper .fieldset > .field[name="shippingAddress.city"], 
+.opc-wrapper .fieldset > .field[name="shippingAddress.region_id"], 
+.opc-wrapper .fieldset > .field[name="shippingAddress.postcode"] {
+  float: none;
+  width: 100%;
+}
