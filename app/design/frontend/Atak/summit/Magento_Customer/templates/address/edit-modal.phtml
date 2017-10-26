@@ -14,8 +14,18 @@
  * @var $block \Magento\Customer\Block\Address\Edit
  */
 ?>
-<div id="edit-address-modal">
-<form class="form-address-edit" action="<?php /* @escapeNotVerified */ echo $block->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+<style>
+    .fieldset > .field.choice:before, .fieldset > .field.no-label:before {
+        padding: 0;
+        float: none;
+    }
+    div.mage-error[generated] {
+        margin-top: -8px;
+        margin-bottom: -9px;
+    }
+</style>
+<div id="edit-address-modal" style="display: none;">
+<form data-mage-init='{"validation": {}}' class="form-address-edit" action="<?php /* @escapeNotVerified */ echo $block->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
     <fieldset class="fieldset">
         
         <?php echo $block->getBlockHtml('formkey')?>
@@ -104,27 +114,18 @@
 		    </div>
 	    </div>
 
-        <?php if ($block->isDefaultBilling()): ?>
-            <div class="message info"><?php /* @escapeNotVerified */ echo __("It's a default billing address.") ?></div>
-        <?php elseif (false && $block->canSetAsDefaultBilling()): ?>
-            <div class="field choice set billing">
-                <input type="checkbox" id="primary_billing" name="default_billing" value="1" class="checkbox">
-                <label class="label" for="primary_billing"><span><?php /* @escapeNotVerified */ echo __('Use as my default billing address') ?></span></label>
-            </div>
-        <?php else: ?>
-            <input type="hidden" name="default_billing" value="1" />
-        <?php endif; ?>
+        <div class="field choice set shipping">
+            <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" class="checkbox">
+            <label class="label" for="primary_shipping"><span><?php /* @escapeNotVerified */ echo __('Use as my default shipping address') ?></span></label>
+        </div>
 
-        <?php if ($block->isDefaultShipping()): ?>
-            <div class="message info"><?php /* @escapeNotVerified */ echo __("It's a default shipping address.") ?></div>
-        <?php elseif (false && $block->canSetAsDefaultShipping()): ?>
-            <div class="field choice set shipping">
-                <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" class="checkbox">
-                <label class="label" for="primary_shipping"><span><?php /* @escapeNotVerified */ echo __('Use as my default shipping address') ?></span></label>
-            </div>
-        <?php else: ?>
-            <input type="hidden" name="default_shipping" value="1">
-        <?php endif; ?>
+        <div class="field choice set billing">
+            <input type="checkbox" id="primary_billing" name="default_billing" value="1" class="checkbox">
+            <label class="label" for="primary_billing"><span><?php /* @escapeNotVerified */ echo __('Use as my default billing address') ?></span></label>
+        </div>
+
+        <div class="message info" data-default-billing-label><?php /* @escapeNotVerified */ echo __("It's a default billing address") ?></div>
+        <div class="message info" data-default-shipping-label><?php /* @escapeNotVerified */ echo __("It's a default shipping address") ?></div>
     </fieldset>
     <div class="actions-toolbar">
         <div class="primary">
@@ -160,30 +161,122 @@
 <script>
 	require([
 			'jquery',
-			'Magento_Ui/js/modal/modal'
+			'Magento_Ui/js/modal/modal',
+            'mage/validation',
+            'regionUpdater'
 		],
-		function($,modal) {
-			var options = {
-				buttons: [],
-				type: 'popup',
-				responsive: true,
-				innerScroll: true,
-				title: 'EDIT ADDRESS'
-			};
-			
-			var $modal = $('#edit-address-modal');
-			var popup = modal(options, $modal);
-			
+		function($, modal) {
+            var options = {
+                    buttons: [],
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: true,
+                    title: 'EDIT ADDRESS'
+                },
+                $modal = $('#edit-address-modal'),
+                formValidate = $('.form-address-edit'),
+                actionUrl = '<?php /* @escapeNotVerified */ echo $block->getSaveUrl() ?>',
+                modalUi = {
+                    city: $('#city'),
+                    region: $('#region_id'),
+                    country: $('#country'),
+                    postCode: $('#zip'),
+                    lastName: $('#lastname'),
+                    telephone: $('#telephone'),
+                    firstName: $('#firstname'),
+                    billingLabel: $('[data-default-billing-label]'),
+                    shippingLabel: $('[data-default-shipping-label]'),
+                    streetAddress: $('#street_1'),
+                    streetApartment: $('#street_2'),
+                    primaryBilling: $('#primary_billing'),
+                    primaryShipping: $('#primary_shipping')
+                },
+                addressUi = {
+                    city: '[data-city]',
+                    region: '[data-region-id]',
+                    postCode: '[data-post-code]',
+                    lastName: '[data-last-name]',
+                    telephone: '[data-telephone]',
+                    firstName: '[data-first-name]',
+                    countryId: '[data-country-id]',
+                    addressId: '[data-address-id]',
+                    streetAddress: '[data-street-address]',
+                    streetApartment: '[data-street-apartment]',
+                    addressContainer: '[data-address-container]'
+                },
+                fillModalForm = function (element) {
+                    var addressContainer = $(element).closest(addressUi.addressContainer),
+                        editAction = actionUrl + 'id/' + $(element).closest(addressUi.addressId).data('address-id');
+
+                    modalUi.billingLabel.hide();
+                    modalUi.shippingLabel.hide();
+                    formValidate.validation('clearError');
+                    formValidate.attr('action', editAction);
+                    modalUi.primaryBilling.attr('checked', false);
+                    modalUi.primaryShipping.attr('checked', false);
+                    modalUi.city.val(addressContainer.find(addressUi.city).text());
+                    modalUi.region.val(addressContainer.find(addressUi.region).text());
+                    modalUi.postCode.val(addressContainer.find(addressUi.postCode).text());
+                    modalUi.lastName.val(addressContainer.find(addressUi.lastName).text());
+                    modalUi.telephone.val(addressContainer.find(addressUi.telephone).text());
+                    modalUi.firstName.val(addressContainer.find(addressUi.firstName).text());
+                    modalUi.country.val(addressContainer.find(addressUi.countryId).text());
+                    modalUi.streetAddress.val(addressContainer.find(addressUi.streetAddress).text());
+                    modalUi.streetApartment.val(addressContainer.find(addressUi.streetApartment).text());
+
+                    if (addressContainer.is('[data-address-billing]')) {
+                        modalUi.billingLabel.show();
+                        modalUi.primaryBilling.attr('checked', true);
+                    }
+
+                    if (addressContainer.is('[data-address-shipping]')) {
+                        modalUi.shippingLabel.show();
+                        modalUi.primaryShipping.attr('checked', true);
+                    }
+                },
+                openModal = function (title) {
+                    options.title = title;
+                    modal(options, $modal);
+                    $modal.modal('openModal');
+                };
+
+            formValidate.submit(function (e) {
+                var element = $(this);
+
+                if (element.valid()) {
+                    element.find('[type=submit]').prop('disabled', true);
+                }
+            });
 			$('.block-dashboard-addresses .action.edit').click(function (e) {
 				e.preventDefault();
-				
-				//options.title = 'EDIT ADDRESS';
-				//var popup = modal(options, $modal);
-				$modal.modal('openModal');
-				
+                fillModalForm(this);
+                openModal('EDIT ADDRESS');
+
 				return false;
 			});
-			
+            $('.block-dashboard-addresses .action.add').click(function (e) {
+                e.preventDefault();
+
+                var element = $(this);
+
+                modalUi.primaryBilling.attr('checked', false);
+                modalUi.primaryShipping.attr('checked', false);
+
+                if (element.hasClass('primary-billing')) {
+                    modalUi.primaryBilling.attr('checked', true);
+                }
+
+                if (element.hasClass('primary-shipping')) {
+                    modalUi.primaryShipping.attr('checked', true);
+                }
+
+                formValidate[0].reset();
+                modalUi.billingLabel.hide();
+                modalUi.shippingLabel.hide();
+                openModal('ADD ADDRESS');
+
+                return false;
+            });
 		}
 	);
 </script>

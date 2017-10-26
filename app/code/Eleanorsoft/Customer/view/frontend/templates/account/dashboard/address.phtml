@@ -1,0 +1,94 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Eleanorsoft\Customer\Block\Account\Dashboard\Address $block */
+?>
+<?php
+$additionalAddresses = $block->getAdditionalAddresses();
+$primaryBillingAddress = $block->getPrimaryBillingAddress();
+$primaryShippingAddress = $block->getPrimaryShippingAddress();
+?>
+<div class="block block-dashboard-addresses">
+	<div class="block-title">
+		<strong><?php /* @escapeNotVerified */ echo __('Shipping Information') ?></strong>
+		<a class="action add primary-shipping" href="<?php /* @escapeNotVerified */ echo $block->getAddressBookUrl() ?>"><i class="icon-plus"></i> <span><?php /* @escapeNotVerified */ echo __('Add') ?></span></a>
+	</div>
+	<div class="block-content" data-address-container data-address-shipping>
+		<div class="box box-shipping-address">
+			<?php if ($primaryShippingAddress instanceof \Magento\Customer\Api\Data\AddressInterface) : ?>
+			<div class="box-content">
+				<?= $block->getChildBlock('address_chunk')->getAddressHtml($primaryShippingAddress); ?>
+			</div>
+			<div class="box-actions" data-address-id="<?= $primaryShippingAddress->getId(); ?>">
+				<a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getPrimaryShippingAddressEditUrl() ?>" data-ui-id="default-shipping-edit-link"><span><?php /* @escapeNotVerified */ echo __('Edit') ?></span></a><br>
+			</div>
+			<?php else : ?>
+			<div class="box-content"><?= __('You have not set a default shipping address'); ?></div>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+
+<div class="block block-dashboard-addresses">
+	<div class="block-title">
+		<strong><?php /* @escapeNotVerified */ echo __('Billing Profiles') ?></strong>
+		<a class="action add primary-billing" href="<?php /* @escapeNotVerified */ echo $block->getAddressBookUrl() ?>"><i class="icon-plus"></i> <span><?php /* @escapeNotVerified */ echo __('Add') ?></span></a>
+	</div>
+	<div class="block-content" data-address-container data-address-billing>
+		<div class="box box-billing-address">
+			<?php if ($primaryBillingAddress instanceof \Magento\Customer\Api\Data\AddressInterface) : ?>
+			<div class="box-content">
+				<?= $block->getChildBlock('address_chunk')->getAddressHtml($primaryBillingAddress); ?>
+			</div>
+			<div class="box-actions" data-address-id="<?= $primaryBillingAddress->getId(); ?>">
+				<a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getPrimaryBillingAddressEditUrl() ?>" data-ui-id="default-billing-edit-link"><span><?php /* @escapeNotVerified */ echo __('Edit') ?></span></a><br>
+			</div>
+			<?php else : ?>
+			<div class="box-content"><?= __('You have not set a default billing address'); ?></div>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+
+<div class="block block-dashboard-addresses">
+	<div class="block-title">
+		<strong><?php /* @escapeNotVerified */ echo __('Additional Address Information') ?></strong>
+		<a class="action add" href="<?php /* @escapeNotVerified */ echo $block->getAddressBookUrl() ?>"><i class="icon-plus"></i> <span><?php /* @escapeNotVerified */ echo __('Add') ?></span></a>
+	</div>
+	<?php if ($additionalAddresses) : ?>
+		<?php foreach ($additionalAddresses as $address) : ?>
+			<div class="block-content" data-address-container>
+				<div class="box box-billing-address">
+					<div class="box-content">
+						<?= $block->getChildBlock('address_chunk')->getAddressHtml($address); ?>
+					</div>
+					<div class="box-actions" data-address-id="<?= $address->getId(); ?>">
+						<a class="action edit" href="<?php /* @escapeNotVerified */ echo $block->getPrimaryBillingAddressEditUrl() ?>" data-ui-id="default-billing-edit-link"><span><?php /* @escapeNotVerified */ echo __('Edit') ?></span></a><br>
+						<a class="action remove" href="#" data-address="<?= $address->getId(); ?>">Remove</a>
+					</div>
+				</div>
+			</div>
+		<?php endforeach; ?>
+	<?php else : ?>
+		<div class="block-content">
+			<div class="box box-billing-address">
+				<div class="box-content"><?= __('You have no another addresses'); ?></div>
+			</div>
+		</div>
+	<?php endif; ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        ".page-main": {
+            "address": {
+                "deleteAddress": "a.action.remove",
+                "deleteUrlPrefix": "<?php /* @escapeNotVerified */ echo $block->getDeleteUrl() ?>id/"
+            }
+        }
+    }
+</script>

@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Eleanorsoft\Customer\Block\Account\Dashboard\Chunks\Address $block */
+?>
+<?php $address = $block->getAddress(); ?>
+<?php if ($address instanceof \Magento\Customer\Api\Data\AddressInterface) : ?>
+<address>
+	<span data-first-name><?= $address->getFirstname(); ?></span>
+	<span data-last-name><?= $address->getLastname(); ?></span>
+	<br>
+	<span data-street-address><?= $address->getStreet()[0]; ?></span>
+	<br>
+	<span data-street-apartment><?= $address->getStreet()[1]; ?></span>
+	<br>
+	<span data-city><?= $address->getCity(); ?></span>,
+	<span style="display: none;" data-region-id><?= $address->getRegion()->getRegionId(); ?></span>
+	<span data-region><?= $address->getRegion()->getRegion(); ?></span>,
+	<span data-post-code><?= $address->getPostcode(); ?></span>
+	<br>
+	<span style="display: none;" data-country-id><?= $address->getCountryId(); ?></span>
+	<span data-country><?= $block->getCountryNameByCode($address->getCountryId()); ?></span>
+	<br>
+	T: <span data-telephone><?= $address->getTelephone(); ?></span>
+</address>
+<?php else : ?>
+<?= $address ?>
+<?php endif; ?>

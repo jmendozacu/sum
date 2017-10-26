@@ -7,26 +7,28 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-	
-	    <referenceBlock name="customer_edit" remove="true" />
-        
+
+        <referenceBlock name="customer_edit" remove="true" />
+
         <referenceBlock name="page.main.title">
             <action method="setPageTitle">
                 <argument translate="true" name="title" xsi:type="string">YOUR DETAILS</argument>
             </action>
         </referenceBlock>
-	    
+
         <referenceContainer name="content">
             <block class="Magento\Customer\Block\Account\Dashboard\Info" name="customer_account_dashboard_info" as="info" template="account/dashboard/info.phtml" cacheable="false" before="customer_edit"/>
-            <block class="Magento\Customer\Block\Account\Dashboard\Address" name="customer_account_dashboard_address" as="address" template="account/dashboard/address.phtml" cacheable="false" before="customer_edit"/>
-	
-	        <block class="Magento\Customer\Block\Form\Edit" name="customer_edit_modal" template="form/edit-modal.phtml" cacheable="false">
-		        <container name="form.additional.info" as="form_additional_info"/>
-	        </block>
-	
-	        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit_modal" template="address/edit-modal.phtml" cacheable="false"/>
-            
+            <block class="Eleanorsoft\Customer\Block\Account\Dashboard\Address" name="customer_account_dashboard_address" as="address" template="account/dashboard/address.phtml" cacheable="false" before="customer_edit">
+                <block class="Eleanorsoft\Customer\Block\Account\Dashboard\Chunks\Address" name="customer_account_dashboard_address_chunks" as="address_chunk" template="account/dashboard/chunks/address.phtml" cacheable="false"/>
+            </block>
+
+            <block class="Magento\Customer\Block\Form\Edit" name="customer_edit_modal" template="form/edit-modal.phtml" cacheable="false">
+                <container name="form.additional.info" as="form_additional_info"/>
+            </block>
+
+            <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit_modal" template="address/edit-modal.phtml" cacheable="false"/>
+
         </referenceContainer>
-	    
+
     </body>
 </page>

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+  <type name="Magento\Customer\Controller\Address\FormPost">
+    <plugin
+      sortOrder="10"
+      disabled="false"
+      name="Eleanorsoft_Customer_Controller_Address_FormPost"
+      type="Eleanorsoft\Customer\Plugin\Customer\Controller\Address\FormPost"
+    />
+  </type>
+  <type name="Magento\Customer\Controller\Address\Delete">
+    <plugin
+      sortOrder="10"
+      disabled="false"
+      name="Eleanorsoft_Customer_Controller_Address_Delete"
+      type="Eleanorsoft\Customer\Plugin\Customer\Controller\Address\Delete"
+    />
+  </type>
+</config>
