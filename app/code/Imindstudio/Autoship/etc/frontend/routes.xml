@@ -10,5 +10,8 @@
 		<route id="rewards" frontName="rewards">
 			<module name="Imindstudio_Autoship" />
 		</route>
+		<route id="orders" frontName="orders">
+			<module name="Imindstudio_Autoship" />
+		</route>
 	</router>
 </config>

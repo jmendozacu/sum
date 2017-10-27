@@ -1,3 +1,14 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Framework\View\Element\Template $block */
+?>
+<?php $ordersUrl = $block->getUrl('*/*/orders'); ?>
 <div class="customer-welcome">
 	<div class="row">
 		<div class="col">
@@ -5,21 +16,21 @@
 			<div class="content">
 				<span>Pause/Skip/Edit/Cancel</span>
 			</div>
-			<a href="" class="action primary">Edit</a>
+			<a href="<?= $ordersUrl; ?>?type=autoship_order" class="action primary">Edit</a>
 		</div>
 		<div class="col">
 			<div class="title">VIEW ORDERS</div>
 			<div class="content">
 				<span>Display list of Autoship Orders</span>
 			</div>
-			<a href="" class="action primary">AUTOSHIP ORDERS</a>
+			<a href="<?= $ordersUrl; ?>?type=origin_order" class="action primary">AUTOSHIP ORDERS</a>
 		</div>
 		<div class="col">
 			<div class="title">VIEW PROFILE</div>
 			<div class="content">
 				<span>Edit Autoship & Billing Methods</span>
 			</div>
-			<a href="" class="action primary">Edit</a>
+			<a href="<?= $block->getUrl('customer/account/edit'); ?>" class="action primary">Edit</a>
 		</div>
 	</div>
 </div>
