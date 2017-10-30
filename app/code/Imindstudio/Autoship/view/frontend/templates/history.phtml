@@ -1,0 +1,78 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Imindstudio\Autoship\Block\Orders $block */
+?>
+<?php
+$_orders = $block->getOrders();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$reorderHelper = $objectManager->create('Magento\Sales\Helper\Reorder');
+$postHelper = $objectManager->create('\Magento\Framework\Data\Helper\PostHelper');
+?>
+<?php echo $block->getChildHtml('info');?>
+<?php if ($_orders && count($_orders)): ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?= __('Orders') ?></caption>
+            <thead>
+                <tr>
+                    <th class="col id"><?= __('Order #'); ?></th>
+                    <th class="col date"><?= __('Date'); ?></th>
+                    <?= $block->getChildHtml('extra.column.header'); ?>
+                    <th class="col shipping"><?= __('Ship To'); ?></th>
+                    <th class="col total"><?= __('Total'); ?></th>
+                    <th class="col status"><?= __('Status'); ?></th>
+                    <th class="col actions"><?= __('Action'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_orders as $_order): ?>
+                    <tr>
+                        <td class="col id">
+	                        <strong><?= $_order->getIncrementId(); ?></strong>
+                            <br>
+	                        <a href="">Track Order</a>
+                        </td>
+                        <td class="col date"><?= $block->formatDate($_order->getCreatedAt()); ?></td>
+                        <td class="col shipping">
+                            <?= $block->escapeHtml($_order->getFirstname()); ?>
+                            <?= $block->escapeHtml($_order->getLastname()); ?>
+                        </td>
+                        <td class="col total">
+                            <strong>
+                                <?= $block->formatPrice($_order->getOrderCurrencyCode(), $_order->getGrandTotal()); ?>
+                            </strong>
+                        </td>
+                        <td class="col status"><?= $_order->getStatus(); ?></td>
+                        <td class="col actions">
+                            <a href="<?= $block->getViewUrl($_order); ?>" class="view">
+                                <span><?= __('View Order'); ?></span>
+                            </a>
+                            <br/>
+                            <?php if ($reorderHelper->canReorder($_order->getEntityId())) : ?>
+                                <a href="#" data-post='<?= $postHelper->getPostData($block->getReorderUrl($_order)); ?>' class="view">
+                                    <span><?= __('Reorder') ?></span>
+                                </a>
+                            <?php endif ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="empty-orders-history">
+	    <p><?= __('You haven’t placed any orders yet.'); ?></p>
+	    <p><a href="<?= $block->getUrl('shop.html'); ?>" class="action secondary">Shop Now</a></p>
+	    <p><img src="<?= $block->getViewFileUrl('images/lighthouse.png'); ?>" alt=""></p>
+    </div>
+<?php endif ?>

@@ -30,22 +30,25 @@
 			<tbody>
 			<?php foreach ($_orders as $_order): ?>
 				<tr>
-					<?php $nextShipDate = $_order->getNextShipDate(); ?>
 					<td class="col id">
-						<?= $nextShipDate ? $block->formatDate($nextShipDate) : __('Pending'); ?> /
-						<br> <?= $_order->getFrequency(); ?>
+						<?php $nextShipDate = $_order->getNextShipDate(); ?>
+						<?php if($nextShipDate): ?>
+							<?= $nextShipDate ? $block->formatDate($nextShipDate) : __('Pending'); ?> /
+							<br> <?= $_order->getFrequency(); ?>
+						<?php else: ?>
+							<?= __('Not available'); ?>
+						<?php endif; ?>
 					</td>
-					<td class="col id"><?= $_order->getRealOrderId(); ?></td>
+					<td class="col id"><?= $_order->getIncrementId(); ?></td>
 					<?php $extra = $block->getChildBlock('extra.container'); ?>
-					<?php if ($extra): ?>
-						<?php $extra->setOrder($_order); ?>
-						<?= $extra->getChildHtml(); ?>
-					<?php endif; ?>
 					<td class="col shipping">
-						<?= $_order->getShippingAddress() ? $block->escapeHtml($_order->getShippingAddress()->getName()) : '&nbsp;' ?>
+						<?= $block->escapeHtml($_order->getFirstname()); ?>
+						<?= $block->escapeHtml($_order->getLastname()); ?>
 					</td>
-					<td class="col total"><strong><?=$_order->formatPrice($_order->getGrandTotal()); ?></strong></td>
-					<td class="col status"><?= $_order->getStatusLabel(); ?></td>
+					<td class="col total">
+						<strong><?= $block->formatPrice($_order->getCurrencyCode(), $_order->getGrandTotal()); ?></strong>
+					</td>
+					<td class="col status"><?= $_order->getOrderStatus(); ?></td>
 					<td class="col actions">
 						<a href="<?= $block->getUrl('aw_sarp/profile/view').'profile_id/'.$_order->getProfileId(); ?>" class="view">
 							<span><?= __('Change the plan'); ?></span>
