@@ -1,0 +1,12 @@
+<?php
+/* @var $block \Eleanorsoft\EndSubscriptionQuiz\Block\Customer\Subscription\Info */
+
+// @codingStandardsIgnoreFile
+?>
+<span class="aw_sarp-customer-subscription_status"><?php echo $block->escapeHtml($block->getStatusLabel()) ?></span>
+<?php if($block->getStatus() == \Aheadworks\Sarp\Model\Profile\Source\Status::CANCELLED): ?>
+    <div style="margin: 25px 0 25px 0;">
+        <strong><?php echo __('Cancellation Reason') ?>: </strong>
+        <span><?php echo $block->escapeHtml($block->getReason()) ?></span>
+    </div>
+<?php endif; ?>

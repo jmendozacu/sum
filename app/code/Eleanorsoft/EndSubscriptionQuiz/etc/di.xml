@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+  <type name="Aheadworks\Sarp\Api\ProfileManagementInterface">
+    <plugin
+        name="eleanorsoft_end_subscription_quiz.profile_management.change_status_action"
+        type="Eleanorsoft\EndSubscriptionQuiz\Plugin\Api\ProfileManagement\ChangeStatusAction" sortOrder="1"/>
+  </type>
+  <type name="Aheadworks\Sarp\Api\ProfileManagementInterface">
+    <plugin
+            name="eleanorsoft_end_subscription_quiz.profile_management.refresh_profile_data"
+            type="Eleanorsoft\EndSubscriptionQuiz\Plugin\Api\ProfileManagement\RefreshProfileData" sortOrder="1"/>
+  </type>
+</config>

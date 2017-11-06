@@ -1,0 +1,107 @@
+<?php
+/* @var $block \Aheadworks\Sarp\Block\Customer\Subscription\Actions */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$cancelOptions = $objectManager->create('Eleanorsoft\EndSubscriptionQuiz\Model\Config\Source\Options')->getAllOptions();
+?>
+<div id="cancel-subscription-modal">
+    <form class="form form-edit-account" action="<?php echo $block->escapeUrl($block->getCancelUrl()) ?>" method="post" id="form-validate">
+        <fieldset class="fieldset info">
+            <?php echo $block->getBlockHtml('formkey')?>
+            <input type="hidden" name="erst_reason">
+            <div class="field reason">
+                <label class="label" for="erst_reason_select"><span><?= __('Reason'); ?></span></label>
+                <div class="control">
+                    <select name="erst_reason_select">
+                        <?php foreach ($cancelOptions as $option): ?>
+                        <option value="<?= $option['label'] ?>"><?= $option['label']; ?></option>
+                        <?php endforeach; ?>
+                        <option value="<?= __('OTHER'); ?>"><?= __('OTHER'); ?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="field other-reason" style="display: none;">
+                <div class="control">
+                    <textarea name="erst_other_reason" placeholder="<?= __('Describe your reason here...'); ?>"></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" id="cancel-subscription-modal-button" class="action primary">
+                    <span><?= __('Submit'); ?></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="block aw_sarp-customer-subscription_actions">
+    <?php if ($block->isCancelActionEnabled()): ?>
+        <button type="button"
+                class="action"
+                id="cancel-subscription"
+                title="<?php echo $block->escapeHtml(__('Cancel Subscription')) ?>">
+            <span><?php echo $block->escapeHtml(__('Cancel Subscription')) ?></span>
+        </button>
+    <?php endif; ?>
+    <?php if ($block->isSuspendActionEnabled()): ?>
+        <button type="button"
+                class="action"
+                title="<?php echo $block->escapeHtml(__('Suspend Subscription')) ?>"
+                onclick="location.href = '<?php echo $block->escapeUrl($block->getSuspendUrl()) ?>';">
+            <span><?php echo $block->escapeHtml(__('Suspend Subscription')) ?></span>
+        </button>
+    <?php endif; ?>
+    <?php if ($block->isActivateActionEnabled()): ?>
+        <button type="button"
+                class="action"
+                title="<?php echo $block->escapeHtml(__('Activate Subscription')) ?>"
+                onclick="location.href = '<?php echo $block->escapeUrl($block->getActivateUrl()) ?>';">
+            <span><?php echo $block->escapeHtml(__('Activate Subscription')) ?></span>
+        </button>
+    <?php endif; ?>
+</div>
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/modal',
+        'domReady!'
+    ], function ($, modal) {
+        var reasonField = $('[name="erst_reason"]'),
+            otherReason = $('[name="erst_other_reason"]'),
+            selectReason = $('[name="erst_reason_select"]'),
+            otherReasonContainer = $('div.other-reason'),
+            cancelSubscriptionModal = $('#cancel-subscription-modal');
+
+        modal({
+            buttons: [],
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: '<?= __('Tell Us Why'); ?>: '
+        }, cancelSubscriptionModal);
+
+        $('#cancel-subscription').click(function () {
+            cancelSubscriptionModal.modal('openModal');
+        });
+
+        selectReason.change(function () {
+           if ($(this).val() == '<?= __('OTHER'); ?>') {
+               otherReasonContainer.show();
+           } else {
+               otherReasonContainer.hide();
+           }
+        });
+
+        $('#cancel-subscription-modal-button').click(function (e) {
+            if (selectReason.val() == '<?= __('OTHER'); ?>') {
+                reasonField.val(otherReason.val())
+            } else {
+                reasonField.val(selectReason.val())
+            }
+        });
+    });
+</script>
