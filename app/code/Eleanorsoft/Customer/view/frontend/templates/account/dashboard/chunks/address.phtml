@@ -9,15 +9,19 @@
 /** @var \Eleanorsoft\Customer\Block\Account\Dashboard\Chunks\Address $block */
 ?>
 <?php $address = $block->getAddress(); ?>
-<?php if ($address instanceof \Magento\Customer\Api\Data\AddressInterface) : ?>
+<?php if ($address instanceof \Magento\Customer\Api\Data\AddressInterface) : $streets = $address->getStreet();?>
 <address>
 	<span data-first-name><?= $address->getFirstname(); ?></span>
 	<span data-last-name><?= $address->getLastname(); ?></span>
 	<br>
-	<span data-street-address><?= $address->getStreet()[0]; ?></span>
+	<?php if (isset($streets[0])) { ?>
+	<span data-street-address><?= $streets[0]; ?></span>
 	<br>
-	<span data-street-apartment><?= $address->getStreet()[1]; ?></span>
+	<?php } ?>
+	<?php if (isset($streets[1])) { ?>
+	<span data-street-apartment><?= $streets[1]; ?></span>
 	<br>
+	<?php } ?>
 	<span data-city><?= $address->getCity(); ?></span>,
 	<span style="display: none;" data-region-id><?= $address->getRegion()->getRegionId(); ?></span>
 	<span data-region><?= $address->getRegion()->getRegion(); ?></span>,
