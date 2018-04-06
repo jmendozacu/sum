@@ -57,6 +57,7 @@ $orderCreatedAt = $_order->getCreatedAt();
 								<?php if ($productReview->isApproved) : ?>
 								<p><?= $block->escapeHtml($productReview->detail); ?></p>
 								<?php else : ?>
+								<input type="hidden" name="review_id" value="<?php echo $productReview->id; ?>" data-review-id>
 								<textarea id="review-detail-field" placeholder="Write Something..." rows="8" data-detail><?= $block->escapeHtml($productReview->detail); ?></textarea>
 								<div for="review-detail-field" generated="true" class="mage-error" id="review-detail-field-error">This is a required field.</div>
 								<?php endif;?>

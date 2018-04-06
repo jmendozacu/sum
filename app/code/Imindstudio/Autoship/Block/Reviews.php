@@ -81,9 +81,15 @@ class Reviews extends \Magento\Framework\View\Element\Template
             ->setDateOrder()
             ->getFirstItem();
         $rating = $this->_ratingObject->getReviewSummary((int)$review['review_id']);
+        $data->id = $review->getId();
         $data->detail = $review->getDetail();
         $data->rating = $this->transformRating($rating->getSum());
-        $data->isApproved = $review->getStatusId() == \Magento\Review\Model\Review::STATUS_APPROVED;
+        $data->statusId = $review->getStatusId();
+        $data->isApproved = false;
+
+        if ($data->detail && $review->getStatusId() != \Magento\Review\Model\Review::STATUS_NOT_APPROVED) {
+            $data->isApproved = true;
+        }
 
         return $data;
     }
