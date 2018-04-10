@@ -9,21 +9,59 @@ use Magento\Framework\Controller\ResultFactory;
 class ProductReviewPostController extends Post
 {
     /**
+     * @var \Magento\Framework\Controller\Result\JsonFactory
+     */
+    protected $resultJsonFactory;
+
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
+        \Magento\Catalog\Model\Design $catalogDesign,
+        \Magento\Framework\Session\Generic $reviewSession,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
+    ) {
+        $this->resultJsonFactory = $resultJsonFactory;
+
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $customerSession,
+            $categoryRepository,
+            $logger,
+            $productRepository,
+            $reviewFactory,
+            $ratingFactory,
+            $catalogDesign,
+            $reviewSession,
+            $storeManager,
+            $formKeyValidator
+        );
+    }
+
+    /**
      * Submit new review action
      *
-     * @return \Magento\Framework\Controller\Result\Redirect
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @return \Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\Result\Json
+     * @author Eugene Polischuk <eugene.polischuk@eleanorsoft.com>
      */
     public function execute()
     {
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-        if (!$this->formKeyValidator->validate($this->getRequest())) {
+        if (!$this->formKeyValidator->validate($this->getRequest()) || !$this->getRequest()->isAjax()) {
             $resultRedirect->setUrl($this->_redirect->getRefererUrl());
             return $resultRedirect;
         }
 
+        $messageData = [];
         $data = $this->reviewSession->getFormData(true);
         if ($data) {
             $rating = [];
@@ -65,24 +103,23 @@ class ProductReviewPostController extends Post
                     }
 
                     $review->aggregate();
-                    $this->messageManager->addSuccess(__('You submitted your review for moderation.'));
+                    $messageData['success'] = __('You submitted your review for moderation.');
                 } catch (\Exception $e) {
                     $this->reviewSession->setFormData($data);
-                    $this->messageManager->addError(__('We can\'t post your review right now.'));
+                    $messageData['error'] = __('We can\'t post your review right now.');
                 }
             } else {
                 $this->reviewSession->setFormData($data);
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
-                        $this->messageManager->addError($errorMessage);
+                        $messageData['error'] = __($errorMessage);
                     }
                 } else {
-                    $this->messageManager->addError(__('We can\'t post your review right now.'));
+                    $messageData['error'] = __('We can\'t post your review right now.');
                 }
             }
         }
-        $redirectUrl = $this->reviewSession->getRedirectUrl(true);
-        $resultRedirect->setUrl($redirectUrl ?: $this->_redirect->getRedirectUrl());
-        return $resultRedirect;
+
+        return $this->resultJsonFactory->create()->setData($messageData);
     }
 }

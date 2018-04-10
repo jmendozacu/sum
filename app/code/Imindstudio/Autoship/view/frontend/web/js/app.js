@@ -68,11 +68,13 @@ require(['jquery'], function($) {
                     'review_id': reviewId,
                     'validate_rating': ''
                 }).done(function(data) {
-                    if(data.indexOf('You submitted your review for moderation.') >= 0) {
-                        showSuccessMessage(messageContainer, 'You submitted your review for moderation.');
+                    if (data.success) {
+                        showSuccessMessage(messageContainer, data.success);
                         button.text('Submitted');
                         button.prop('disabled', true);
                         reviewContainer.find(ui.detail).replaceWith('<p>' + detail + '</p>');
+                    } else if (data.error) {
+                        showErrorMessage(messageContainer, data.error);
                     } else {
                         showErrorMessage(messageContainer, 'Something went wrong.');
                     }
