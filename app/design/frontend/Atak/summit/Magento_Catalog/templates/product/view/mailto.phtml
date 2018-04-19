@@ -8,9 +8,18 @@
 
 ?>
 <?php $_product = $block->getProduct() ?>
-
-<span class="title">SHARE:</span> <a href="#"><span class="icon-facebook"></span></a> <a href="#"><span class="icon-twitter"></span></a>
-
-<?php if ($block->canEmailToFriend()): ?>
-    <a href="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><span class="icon-email"></span></a>
-<?php endif; ?>
+<div class="addthis_toolbox">
+    <div class="custom_images">
+        <span class="title">SHARE:</span>
+        <a class="addthis_button_facebook" title="Share to Facebook"><span class="icon-facebook"></span></a>
+        <a class="addthis_button_twitter" title="Share to Facebook"><span class="icon-twitter"></span></a>
+        <?php if ($block->canEmailToFriend()): ?>
+            <a href="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><span class="icon-email"></span></a>
+        <?php endif; ?>
+  </div>
+</div>
+<?php
+    /** @var \Eleanorsoft\AddThis\Block\Widget $addThisWidget */
+    $addThisWidget = $block->getChildBlock('addthis.widget');
+    print $addThisWidget->getWidgetScript();
+?>
