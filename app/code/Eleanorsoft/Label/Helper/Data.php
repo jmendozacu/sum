@@ -10,7 +10,7 @@ use Magento\Framework\App\Helper\Context;
 /**
  * Class Data
  *
- * @package Eleanorsoft_
+ * @package Eleanorsoft_Label
  * @author Pisarenko Denis <denis.pisarenko@eleanorsoft.com>
  * @copyright Copyright (c) 2018 Eleanorsoft (https://www.eleanorsoft.com/)
  */
