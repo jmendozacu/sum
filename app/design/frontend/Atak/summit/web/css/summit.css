@@ -4302,3 +4302,31 @@ select:focus:not([disabled]) {
   float: none;
   width: 100%;
 }
+/*MY PAYMENT DATA editing*/
+#form-validate .fieldset>.legend{
+  width: 100%;
+  text-align: center;
+  margin-left: 0;
+}
+#authenticationPopup+.manage-payment-method{
+  margin-top: 40px;
+}
+.manage-payment-method .block-content .block.block-addresses-list,
+.manage-payment-method .block-content .box>.block-title {
+  text-align: center;
+}
+#form-validate .actions-toolbar{
+  float:right;
+  min-width: 30%;
+  width: auto;
+}
+#form-validate .actions-toolbar .primary{
+  margin-right: 10%;
+}
+#form-validate .actions-toolbar > .secondary{
+  margin-top: 5px;
+}
+.cms-page-view.page-layout-1column .column.main p{
+  text-align: justify;
+  margin: 30px 0;
+}
