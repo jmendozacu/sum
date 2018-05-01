@@ -4330,3 +4330,37 @@ select:focus:not([disabled]) {
   text-align: justify;
   margin: 30px 0;
 }
+.owl-item>.product-item>.product-item-info{
+  overflow: hidden;
+}
+.product-item-info{
+  position: relative;
+}
+.owl-item>.product-item>.product-item-info>span:first-child:before,.product-item-info>.new-sale:before{
+  content: "";
+  background: url(../images/New-Icon.png) no-repeat center center;
+  background-size: cover;
+  width: 80px;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+}
+.owl-item>.product-item>.product-item-info>span:first-child:before{
+  left: 45px;
+}
+.owl-item>.product-item>.product-item-info>span:nth-child(2):before,.product-item-info>.on-sale:before{
+  content: "";
+  background: url(../images/on-sale.png) no-repeat center center;
+  background-size: cover;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9999999;
+}
+.owl-item>.product-item>.product-item-info>span:nth-child(2):before{
+  right: 45px;
+}
