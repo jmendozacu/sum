@@ -56,11 +56,11 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                     }
                     ?>
                     <?php // Product Image ?>
-                    <?php if ($_product->isNew()) {;?>
-                        <span>NEW</span>
+					<?php if ($_product->isNew()) {;?>
+                        <span class = "new-sale"></span>
                     <?php } ?>
                     <?php if ($_product->isOnSale()) {;?>
-                        <span>On Sale</span>
+                        <span class = "on-sale"></span>
                     <?php } ?>
                     <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
                         <?php echo $productImage->toHtml(); ?>
