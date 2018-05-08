@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="aw_sarp.customer.subscription.info.products" remove="true"/>
+        <referenceBlock name="aw_sarp.customer.subscription.info.plan" remove="true"/>
+
+        <referenceContainer name="aw_sarp.customer.subscription.info">
+            <block class="Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Info\Plan" after="aw_sarp.customer.subscription.info.orders" name="es.customer.subscription.info.plan" as="es_subscription_plan" template="Eleanorsoft_AheadworksSarp::customer/subscription/info/plan.phtml" cacheable="false"/>
+            <block class="Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Info\Products" after="aw_sarp.customer.subscription.info.plan" name="es.customer.subscription.info.products" as="es_subscription_products" template="Eleanorsoft_AheadworksSarp::customer/subscription/info/products.phtml" cacheable="false"/>
+            <block class="Aheadworks\Sarp\Block\Customer\Subscription\Actions" name="es.actions.bottom" as="es_subscription_actions_bottom" template="Eleanorsoft_AheadworksSarp::customer/subscription/actions_bottom.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

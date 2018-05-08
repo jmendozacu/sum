@@ -47,22 +47,6 @@ $cancelOptions = $objectManager->create('Eleanorsoft\EndSubscriptionQuiz\Model\C
             <span><?php echo $block->escapeHtml(__('Cancel Subscription')) ?></span>
         </button>
     <?php endif; ?>
-    <?php if ($block->isSuspendActionEnabled()): ?>
-        <button type="button"
-                class="action"
-                title="<?php echo $block->escapeHtml(__('Suspend Subscription')) ?>"
-                onclick="location.href = '<?php echo $block->escapeUrl($block->getSuspendUrl()) ?>';">
-            <span><?php echo $block->escapeHtml(__('Suspend Subscription')) ?></span>
-        </button>
-    <?php endif; ?>
-    <?php if ($block->isActivateActionEnabled()): ?>
-        <button type="button"
-                class="action"
-                title="<?php echo $block->escapeHtml(__('Activate Subscription')) ?>"
-                onclick="location.href = '<?php echo $block->escapeUrl($block->getActivateUrl()) ?>';">
-            <span><?php echo $block->escapeHtml(__('Activate Subscription')) ?></span>
-        </button>
-    <?php endif; ?>
 </div>
 <script>
     require([
