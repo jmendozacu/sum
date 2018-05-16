@@ -1,0 +1,62 @@
+
+<div class="block aw_sarp-customer-subscription_products">
+    <div id="subscription-products_title" class="block-title">
+        <strong data-bind="i18n: 'Products'"></strong>
+    </div>
+    <div class="block-content" id="product-table">
+        <div class="table-wrapper">
+            <table class="data table">
+                <thead>
+                <tr>
+                    <th scope="col" class="col product-name" data-bind="i18n: 'Product'"></th>
+                    <th scope="col" class="col qty" data-bind="i18n: 'Qty'"></th>
+                    <th scope="col" class="col regular-price" data-bind="i18n: 'Price'"></th>
+                    <th scope="col" class="col initial-fee" data-bind="i18n: 'Total'"></th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: subscriptionProductsList">
+                    <tr>
+                        <td class="col product-name">
+                            <a data-bind="attr: {href: product_url}" target="_new">
+                                <span data-bind="text: name"></span>
+                                <img data-bind="attr: {src: image}">
+                            </a>
+                        </td>
+                        <td class="col qty">
+                            <span data-bind="click: $parent.decrement.bind($parent, $data)">-</span>
+                            <input type="text" size="1" data-bind="attr: {value: qty}">
+                            <span data-bind="click: $parent.increment.bind($parent, $data)">+</span>
+                        </td>
+                        <td class="col regular-price" data-bind="text: price"></td>
+                        <td class="col initial-fee" data-bind="text: item_total"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button data-bind="click: addProduct, i18n: 'add product'"></button>
+            <button data-bind="click: saveProduct, i18n: 'save'"></button>
+            <ul>
+                <li>
+                    <span data-bind="i18n: 'Subtotal: '"></span>
+
+                </li>
+                <li>
+                    <span data-bind="i18n: 'Shipping (Free Shipping): '"></span>
+
+                </li>
+                <li>
+                    <span data-bind="i18n: 'Total: '"></span>
+
+                </li>
+            </ul>
+            <select data-bind="
+                    options: productsList,
+                    selectedOptions: chosenProduct,
+                    optionsText: function(item) {
+                        return item.name
+                    },optionsValue: function(item) {
+                        return item.id
+                    }">
+            </select>
+        </div>
+    </div>
+</div>

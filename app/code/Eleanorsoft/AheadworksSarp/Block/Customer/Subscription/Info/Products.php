@@ -1,16 +1,7 @@
 <?php
-
 namespace Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Info;
-use Aheadworks\Sarp\Api\ProfileRepositoryInterface;
-use Aheadworks\Sarp\Block\Customer\Subscription\Info\Products as BaseProducts;
-use Magento\Catalog\Api\Data\ProductInterface;
-use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Catalog\Block\Product\ImageBuilder;
-use Magento\Catalog\Model\Product\Url as ProductUrl;
-use Magento\Customer\Model\Session;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Framework\View\Element\Template\Context;
 
+use Magento\Framework\View\Element\Template;
 /**
  * Class Products
  * todo: What is its purpose? What does it do?
@@ -20,68 +11,57 @@ use Magento\Framework\View\Element\Template\Context;
  * @copyright Copyright (c) 2018 Eleanorsoft (https://www.eleanorsoft.com/)
  */
 
-class Products extends BaseProducts
+class Products extends Template
 {
 
     /**
-     * @var ProductRepositoryInterface
+     * Get profile ID
+     *
+     * @return int|null
      */
-    protected $productRepository;
-
-    protected $imageBuilder;
-
-    /**
-     * Products constructor.
-     * @param Context $context
-     * @param ProfileRepositoryInterface $profileRepository
-     * @param Session $customerSession
-     * @param ProductRepositoryInterface $productRepository
-     * @param ProductUrl $productUrl
-     * @param PriceCurrencyInterface $priceCurrency
-     * @param array $data
-     */
-    public function __construct
-    (
-        Context $context,
-        ProfileRepositoryInterface $profileRepository,
-        Session $customerSession,
-        ProductRepositoryInterface $productRepository,
-        ProductUrl $productUrl,
-        PriceCurrencyInterface $priceCurrency,
-        ImageBuilder $imageBuilder,
-        array $data = []
-    )
+    private function getProfileId()
     {
-        parent::__construct($context, $profileRepository, $customerSession, $productRepository, $productUrl, $priceCurrency, $data);
-        $this->productRepository = $productRepository;
-        $this->imageBuilder = $imageBuilder;
+        return $this->getRequest()->getParam('profile_id');
     }
 
     /**
      * todo: What is its purpose? What does it do?
      *
-     * @param $id
-     * @return ProductInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return string
      */
-    public function getProduct($id)
+    public function getAjaxUrlSubscriptionProductsList()
     {
-        return $this->productRepository->getById($id);
+        return $this->getUrl('es_sarp/product/info',
+            array('profile_id' => $this->getProfileId()));
     }
 
     /**
-     * Retrieve product image
+     * todo: What is its purpose? What does it do?
      *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param string $imageId
-     * @param array $attributes
-     * @return \Magento\Catalog\Block\Product\Image
+     * @return string
      */
-    public function getImage($product, $imageId, $attributes = [])
+    public function getAjaxUrlProductsList() {
+        return $this->getUrl('es_sarp/product/productList');
+    }
+
+    /**
+     * todo: What is its purpose? What does it do?
+     *
+     * @return string
+     */
+    public function getAjaxUrlAddProduct()
     {
-        return $this->imageBuilder->setProduct($product)
-            ->setImageId($imageId)
-            ->setAttributes($attributes)
-            ->create();
+        return $this->getUrl('es_sarp/product/addProduct');
+    }
+
+    /**
+     * todo: What is its purpose? What does it do?
+     *
+     * @return string
+     */
+    public function getAjaxUrlSaveProduct()
+    {
+        return $this->getUrl('es_sarp/product/saveProduct',
+            array('profile_id' => $this->getProfileId()));
     }
 }
