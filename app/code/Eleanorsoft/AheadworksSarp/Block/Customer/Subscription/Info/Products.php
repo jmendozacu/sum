@@ -1,7 +1,10 @@
 <?php
 namespace Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Info;
 
+use Aheadworks\Sarp\Model\Checkout\CompositeConfigProvider;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+
 /**
  * Class Products
  * todo: What is its purpose? What does it do?
@@ -13,6 +16,28 @@ use Magento\Framework\View\Element\Template;
 
 class Products extends Template
 {
+
+    /**
+     * @var CompositeConfigProvider
+     */
+    protected $compositeConfigProvider;
+
+    /**
+     * Products constructor.
+     * @param Context $context
+     * @param CompositeConfigProvider $compositeConfigProvider
+     * @param array $data
+     */
+    public function __construct
+    (
+        Context $context,
+        CompositeConfigProvider $compositeConfigProvider,
+        array $data = []
+    )
+    {
+        parent::__construct($context, $data);
+        $this->compositeConfigProvider = $compositeConfigProvider;
+    }
 
     /**
      * Get profile ID
@@ -63,5 +88,16 @@ class Products extends Template
     {
         return $this->getUrl('es_sarp/product/saveProduct',
             array('profile_id' => $this->getProfileId()));
+    }
+
+    /**
+     * Get subscriptions checkout configuration
+     *
+     * @return array
+     * @codeCoverageIgnore
+     */
+    public function getCheckoutConfig()
+    {
+        return $this->compositeConfigProvider->getConfig();
     }
 }

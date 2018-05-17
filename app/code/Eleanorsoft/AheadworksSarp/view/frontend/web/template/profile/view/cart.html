@@ -27,7 +27,7 @@
                             <input type="text" size="1" data-bind="attr: {value: qty}">
                             <span data-bind="click: $parent.increment.bind($parent, $data)">+</span>
                         </td>
-                        <td class="col regular-price" data-bind="text: price"></td>
+                        <td class="col regular-price" data-bind="text: price">
                         <td class="col initial-fee" data-bind="text: item_total"></td>
                     </tr>
                 </tbody>
@@ -37,15 +37,16 @@
             <ul>
                 <li>
                     <span data-bind="i18n: 'Subtotal: '"></span>
+                    <span data-bind="text: subtotal"></span>
 
                 </li>
                 <li>
                     <span data-bind="i18n: 'Shipping (Free Shipping): '"></span>
-
+                    <span data-bind="text: subtotal"></span>
                 </li>
                 <li>
                     <span data-bind="i18n: 'Total: '"></span>
-
+                    <span data-bind="text: subtotal"></span>
                 </li>
             </ul>
             <select data-bind="

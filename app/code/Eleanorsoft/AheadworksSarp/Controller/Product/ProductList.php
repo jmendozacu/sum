@@ -2,6 +2,7 @@
 
 namespace Eleanorsoft\AheadworksSarp\Controller\Product;
 
+use Aheadworks\Sarp\Model\Product\Attribute\Source\SubscriptionType;
 use Eleanorsoft\AheadworksSarp\Controller\AbstractInfo;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
@@ -104,6 +105,16 @@ class ProductList extends AbstractInfo
                 ->setConditionType('in')
                 ->setValue($this->visibility->getVisibleInSiteIds())
                 ->create(),
+            $this->filterBuilder
+                ->setField('aw_sarp_subscription_type')
+                ->setConditionType('in')
+                ->setValue(
+                    [
+                        SubscriptionType::SUBSCRIPTION_ONLY,
+                        SubscriptionType::OPTIONAL
+                    ]
+                )
+                ->create(),
         ]);
 
         $this->searchCriteria->setFilterGroups([$this->filterGroup]);
@@ -122,11 +133,12 @@ class ProductList extends AbstractInfo
     public function execute()
     {
         $productItems = $this->getProductData();
+
         $productData = [];
 
         foreach ($productItems as $item) { /** @var ProductInterface $item */
             $productData[] = [
-                'id' => $item->getId(),
+                'id' => (int)$item->getId(),
                 'name' => $item->getName()
             ];
         }

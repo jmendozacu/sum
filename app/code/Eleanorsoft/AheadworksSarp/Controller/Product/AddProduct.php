@@ -8,7 +8,7 @@ use Magento\Catalog\Model\Product\Url;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Json;
-
+use Magento\Directory\Model\Currency;
 
 /**
  * Class AddProduct
@@ -63,10 +63,11 @@ class AddProduct extends AbstractInfo
             $product = $this->productRepository->getById($product_id);
 
             $productData = [
-                'id' => $product->getId(),
+                'id' => (int)$product->getId(),
                 'name' => $product->getName(),
                 'qty' => 1,
                 'price' => $product->getFinalPrice(),
+                'price_int' => $product->getFinalPrice(),
                 'image' => $this->imageHelper->init($product, 'product_base_image')->getUrl(),
                 'product_url' => $this->productUrl->getUrl($product),
                 'item_total' => $product->getFinalPrice()

@@ -21,4 +21,7 @@
            }
         }
     </script>
+    <script>
+        window.awSarpCheckoutConfig = <?php /* @noEscape */ echo \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+    </script>
 </div>

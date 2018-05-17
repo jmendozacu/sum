@@ -7,6 +7,7 @@ use Eleanorsoft\AheadworksSarp\Controller\AbstractInfo;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Helper\Image;
 use Magento\Catalog\Model\Product\Url as ProductUrl;
+use Magento\Directory\Model\Currency;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Json;
@@ -42,6 +43,7 @@ class Info extends AbstractInfo
      * @param ProfileRepositoryInterface $profileRepository
      * @param Json $json
      * @param Image $imageHelper
+     * @param Currency $currency
      */
     public function __construct
     (
@@ -69,8 +71,6 @@ class Info extends AbstractInfo
     {
         $profileId = $this->getRequest()->getParam('profile_id');
 
-
-
         if ($profileId) {
 
             $profile = $this->profileRepository->get($profileId);
@@ -79,10 +79,11 @@ class Info extends AbstractInfo
             foreach ($profile->getItems() as $item) { /** @var ProfileItemInterface $item  */
                 $product = $this->productRepository->getById($item->getProductId());
                 $productData[] = [
-                    'id' => $product->getId(),
+                    'id' => (int)$product->getId(),
                     'name' => $item->getName(),
                     'qty' => $item->getQty(),
                     'price' => $product->getFinalPrice(),
+                    'price_int' => $product->getFinalPrice(),
                     'image' => $this->imageHelper->init($product, 'product_base_image')->getUrl(),
                     'product_url' => $this->productUrl->getUrl($product),
                     'item_total' => $item->getQty() * $product->getFinalPrice()
