@@ -57,24 +57,36 @@ class AddProduct extends AbstractInfo
     public function execute()
     {
         $product_id = $this->getRequest()->getPost('product_id');
+        $parent_id = $this->getRequest()->getPost('parent_id');
 
         if ($product_id) {
 
             $product = $this->productRepository->getById($product_id);
+            $id = (int)$product->getId();
+            $name = $product->getName();
+            $price = $product->getFinalPrice();
+            $image = $this->imageHelper->init($product, 'product_base_image')->getUrl();
+            $product_url = $this->productUrl->getUrl($product);
+
+            if ($parent_id) {
+                $parent_product = $this->productRepository->getById($parent_id);
+                $child_name = $name;
+                $name = $parent_product->getName()  .   ": "    . $child_name;
+                $product_url = $this->productUrl->getUrl($parent_product);
+            }
 
             $productData = [
-                'id' => (int)$product->getId(),
-                'name' => $product->getName(),
+                'id' => $id,
+                'name' => $name,
                 'qty' => 1,
-                'price' => $product->getFinalPrice(),
-                'price_int' => $product->getFinalPrice(),
-                'image' => $this->imageHelper->init($product, 'product_base_image')->getUrl(),
-                'product_url' => $this->productUrl->getUrl($product),
-                'item_total' => $product->getFinalPrice()
+                'price' => $price,
+                'price_int' => $price,
+                'image' => $image,
+                'product_url' => $product_url,
+                'item_total' => $price
             ];
 
             return $this->json->setData($productData);
         }
-
     }
 }

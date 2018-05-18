@@ -41,7 +41,7 @@ define([
             (
                 this.urlProductsList,
                 ''
-            ).done(function (response) {;
+            ).done(function (response) {
                 response.forEach(function (item) {
                     self.productsList.push(item);
                 });
@@ -64,14 +64,12 @@ define([
 
                     self.subscriptionProductsList.push(item);
                 });
-
             }).fail(function (response) {
                 console.log(response)
             });
         },
 
         increment: function (item) {
-            var self = this;
             for (var i = 0; i < this.subscriptionProductsList().length; i++) {
                 if (this.subscriptionProductsList()[i].id == item.id) {
                     this.subscriptionProductsList()[i].qty++;
@@ -98,23 +96,28 @@ define([
                     }
                 }
             }
-
             this.subscriptionProductsListSlice();
-
         },
 
         addProduct: function () {
-            var data = {product_id: this.chosenProduct()[0]};
             var self = this;
+            var data_selected = {product_id: this.chosenProduct()[0]};
+
+            this.productsList().forEach(function (item) {
+                if (item.id == data_selected.product_id) {
+                    if (item.parent_id != null) {
+                        data_selected.parent_id = item.parent_id;
+                    }
+                }
+            });
 
             return storage.post
             (
                 this.urlAddProduct,
-                data,
+                data_selected,
                 '',
                 'application/x-www-form-urlencoded'
             ).done(function (response) {
-                console.log(response);
                 response.item_total = priceUtils.formatPrice(response.item_total, cart.getPriceFormat());
                 response.price = priceUtils.formatPrice(response.price, cart.getPriceFormat());
                 self.subscriptionProductsList.push(response);
@@ -134,7 +137,6 @@ define([
                         product_id: this.subscriptionProductsList()[i].id,
                         qty: this.subscriptionProductsList()[i].qty
                     }
-
             }
             var data = JSON.stringify(ids);
 
@@ -157,6 +159,5 @@ define([
             this.subscriptionProductsList([]);
             this.subscriptionProductsList(data);
         }
-
     });
 });

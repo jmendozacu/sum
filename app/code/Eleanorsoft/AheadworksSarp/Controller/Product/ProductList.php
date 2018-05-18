@@ -6,6 +6,7 @@ use Aheadworks\Sarp\Model\Product\Attribute\Source\SubscriptionType;
 use Eleanorsoft\AheadworksSarp\Controller\AbstractInfo;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Attribute\Source\Status;
 use Magento\Catalog\Model\Product\Url;
 use Magento\Catalog\Model\Product\Visibility;
@@ -135,12 +136,35 @@ class ProductList extends AbstractInfo
         $productItems = $this->getProductData();
 
         $productData = [];
+        $check_exist_ids = [];
 
-        foreach ($productItems as $item) { /** @var ProductInterface $item */
-            $productData[] = [
-                'id' => (int)$item->getId(),
-                'name' => $item->getName()
-            ];
+        foreach ($productItems as $product) { /** @var Product $product */
+
+            if ($product->getTypeId() === 'configurable') {
+
+                $children = $product->getTypeInstance()->getUsedProducts($product);
+                if(!empty($children)){
+                    $check_exist_ids [] = (int)$product->getId();
+
+                    foreach ($children as $child){ /** @var Product $child */
+                        $check_exist_ids [] = (int)$child->getId();
+                        $productData[] = [
+                            'parent_id' => (int)$product->getId(),
+                            'id' => (int)$child->getId(),
+                            'name' => $product->getName() .   ": "   .   $child->getName()
+                        ];
+                    }
+                }
+            } else {
+
+                $id = (int)$product->getId();
+                if (!in_array($id, $check_exist_ids)) {
+                    $productData[] = [
+                        'id' => $id,
+                        'name' => $product->getName()
+                    ];
+                }
+            }
         }
 
         return $this->json->setData($productData);

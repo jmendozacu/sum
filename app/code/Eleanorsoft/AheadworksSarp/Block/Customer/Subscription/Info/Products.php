@@ -1,9 +1,11 @@
 <?php
 namespace Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Info;
 
+use Aheadworks\Sarp\Api\SubscriptionsCartRepositoryInterface;
 use Aheadworks\Sarp\Model\Checkout\CompositeConfigProvider;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
+use Aheadworks\Sarp\Model\SubscriptionsCart\Persistor;
 
 /**
  * Class Products
@@ -22,6 +24,10 @@ class Products extends Template
      */
     protected $compositeConfigProvider;
 
+    private $cartPersistor;
+
+    protected $cartRepository;
+
     /**
      * Products constructor.
      * @param Context $context
@@ -32,11 +38,15 @@ class Products extends Template
     (
         Context $context,
         CompositeConfigProvider $compositeConfigProvider,
+        Persistor $persistor,
+        SubscriptionsCartRepositoryInterface $cartRepository,
         array $data = []
     )
     {
         parent::__construct($context, $data);
         $this->compositeConfigProvider = $compositeConfigProvider;
+        $this->cartPersistor = $persistor;
+        $this->cartRepository = $cartRepository;
     }
 
     /**
@@ -98,6 +108,16 @@ class Products extends Template
      */
     public function getCheckoutConfig()
     {
+        if (!$this->cartPersistor->getCartId()) {
+            $cart = $this->cartPersistor->getSubscriptionCart();
+            if (!$cart->getCartId()) {
+                $cart->setIsActive(true);
+            }
+
+            $cart = $this->cartRepository->save($cart);
+            $this->cartPersistor->setCartId($cart->getCartId());
+
+        }
         return $this->compositeConfigProvider->getConfig();
     }
 }
