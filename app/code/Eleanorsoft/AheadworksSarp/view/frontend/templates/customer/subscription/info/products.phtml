@@ -1,0 +1,27 @@
+<?php
+/** @var $block Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Info\Products */
+?>
+<div id="subscription-products" data-bind="scope: 'subscriptionproducts'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+
+    <script type="text/x-magento-init">
+        {
+           "#subscription-products": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "subscriptionproducts": {
+                            "component": "Eleanorsoft_AheadworksSarp/js/profile/view/cart",
+                            "urlSubscriptionProductsList": "<?php /* @escapeNotVerified */ print $block->getAjaxUrlSubscriptionProductsList(); ?>",
+                            "urlProductsList": "<?php /* @escapeNotVerified */ print $block->getAjaxUrlProductsList(); ?>",
+                            "urlAddProduct": "<?php /* @escapeNotVerified */ print $block->getAjaxUrlAddProduct(); ?>",
+                            "urlSaveProduct": "<?php /* @escapeNotVerified */ print $block->getAjaxUrlSaveProduct(); ?>"
+                        }
+                    }
+                }
+           }
+        }
+    </script>
+    <script>
+        window.awSarpCheckoutConfig = <?php /* @noEscape */ echo \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+    </script>
+</div>

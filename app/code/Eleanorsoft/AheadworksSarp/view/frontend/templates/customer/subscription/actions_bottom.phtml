@@ -1,0 +1,79 @@
+<?php
+/* @var $block \Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Actions */
+?>
+<div id="skip-next-subscription-modal">
+    <form class="form form-edit-account" action="" method="post" id="skip-next-form-validate">
+        <fieldset class="fieldset info">
+            <?php echo $block->getBlockHtml('formkey')?>
+            <label class="label" for="erst_reason_select"><span><?= __('Are you sure ?'); ?></span></label>
+        </fieldset>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button
+                    type="button"
+                    id="skip-next-yes"
+                    class="action primary"
+                    data-mage-init='{"awSarpSubscribeButton":{
+                "subscribeUrl": "<?php echo $block->escapeUrl($block->getSkipNextUrl()) ?>",
+                "defaultTitle": "<?php echo 'Yes' ?>"
+            }}'>
+
+                <span><?= __('Yes'); ?></span>
+            </button>
+            <button type="button" id="skip-next-no" class="action primary">
+                <span><?= __('No'); ?></span>
+            </button>
+        </div>
+    </form>
+</div>
+<div class="block aw_sarp-customer-subscription_actions">
+    <?php if ($block->isSuspendActionEnabled()) {?>
+        <button type="button"
+                class="action"
+                title="<?php echo $block->escapeHtml(__('Suspend Subscription')) ?>"
+                onclick="location.href = '<?php echo $block->escapeUrl($block->getSuspendUrl()) ?>';">
+            <span><?php echo $block->escapeHtml(__('Suspend Subscription')) ?></span>
+        </button>
+    <?php } ?>
+    <?php if ($block->isActivateActionEnabled()) {?>
+        <button type="button"
+                title="<?php echo $block->escapeHtml(__('Subscribe')) ?>"
+                class="action"
+                data-mage-init='{"awSarpSubscribeButton":{
+                "subscribeUrl": "<?php echo $block->escapeUrl($block->getActivateUrl()) ?>",
+                "defaultTitle": "<?php echo 'Subscribe' ?>"
+            }}'>
+            <span><?php echo $block->escapeHtml(__('Activate Subscription')) ?></span>
+        </button>
+    <?php } ?>
+    <?php if ($block->isSkipNextEnabled() && !$block->isActivateActionEnabled()) {?>
+        <button type="button"
+                id="skip-next-subscription"
+                title="<?php echo $block->escapeHtml(__('Skip next delivery')) ?>"
+                class="action">
+            <span><?php echo $block->escapeHtml(__('Skip next delivery')) ?></span>
+        </button>
+    <?php } ?>
+</div>
+<script>
+    require([
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function ($, modal) {
+            var skipNextSubscriptionModal = $('#skip-next-subscription-modal');
+
+            modal({
+                buttons: [],
+                type: 'popup',
+                responsive: true,
+                innerScroll: true
+            }, skipNextSubscriptionModal);
+
+            $('#skip-next-subscription').on('click', function () {
+                skipNextSubscriptionModal.modal('openModal');
+            });
+            $('#skip-next-no').on('click', function () {
+                skipNextSubscriptionModal.modal('closeModal');
+            });
+        });
+</script>
