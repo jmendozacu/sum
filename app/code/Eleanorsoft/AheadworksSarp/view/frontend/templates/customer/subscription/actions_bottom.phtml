@@ -28,7 +28,7 @@
 <div class="block aw_sarp-customer-subscription_actions">
     <?php if ($block->isSuspendActionEnabled()) {?>
         <button type="button"
-                class="action"
+                class="action btn-1"
                 title="<?php echo $block->escapeHtml(__('Suspend Subscription')) ?>"
                 onclick="location.href = '<?php echo $block->escapeUrl($block->getSuspendUrl()) ?>';">
             <span><?php echo $block->escapeHtml(__('Suspend Subscription')) ?></span>
@@ -37,7 +37,7 @@
     <?php if ($block->isActivateActionEnabled()) {?>
         <button type="button"
                 title="<?php echo $block->escapeHtml(__('Subscribe')) ?>"
-                class="action"
+                class="action btn-1"
                 data-mage-init='{"awSarpSubscribeButton":{
                 "subscribeUrl": "<?php echo $block->escapeUrl($block->getActivateUrl()) ?>",
                 "defaultTitle": "<?php echo 'Subscribe' ?>"
@@ -49,7 +49,7 @@
         <button type="button"
                 id="skip-next-subscription"
                 title="<?php echo $block->escapeHtml(__('Skip next delivery')) ?>"
-                class="action">
+                class="action btn-3">
             <span><?php echo $block->escapeHtml(__('Skip next delivery')) ?></span>
         </button>
     <?php } ?>

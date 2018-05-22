@@ -18,8 +18,8 @@
                     <tr>
                         <td class="col product-name">
                             <a data-bind="attr: {href: product_url}" target="_new">
-                                <span data-bind="text: name"></span>
                                 <img data-bind="attr: {src: image}">
+                                <span data-bind="text: name"></span>
                             </a>
                         </td>
                         <td class="col qty">
@@ -32,9 +32,9 @@
                     </tr>
                 </tbody>
             </table>
-            <button data-bind="click: addProduct, i18n: 'add product'"></button>
-            <button data-bind="click: saveProduct, i18n: 'save'"></button>
-            <ul>
+            <button class = "btn-add-product btn-1" data-bind="click: addProduct, i18n: 'add product'"></button>
+            <button class = "btn-save-product btn-2" data-bind="click: saveProduct, i18n: 'save'"></button>
+            <ul id = "product-table-info-list">
                 <li>
                     <span data-bind="i18n: 'Subtotal: '"></span>
                     <span data-bind="text: subtotal"></span>

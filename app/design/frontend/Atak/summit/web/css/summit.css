@@ -3756,9 +3756,14 @@ select:focus:not([disabled]) {
   margin-top: 20px;
 }
 .form-edit-account .actions-toolbar .primary,
-.form-address-edit .actions-toolbar .primary {
-  float: none;
+.form-address-edit .actions-toolbar .primary{
+  float: left;
   display: block;
+  width: 50%;
+}
+.form-address-edit .actions-toolbar .secondary,
+.form-address-edit .actions-toolbar .secondary{
+  width: 50%;
 }
 .form-edit-account .actions-toolbar .primary .action.primary,
 .form-address-edit .actions-toolbar .primary .action.primary {
@@ -4329,4 +4334,106 @@ select:focus:not([disabled]) {
 .cms-page-view.page-layout-1column .column.main p{
   text-align: justify;
   margin: 30px 0;
+}
+/*subscription cart design*/
+.table:not(.cart):not(.totals)>thead>tr>th, .table:not(.cart):not(.totals)>tbody>tr>th, .table:not(.cart):not(.totals)>tfoot>tr>th, .table:not(.cart):not(.totals)>thead>tr>td, .table:not(.cart):not(.totals)>tbody>tr>td, .table:not(.cart):not(.totals)>tfoot>tr>td{
+  vertical-align: middle;
+}
+
+#product-table .col.qty>span{
+  cursor: pointer;
+}
+#product-table .col.product-name>a{
+  display: flex;
+  align-items: center;
+  color: #000;
+}
+.form-edit-account .actions-toolbar .primary button,.form-address-edit .actions-toolbar .primary button,
+.form-edit-account .actions-toolbar .secondary a,.form-address-edit .actions-toolbar .secondary a{
+  width: 100%!important;
+}
+.btn-2,.form-edit-account .actions-toolbar .primary button,.form-address-edit .actions-toolbar .primary button{
+  font-family: 'FuturaPT', serif;
+  background-color: #3586c7;
+  border-color: #3586c7;
+  color: #fff;
+}
+.btn-2:hover,.form-edit-account .actions-toolbar .primary button:hover,.form-address-edit .actions-toolbar .primary button:hover,
+.btn-2:focus,.form-edit-account .actions-toolbar .primary button:focus,.form-address-edit .actions-toolbar .primary button:focus,
+.btn-2:active,.form-edit-account .actions-toolbar .primary button:active,.form-address-edit .actions-toolbar .primary button:active{
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.btn-3{
+  font-family: 'FuturaPT', serif;
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+}
+.btn-3:hover,
+.btn-3:focus,
+.btn-3:active{
+  background: #3586c7;
+  color: #fff;
+  border-color: #3586c7;
+}
+
+.btn-1,#change-repeat,.form-edit-account .actions-toolbar .secondary button,.form-address-edit .actions-toolbar .secondary button{
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+  font-family: 'FuturaPT', serif;
+}
+.btn-1:hover,#change-repeat:hover,.form-edit-account .actions-toolbar .secondary a:hover,.form-address-edit .actions-toolbar .secondary a:hover,
+.btn-1:active,#change-repeat:active,.form-edit-account .actions-toolbar .secondary a:active,.form-address-edit .actions-toolbar .secondary a:active,
+.btn-1:focus,#change-repeat:focus,.form-edit-account .actions-toolbar .secondary a:focus,.form-address-edit .actions-toolbar .secondary a:focus{
+  background-color: transparent!important;
+  color: #000!important;
+  border-color: #000!important;
+}
+.btn-add-product,.btn-save-product{
+  text-transform: uppercase;
+  margin: 10px 5px;
+}
+#product-table-info-list{
+  list-style: none;
+  padding-left: 0;
+}
+.aw_sarp-customer-subscription_status{
+  margin-top: 10px;
+}
+.aw_sarp-customer-subscription_addresses .action.edit{
+  color: #000;
+}
+.aw-sarp-profile-view>.actions-toolbar>.secondary{
+  float:left;
+}
+.abs-margin-for-forms-desktop, .fieldset .legend, .column:not(.sidebar-main) form .actions-toolbar, .column:not(.sidebar-additional) form .actions-toolbar, .login-container .fieldset:after{
+  margin-left: 0;
+}
+#product-table .col>input{
+    width: 50%!important;
+}
+
+
+/*media start*/
+@media (max-width: 640px) {
+  #product-table tbody>tr>td.col:before{
+    content:'';
+    display: none;
+  }
+  #product-table .col.product-name>a{
+    display: block;
+  }
+  .block.aw_sarp-customer-subscription_actions .btn-1{
+    margin-bottom: 20px;
+  }
+  .block, .sidebar .widget.block:not(:last-child), .sidebar .widget:not(:last-child), .block-banners, .block-banners-inline{
+    margin-bottom: 20px;
+  }
+  .table-wrapper .table:not(.cart):not(.totals):not(.table-comparison)>tbody>tr{
+    text-align: center;
+  }
 }
