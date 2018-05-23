@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Aheadworks\Sarp\Model\SubscriptionEngine\RestrictionsPool" type="Eleanorsoft\AheadworksSarp\Model\SubscriptionEngine\RestrictionsPool" />
+    <preference for="Aheadworks\Sarp\Model\SubscriptionEngine\Authorizenet\Engine" type="Eleanorsoft\AheadworksSarp\Model\SubscriptionEngine\Authorizenet\Engine" />
+    <preference for="Aheadworks\Sarp\Block\Customer\Subscription\Actions" type="Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Actions" />
+    <preference for="Aheadworks\Sarp\Controller\Product\Subscribe" type="Eleanorsoft\AheadworksSarp\Controller\Product\Subscribe" />
+
+    <type name="Aheadworks\Sarp\Model\SubscriptionsCartManagement">
+        <plugin name="es_aheadworkssarp_subscriptionscartmanagement_plugin"
+                type="Eleanorsoft\AheadworksSarp\Model\Plugin\SubscriptionsCartManagementPlugin" sortOrder="1"/>
+    </type>
+
+    <type name="Eleanorsoft\AheadworksSarp\Model\SubscriptionEngine\RestrictionsPool">
+        <arguments>
+            <argument name="restrictions" xsi:type="array">
+                <item name="authorizenet" xsi:type="array">
+                    <item name="subscription_statuses" xsi:type="array">
+                        <item name="0" xsi:type="string">active</item>
+                        <item name="1" xsi:type="string">expired</item>
+                        <item name="2" xsi:type="string">suspended</item>
+                        <item name="3" xsi:type="string">cancelled</item>
+                        <item name="4" xsi:type="string">terminated</item>
+                    </item>
+                    <item name="subscription_actions" xsi:type="array">
+                        <item name="0" xsi:type="string">update</item>
+                        <item name="1" xsi:type="string">suspend</item>
+                        <item name="2" xsi:type="string">cancel</item>
+                        <item name="3" xsi:type="string">activate</item>
+                    </item>
+                    <item name="subscription_actions_map" xsi:type="array">
+                        <item name="active" xsi:type="array">
+                            <item name="0" xsi:type="string">update</item>
+                            <item name="1" xsi:type="string">suspend</item>
+                            <item name="2" xsi:type="string">cancel</item>
+                        </item>
+                        <item name="suspended" xsi:type="array">
+                            <item name="0" xsi:type="string">update</item>
+                            <item name="1" xsi:type="string">activate</item>
+                            <item name="2" xsi:type="string">cancel</item>
+                        </item>
+                        <item name="expired" xsi:type="array" />
+                        <item name="cancelled" xsi:type="array" />
+                        <item name="terminated" xsi:type="array" />
+                    </item>
+                    <item name="units_of_time" xsi:type="array">
+                        <item name="0" xsi:type="string">day</item>
+                        <item name="1" xsi:type="string">month</item>
+                    </item>
+                    <item name="start_date_types" xsi:type="array">
+                        <item name="0" xsi:type="string">defined_by_customer</item>
+                        <item name="1" xsi:type="string">moment_of_purchase</item>
+                        <item name="2" xsi:type="string">exact_day_of_month</item>
+                        <item name="3" xsi:type="string">last_day_of_current_month</item>
+                    </item>
+                    <item name="can_be_finite" xsi:type="boolean">true</item>
+                    <item name="is_initial_fee_supported" xsi:type="boolean">false</item>
+                    <item name="is_trial_period_supported" xsi:type="boolean">true</item>
+                </item>
+                <item name="adyen" xsi:type="array">
+                    <item name="start_date_types" xsi:type="array">
+                        <item name="0" xsi:type="string">moment_of_purchase</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

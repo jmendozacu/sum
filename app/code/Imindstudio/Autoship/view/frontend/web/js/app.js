@@ -7,6 +7,7 @@ require(['jquery'], function($) {
                 detail: '[data-detail]',
                 submit: '[data-submit]',
                 rating: '[data-rating]:checked',
+                reviewId: '[data-review-id]',
                 messageText: '[data-message-content] div',
                 errorMessages: '.mage-error',
                 messageContent: '[data-message-content]',
@@ -41,7 +42,8 @@ require(['jquery'], function($) {
                 button = reviewContainer.find(ui.submit),
                 rating = reviewContainer.find(ui.rating).val(),
                 detail = reviewContainer.find(ui.detail).val(),
-                action = reviewContainer.find(ui.action).val();
+                action = reviewContainer.find(ui.action).val(),
+                reviewId = reviewContainer.find(ui.reviewId).val();
 
             if(!token && !name && !action) {
                 error = true;
@@ -63,13 +65,16 @@ require(['jquery'], function($) {
                     'nickname': name,
                     'form_key': token,
                     'ratings[4]': rating,
+                    'review_id': reviewId,
                     'validate_rating': ''
                 }).done(function(data) {
-                    if(data.indexOf('You submitted your review for moderation.') >= 0) {
-                        showSuccessMessage(messageContainer, 'You submitted your review for moderation.');
+                    if (data.success) {
+                        showSuccessMessage(messageContainer, data.success);
                         button.text('Submitted');
                         button.prop('disabled', true);
                         reviewContainer.find(ui.detail).replaceWith('<p>' + detail + '</p>');
+                    } else if (data.error) {
+                        showErrorMessage(messageContainer, data.error);
                     } else {
                         showErrorMessage(messageContainer, 'Something went wrong.');
                     }

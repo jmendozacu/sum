@@ -17,6 +17,8 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Widget extends Template
 {
+
+    const ADDTHIS_WIDGET = '//s7.addthis.com/js/300/addthis_widget.js#pubid=';
     /**
      * @var Registry
      */
@@ -49,7 +51,7 @@ class Widget extends Template
     public function _construct()
     {
         parent::_construct();
-        $account_id = $this->_scopeConfig->getValue('addthis/options/account_id', ScopeInterface::SCOPE_STORE);
+        $account_id = self::ADDTHIS_WIDGET . $this->_scopeConfig->getValue('addthis/options/account_id', ScopeInterface::SCOPE_STORE);
         $this->setScriptUrl($account_id);
     }
 
