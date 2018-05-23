@@ -47,6 +47,8 @@
 			    </arguments>
 		    </block>
 	    </referenceBlock>
-	    
+	    <referenceBlock name="product.info.mailto">
+			<block class="Eleanorsoft\AddThis\Block\Widget" name="addthis.widget"/>
+		</referenceBlock>
     </body>
 </page>

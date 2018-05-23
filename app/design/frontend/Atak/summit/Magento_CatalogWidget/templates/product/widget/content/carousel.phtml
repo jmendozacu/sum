@@ -43,6 +43,12 @@
                     <?php foreach ($items as $_item): ?>
                         <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<div class="product-item">' : '</div><div class="product-item">' ?>
                         <div class="product-item-info">
+							<?php if ($_item->isNew()) {;?>
+                                <span></span>
+                            <?php } ?>
+                            <?php if ($_item->isOnSale()) {;?>
+                                <span></span>
+                            <?php } ?>
                             <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>" class="product-item-photo">
                                 <?php echo $block->getImage($_item, $image)->toHtml(); ?>
 	
