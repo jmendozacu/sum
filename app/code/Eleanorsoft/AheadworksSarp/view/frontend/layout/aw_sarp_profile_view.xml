@@ -9,5 +9,7 @@
             <block class="Eleanorsoft\AheadworksSarp\Block\Customer\Subscription\Info\Products" after="aw_sarp.customer.subscription.info.plan" name="es.subscription.products" as="es_products" template="Eleanorsoft_AheadworksSarp::customer/subscription/info/products.phtml"/>
             <block class="Aheadworks\Sarp\Block\Customer\Subscription\Actions" name="es.actions.bottom" as="es_subscription_actions_bottom" template="Eleanorsoft_AheadworksSarp::customer/subscription/actions_bottom.phtml"/>
         </referenceContainer>
+
+        <move element = "customer.account.link.back" destination="main.content" before="-"/>
     </body>
 </page>

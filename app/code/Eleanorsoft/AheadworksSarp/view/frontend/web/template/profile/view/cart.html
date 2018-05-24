@@ -33,7 +33,15 @@
                 </tbody>
             </table>
             <button class = "btn-add-product btn-1" data-bind="click: addProduct, i18n: 'add product'"></button>
-            <button class = "btn-save-product btn-2" data-bind="click: saveProduct, i18n: 'save'"></button>
+            <select data-bind="
+                    options: productsList,
+                    selectedOptions: chosenProduct,
+                    optionsText: function(item) {
+                        return item.name
+                    },optionsValue: function(item) {
+                        return item.id
+                    }">
+            </select>
             <ul id = "product-table-info-list">
                 <li>
                     <span data-bind="i18n: 'Subtotal: '"></span>
@@ -49,15 +57,7 @@
                     <span data-bind="text: subtotal"></span>
                 </li>
             </ul>
-            <select data-bind="
-                    options: productsList,
-                    selectedOptions: chosenProduct,
-                    optionsText: function(item) {
-                        return item.name
-                    },optionsValue: function(item) {
-                        return item.id
-                    }">
-            </select>
         </div>
     </div>
+    <button class = "btn-save-product btn-2" data-bind="click: saveProduct, i18n: 'save'"></button>
 </div>

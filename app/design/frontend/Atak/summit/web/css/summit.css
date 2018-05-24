@@ -3474,7 +3474,7 @@ select:focus:not([disabled]) {
 /* Customer
 -------------------------------------------------------------- */
 .block.account-nav {
-  margin-bottom: 65px;
+  margin-bottom: 35px;
 }
 .block.account-nav .content {
   background-color: transparent;
@@ -3506,13 +3506,23 @@ select:focus:not([disabled]) {
     padding-top: 0;
   }
 }
+.subscription-toolbar{
+  float: right;
+  margin-top: 0;
+}
+.account.aw-sarp-profile-view .block.account-nav{
+  margin-bottom: 30px;
+}
 .account .page-title-wrapper {
   border-bottom: 1px solid #ebebeb;
   padding-bottom: 40px;
 }
+.account .page-title-wrapper.aw_sarp-customer-subscription_title{
+  padding-bottom: 10px;
+}
 .account .page-title-wrapper .page-title {
   margin-right: 0;
-  text-align: center;
+  text-align: left;
   font-size: 35px;
   font-weight: normal;
   margin-bottom: 25px;
@@ -4342,6 +4352,7 @@ select:focus:not([disabled]) {
 
 #product-table .col.qty>span{
   cursor: pointer;
+  font-size: 25px;
 }
 #product-table .col.product-name>a{
   display: flex;
@@ -4382,9 +4393,9 @@ select:focus:not([disabled]) {
 
 .btn-1,#change-repeat,.form-edit-account .actions-toolbar .secondary button,.form-address-edit .actions-toolbar .secondary button{
   background-color: #000;
-  border-color: #000;
   color: #fff;
   font-family: 'FuturaPT', serif;
+  border: 1px solid #000;
 }
 .btn-1:hover,#change-repeat:hover,.form-edit-account .actions-toolbar .secondary a:hover,.form-address-edit .actions-toolbar .secondary a:hover,
 .btn-1:active,#change-repeat:active,.form-edit-account .actions-toolbar .secondary a:active,.form-address-edit .actions-toolbar .secondary a:active,
@@ -4396,6 +4407,11 @@ select:focus:not([disabled]) {
 .btn-add-product,.btn-save-product{
   text-transform: uppercase;
   margin: 10px 5px;
+}
+.btn-save-product{
+  display: block;
+  padding: 10px 60px;
+  margin: 0 auto;
 }
 #product-table-info-list{
   list-style: none;
@@ -4414,26 +4430,111 @@ select:focus:not([disabled]) {
   margin-left: 0;
 }
 #product-table .col>input{
-    width: 50%!important;
+  width: 50%!important;
+  height: 40px;
+}
+#product-table table.data.table .col.qty{
+  -webkit-touch-callout: none;
+   -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 20%;
+}
+#product-table table.data.table .col.product-name{
+  width: 40%;
+}
+#product-table table.data.table .col.regular-price,
+#product-table table.data.table .col.initial-fee{
+  width: 20%;
 }
 
 
+#product-table table.data.table tbody .col{
+  width: 100px;
+}
+#product-table .table-wrapper>select{
+  width: auto;
+}
+#product-table-info-list{
+  float: right;
+  margin-right: 8%;
+}
+.btn-back-subscription{
+  padding: 5px 30px;
+}
 /*media start*/
-@media (max-width: 640px) {
+@media (max-width: 1020px){
+  .aw-sarp-profile-view .subscription-title_wrapper{
+    width: auto;
+  }
+}
+@media (max-width: 920px){
+  #product-table table.data.table .col.qty{
+    width: 15%;
+  }
+  #product-table table.data.table .col.regular-price, #product-table table.data.table .col.initial-fee{
+    width: 15%;
+  }
+}
+/*media bootstrap phone*/
+@media (max-width: 768px) {
+  .subscription-toolbar{
+    margin-bottom: -35px;
+    transform: translateY(245%);
+  }
+  #product-table .table-wrapper>select{
+    width: 100%;
+    margin: 10px 0;
+  }
+  #product-table-info-list{
+    float: none;
+    margin-right: 0;
+    margin-top: 10px;
+    text-align: center;
+  }
   #product-table tbody>tr>td.col:before{
     content:'';
     display: none;
   }
-  #product-table .col.product-name>a{
-    display: block;
-  }
-  .block.aw_sarp-customer-subscription_actions .btn-1{
-    margin-bottom: 20px;
-  }
+
   .block, .sidebar .widget.block:not(:last-child), .sidebar .widget:not(:last-child), .block-banners, .block-banners-inline{
     margin-bottom: 20px;
   }
   .table-wrapper .table:not(.cart):not(.totals):not(.table-comparison)>tbody>tr{
     text-align: center;
+  }
+  #product-table table.data.table .col.product-name>a>img{
+    width: 50%;
+  }
+}
+@media (max-width: 639px){
+  #product-table table.data.table .col.qty,
+  #product-table table.data.table .col.regular-price,
+  #product-table table.data.table .col.initial-fee,
+  #product-table table.data.table .col.product-name{
+    width: 100%;
+  }
+  #product-table .col.product-name>a{
+    display: block;
+  }
+  #product-table table.data.table .col.product-name>a>img{
+    display: block;
+    width: 65%;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  #product-table table.data.table .col.regular-price, #product-table table.data.table .col.initial-fee,
+  #product-table table.data.table .col.qty{
+    width: 100%;
+  }
+  #product-table .col>input{
+    width: 30%;
+  }
+}
+@media (max-width: 427px ){
+  .block.aw_sarp-customer-subscription_actions .btn-1{
+    margin-bottom: 20px;
   }
 }

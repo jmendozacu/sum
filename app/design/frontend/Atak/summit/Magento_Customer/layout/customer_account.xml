@@ -28,6 +28,7 @@
 	    
 	    <referenceContainer name="page.wrapper">
 		    <block class="Magento\Framework\View\Element\Template" name="product.satisfaction" template="Magento_Customer::account/customer-support.phtml" />
+			<referenceBlock name="customer-account-navigation-account-back-link" />
 	    </referenceContainer>
 	    
     </body>
