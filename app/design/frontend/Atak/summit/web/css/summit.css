@@ -3527,6 +3527,9 @@ select:focus:not([disabled]) {
   font-weight: normal;
   margin-bottom: 25px;
 }
+.account.customer-account-index .page-title-wrapper .page-title{
+  text-align: center;
+}
 @media (max-width: 639px) {
   .account .page-title-wrapper .page-title {
     font-size: 25px;
@@ -4349,7 +4352,20 @@ select:focus:not([disabled]) {
 .table:not(.cart):not(.totals)>thead>tr>th, .table:not(.cart):not(.totals)>tbody>tr>th, .table:not(.cart):not(.totals)>tfoot>tr>th, .table:not(.cart):not(.totals)>thead>tr>td, .table:not(.cart):not(.totals)>tbody>tr>td, .table:not(.cart):not(.totals)>tfoot>tr>td{
   vertical-align: middle;
 }
-
+.aw-sarp-profile-view .block.aw_sarp-customer-subscription_addresses{
+  width: 100%!important;
+  float:left;
+}
+#skip-next-subscription-modal .fieldset.info{
+  text-align: center;
+}
+#skip-next-subscription-modal .fieldset.info+.btn-group{
+  margin-top: 20px;
+  text-align: center;
+}
+.aw-sarp-profile-index .action.back{
+  margin-bottom: 15px;
+}
 #product-table .col.qty>span{
   cursor: pointer;
   font-size: 25px;

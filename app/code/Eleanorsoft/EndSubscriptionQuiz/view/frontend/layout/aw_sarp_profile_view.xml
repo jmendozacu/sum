@@ -2,4 +2,5 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="aw_sarp.customer.status" class="Eleanorsoft\EndSubscriptionQuiz\Block\Customer\Subscription\Info" template="customer/subscription/status.phtml"/>
     <referenceBlock name="aw_sarp.customer.actions.bottom" template="Eleanorsoft_EndSubscriptionQuiz::customer/subscription/actions_bottom.phtml"/>
+    <move element = "aw_sarp.customer.status" destination="content" before="-"/>
 </page>
