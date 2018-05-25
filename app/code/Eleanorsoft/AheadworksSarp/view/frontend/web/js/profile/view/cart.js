@@ -85,7 +85,7 @@ define([
 
         decrement: function (item) {
             for (var i = 0; i < this.subscriptionProductsList().length; i++) {
-                if (this.subscriptionProductsList()[i].name == item.name) {
+                if (this.subscriptionProductsList()[i].id == item.id) {
                     if (this.subscriptionProductsList()[i].qty > 0) {
                         this.subscriptionProductsList()[i].qty --;
 
@@ -97,6 +97,24 @@ define([
                 }
             }
             this.subscriptionProductsListSlice();
+        },
+
+        qtyDetails: function (item, data, event) {
+
+            for (var i = 0; i < this.subscriptionProductsList().length; i++) {
+                if (this.subscriptionProductsList()[i].id == item.id) {
+                    if (event.target.value >= 0) {
+                        this.subscriptionProductsList()[i].qty = event.target.value;
+
+                        var current_total_price = this.subscriptionProductsList()[i].price_int * this.subscriptionProductsList()[i].qty;
+                        this.subscriptionProductsList()[i].item_total = priceUtils.formatPrice(current_total_price, cart.getPriceFormat());
+
+                        break;
+                    }
+                }
+            }
+            this.subscriptionProductsListSlice();
+
         },
 
         addProduct: function () {

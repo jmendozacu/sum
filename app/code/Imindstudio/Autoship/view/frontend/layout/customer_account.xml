@@ -14,7 +14,7 @@
 					<argument name="label" xsi:type="string">Auto Ship</argument>
 				</arguments>
 			</block>
-			<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-rewards-link" after="customer-account-navigation-orders-link">
+			<block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-auto-rewards-link" after="customer-account-navigation-orders-link">
 				<arguments>
 					<argument name="path" xsi:type="string">autoship/customer/rewards</argument>
 					<argument name="label" xsi:type="string">Rewards</argument>

@@ -24,7 +24,7 @@
                         </td>
                         <td class="col qty">
                             <span data-bind="click: $parent.decrement.bind($parent, $data)">-</span>
-                            <input type="text" size="1" data-bind="attr: {value: qty}">
+                            <input type="text" size="1" data-bind="attr: {value: qty}, event: { change: $parent.qtyDetails.bind($parent, $data)}">
                             <span data-bind="click: $parent.increment.bind($parent, $data)">+</span>
                         </td>
                         <td class="col regular-price" data-bind="text: price">
