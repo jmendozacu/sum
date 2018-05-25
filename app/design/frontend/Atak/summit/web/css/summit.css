@@ -4496,7 +4496,7 @@ select:focus:not([disabled]) {
 }
 /*media bootstrap phone*/
 @media (max-width: 768px) {
-  .subscription-toolbar{
+  .aw-sarp-profile-view .subscription-toolbar{
     margin-bottom: -35px;
     transform: translateY(245%);
   }
