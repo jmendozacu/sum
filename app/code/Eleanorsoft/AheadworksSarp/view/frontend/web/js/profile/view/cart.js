@@ -120,28 +120,41 @@ define([
         addProduct: function () {
             var self = this;
             var data_selected = {product_id: this.chosenProduct()[0]};
+            var flag = true;
+            for (var i = 0; i < self.subscriptionProductsList().length; i++) {
+                if (this.subscriptionProductsList()[i].id == data_selected.product_id) {
+                    this.subscriptionProductsList()[i].qty++;
 
-            this.productsList().forEach(function (item) {
-                if (item.id == data_selected.product_id) {
-                    if (item.parent_id != null) {
-                        data_selected.parent_id = item.parent_id;
-                    }
+                    var current_total_price = self.subscriptionProductsList()[i].price_int * self.subscriptionProductsList()[i].qty;
+                    this.subscriptionProductsList()[i].item_total = priceUtils.formatPrice(current_total_price, cart.getPriceFormat());
+                    flag = false;
+                    break;
                 }
-            });
+            }
 
-            return storage.post
-            (
-                this.urlAddProduct,
-                data_selected,
-                '',
-                'application/x-www-form-urlencoded'
-            ).done(function (response) {
-                response.item_total = priceUtils.formatPrice(response.item_total, cart.getPriceFormat());
-                response.price = priceUtils.formatPrice(response.price, cart.getPriceFormat());
-                self.subscriptionProductsList.push(response);
-            }).fail(function (response) {
-                console.log(response)
-            });
+           if (flag) {
+               this.productsList().forEach(function (item) {
+                   if (item.id == data_selected.product_id) {
+                       if (item.parent_id != null) {
+                           data_selected.parent_id = item.parent_id;
+                       }
+                   }
+               });
+
+               return storage.post
+               (
+                   this.urlAddProduct,
+                   data_selected,
+                   '',
+                   'application/x-www-form-urlencoded'
+               ).done(function (response) {
+                   response.item_total = priceUtils.formatPrice(response.item_total, cart.getPriceFormat());
+                   response.price = priceUtils.formatPrice(response.price, cart.getPriceFormat());
+                   self.subscriptionProductsList.push(response);
+               }).fail(function (response) {
+                   console.log(response)
+               });
+           }
 
             this.subscriptionProductsListSlice();
         },
