@@ -4448,6 +4448,7 @@ select:focus:not([disabled]) {
 #product-table .col>input{
   width: 50%!important;
   height: 40px;
+  text-align: center;
 }
 #product-table table.data.table .col.qty{
   -webkit-touch-callout: none;
